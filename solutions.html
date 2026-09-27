@@ -1630,7 +1630,6 @@ int main() {
 **(二) Stack 的 2 個實際應用案例（6分）**
 
 1. **函式呼叫堆疊（Call Stack）**：程式執行時，每呼叫一個函式就把該函式的「堆疊框（區域變數、參數、返回位址）」push 進呼叫堆疊；函式結束時 pop 出來，回到呼叫點。遞迴能正確運作，正是靠這個 LIFO 機制。
-
 2. **運算式求值 / 括號匹配**：
    - 中序轉後序、後序運算式求值都用 stack 暫存運算元與運算子。
    - 編輯器檢查括號是否成對：遇到左括號 push，遇到右括號 pop 出來比對是否匹配。
@@ -1639,76 +1638,38 @@ int main() {
 
 **(三) Stack 程式實作（6分）**`,
       code: {
-        lang: "c",
-        text: `// 程式語言：C（陣列方式實作 Stack）
+        lang: "java",
+        text: `// 程式語言：Java（使用 ArrayDeque 實作 Stack）
 
-#include <stdio.h>
-#include <stdbool.h>
+import java.util.*;
 
-#define MAX 100
+public class FloatStackDemo {
 
-typedef struct {
-    double data[MAX];
-    int top;              // 指向堆疊頂端，-1 表示空
-} FloatStack;
+    public static void main(String[] args) {
+        Deque<Float> stack = new ArrayDeque<>();
 
-// 初始化
-void initStack(FloatStack *s) {
-    s->top = -1;
-}
+        float[] values = {20.22f, 12.21f, 70.25f, 58.29f};
 
-// 檢測 stack 是否為空
-bool isEmpty(FloatStack *s) {
-    return s->top == -1;
-}
+        // 插入 4 個浮點數
+        for (float v : values) {
+            stack.push(v);
+            System.out.printf("Pushed: %.2f%n", v);
+        }
 
-// 檢測 stack 是否已滿
-bool isFull(FloatStack *s) {
-    return s->top == MAX - 1;
-}
+        System.out.println("\n開始逐一移除:");
 
-// 壓入元素
-void push(FloatStack *s, double value) {
-    if (isFull(s)) {
-        printf("Stack 已滿\\n");
-        return;
+        // 逐一移除,並檢測是否為空
+        while (!stack.isEmpty()) {
+            float val = stack.pop();
+            System.out.printf("Popped: %.2f%n", val);
+        }
+
+        // 再次確認 stack 已空
+        if (stack.isEmpty()) {
+            System.out.println("\nStack 已經是空的了!");
+        }
     }
-    s->data[++(s->top)] = value;
-}
-
-// 彈出元素
-double pop(FloatStack *s) {
-    if (isEmpty(s)) {
-        printf("Stack 已空，無法彈出\\n");
-        return 0.0;
-    }
-    return s->data[(s->top)--];
-}
-
-int main() {
-    FloatStack s;
-    initStack(&s);
-
-    // 依序插入 4 個浮點數
-    double nums[] = {20.22, 12.21, 70.25, 58.29};
-    for (int i = 0; i < 4; i++) {
-        push(&s, nums[i]);
-        printf("push: %.2f\\n", nums[i]);
-    }
-
-    // 逐一移除，並檢測是否為空
-    printf("--- 開始移除 (LIFO) ---\\n");
-    while (!isEmpty(&s)) {
-        printf("pop : %.2f\\n", pop(&s));
-    }
-    printf("Stack 是否為空？ %s\\n", isEmpty(&s) ? "是" : "否");
-    return 0;
-}
-
-/* 輸出順序：
-   push 20.22, 12.21, 70.25, 58.29
-   pop  58.29 → 70.25 → 12.21 → 20.22  (後進先出)
-   最後 isEmpty() = 是                              */`
+}`
       }
     },
     {
