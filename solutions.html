@@ -1673,129 +1673,162 @@ public class FloatStackDemo {
       }
     },
     {
-      id: "112-6", no: "六", topic: "prog", topicName: "程式設計實作",
-      title: "資料清理與寫入資料庫（資料科學家題）",
-      score: 20,
-      question: `就以下需求設計 1 個程式，將檔案 data.txt 讀取數據後執行資料清理，最後寫入資料庫：（20分）
+{
+  id: "112-6", no: "六", topic: "prog", topicName: "程式設計實作",
+  title: "資料清理與寫入資料庫（資料科學家題）",
+  score: 20,
+  question: `就以下需求設計 1 個程式，將檔案 data.txt 讀取數據後執行資料清理，最後寫入資料庫：（20分）
 A. data.txt 每行一筆記錄，欄位以逗號分隔，含：使用者號碼、姓名、年齡、地址、電子郵件、手機號碼。
 B. 資料清理：刪除缺欄位記錄、清除姓名/地址多餘空格、email 轉小寫、驗證使用者號碼為8位數字、驗證年齡為合法正整數、驗證手機為10位且09開頭。
 C. 使用資料庫系統將整理好的資料寫入，首次寫入先建立 user_data 資料表。`,
-      answer: `**解題思路**
+  answer: `**解題思路**
 
 這是典型的 ETL（Extract-Transform-Load）流程：
 - **Extract**：逐行讀取 data.txt，以逗號分割成欄位。
 - **Transform**：依 6 項規則清理與驗證，不合格的記錄整筆丟棄。
-- **Load**：透過資料庫系統建表並寫入（本題以 SQLite 為例，使用其 C 語言 API）。
+- **Load**：透過資料庫系統（本題以 MySQL 為例）建表並寫入，使用 ON DUPLICATE KEY UPDATE 處理重複主鍵。
 
-C 語言沒有內建正規表示式，故驗證改用「逐字元檢查」：使用者號碼檢查「長度 8 且全為數字」、手機檢查「長度 10、09 開頭、其餘為數字」、年齡用逐字元 isdigit 加範圍判斷、email 用 tolower 轉小寫。`,
-      code: {
-        lang: "c",
-        text: `// 程式語言：C（資料庫使用 SQLite，透過其 C API）
-// 編譯：gcc clean.c -lsqlite3 -o clean
+Python 有內建 re 模組（正規表示式）：使用者號碼用 \\d{8}、手機用 09\\d{8}、年齡用 [1-9]\\d*、email 用簡單的正規式檢查格式。寫入資料庫時一律使用參數化查詢（%s 佔位符），避免 SQL Injection。`,
+  code: {
+    lang: "python",
+    text: `# data.txt → Extract(讀檔) → Transform(清理/驗證) → Load(寫入 MySQL)
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdbool.h>
-#include <sqlite3.h>
+import re   # 正規表達式
+import mysql.connector  # Python 連線到 MySQL
+from mysql.connector import Error   # 捕捉資料庫相關的錯誤
 
-// 去除字串前後空白（就地修改）
-void trim(char *s) {
-    int i = 0, j = strlen(s) - 1;
-    while (isspace((unsigned char)s[i])) i++;
-    while (j >= i && isspace((unsigned char)s[j])) j--;
-    int k = 0;
-    while (i <= j) s[k++] = s[i++];
-    s[k] = '\\0';
+# 資料庫設定
+# 這是一個字典（dictionary），存放連線 MySQL 所需的四個參數，之後用 mysql.connector.connect(**DB_CONFIG) 連線時，** 會把這個字典展開成關鍵字參數，等同於寫 connect(host="localhost", user="root", ...)
+DB_CONFIG = {
+    "host": "localhost",
+    "user": "root",
+    "password": "admin",
+    "database": "test_db"
 }
 
-// 檢查字串是否「長度為 len 且全為數字」
-bool allDigits(const char *s, int len) {
-    if ((int)strlen(s) != len) return false;
-    for (int i = 0; i < len; i++)
-        if (!isdigit((unsigned char)s[i])) return false;
-    return true;
+# 三個雙引號包起來（多行字串）
+CREATE_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS user_data (
+    user_id VARCHAR(8) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    age INT NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(10) NOT NULL
+);
+"""
+
+# %s 是佔位符（placeholder），之後會用實際資料替換
+# ON DUPLICATE KEY UPDATE: 如果 user_id 已經存在（違反主鍵唯一性），就不會報錯插入失敗，而是改成更新該筆資料的其他欄位
+INSERT_SQL = """
+INSERT INTO user_data (user_id, name, age, address, email, phone)
+VALUES (%s, %s, %s, %s, %s, %s)
+ON DUPLICATE KEY UPDATE
+    name=VALUES(name), age=VALUES(age), address=VALUES(address),
+    email=VALUES(email), phone=VALUES(phone);
+"""
+
+# Step 1: Extract 讀取檔案
+def extract(filepath):
+    records = []
+    with open(filepath, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            fields = line.split(",")
+            records.append(fields)
+    return records
+
+# Step 2: Transform 資料清理與驗證
+def clean_record(fields):
+    # A. 欄位數不足 -> 直接視為壞資料
+    if len(fields) != 6:
+        return None
+
+    user_id, name, age, address, email, phone = fields
+
+    # 去除多餘空格（首尾 + 中間連續空格）
+    user_id = user_id.strip()
+    name = re.sub(r"\\s+", "", name.strip())     # \\s+ 代表一個或多個空白，包含 tab、換行等
+    address = re.sub(r"\\s+", "", address.strip())
+    email = email.strip().lower()
+    phone = phone.strip()
+    age = age.strip()
+
+    # B. 缺欄位（清理後為空字串）-> 丟棄
+    if not all([user_id, name, age, address, email, phone]):
+        return None
+
+    # 驗證使用者號碼：8位數字
+    if not re.fullmatch(r"\\d{8}", user_id):
+        return None
+
+    # 驗證年齡：合法正整數（不含 0、不含負數、不含小數）
+    if not re.fullmatch(r"[1-9]\\d*", age):  # 第一個字元必須是 1~9（排除 0 開頭），後面接 0 個或多個任意數字（\\d*）
+        return None
+    age = int(age)
+
+    # 驗證手機：10位、09 開頭
+    if not re.fullmatch(r"09\\d{8}", phone):
+        return None
+
+    # （可選）簡單驗證 email 格式
+    if not re.fullmatch(r"[^@\\s]+@[^@\\s]+\\.[^@\\s]+", email):    # [^@\\s]+:一個或多個「不是 @ 也不是空白」的字元
+        return None
+
+    return (user_id, name, age, address, email, phone)
+
+
+def transform(records):
+    cleaned = []
+    dropped = 0
+    for fields in records:
+        result = clean_record(fields)
+        if result:
+            cleaned.append(result)
+        else:
+            dropped += 1
+    print(f"清理完成：有效資料 {len(cleaned)} 筆，丟棄 {dropped} 筆")
+    return cleaned
+
+# Step 3: Load 寫入 MySQL
+def load(records):
+    conn = None
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+
+        cursor.execute(CREATE_TABLE_SQL)
+
+        cursor.executemany(INSERT_SQL, records)
+        conn.commit()
+        print(f"成功寫入 {cursor.rowcount} 筆資料")
+
+    except Error as e:
+        print(f"資料庫錯誤: {e}")
+        if conn:
+            conn.rollback()
+
+    finally:
+        if conn and conn.is_connected():
+            cursor.close()
+            conn.close()
+
+# 主程式
+def main():
+    raw = extract("data.txt")
+    cleaned = transform(raw)
+    if cleaned:
+        load(cleaned)
+    else:
+        print("沒有可寫入的合法資料")
+
+
+if __name__ == "__main__":
+    main()`
+  }
 }
-
-int main() {
-    sqlite3 *db;
-    sqlite3_open("user.db", &db);          // 連線資料庫
-
-    // === Load 準備：首次寫入先建立 user_data 資料表 ===
-    const char *createSQL =
-        "CREATE TABLE IF NOT EXISTS user_data ("
-        "user_id TEXT PRIMARY KEY, name TEXT, age INTEGER,"
-        "address TEXT, email TEXT, phone TEXT);";
-    sqlite3_exec(db, createSQL, 0, 0, 0);
-
-    FILE *fp = fopen("data.txt", "r");
-    if (!fp) { printf("無法開啟檔案\\n"); return 1; }
-
-    char line[512];
-    int count = 0;
-
-    // === Extract：逐行讀取 ===
-    while (fgets(line, sizeof(line), fp)) {
-        line[strcspn(line, "\\n")] = '\\0';     // 去除換行
-        if (strlen(line) == 0) continue;
-
-        // 以逗號切出 6 個欄位
-        char *f[6]; int n = 0;
-        char *tok = strtok(line, ",");
-        while (tok && n < 6) { f[n++] = tok; tok = strtok(NULL, ","); }
-
-        // === Transform：規則1 — 須恰有 6 個欄位，否則丟棄 ===
-        if (n != 6) continue;
-        char uid[64], name[128], age[32], addr[256], email[128], phone[64];
-        strcpy(uid, f[0]);  strcpy(name, f[1]); strcpy(age, f[2]);
-        strcpy(addr, f[3]); strcpy(email, f[4]); strcpy(phone, f[5]);
-
-        // 規則2：清除姓名、地址多餘空格
-        trim(name); trim(addr); trim(uid); trim(age); trim(email); trim(phone);
-
-        // 規則3：email 轉小寫
-        for (int i = 0; email[i]; i++) email[i] = tolower((unsigned char)email[i]);
-
-        // 規則4：使用者號碼須為 8 位數字
-        if (!allDigits(uid, 8)) continue;
-
-        // 規則5：年齡須為合法正整數
-        bool ageOK = strlen(age) > 0;
-        for (int i = 0; age[i]; i++)
-            if (!isdigit((unsigned char)age[i])) ageOK = false;
-        if (!ageOK || atoi(age) <= 0) continue;
-
-        // 規則6：手機須為 10 位、09 開頭
-        if (!allDigits(phone, 10) || phone[0] != '0' || phone[1] != '9')
-            continue;
-
-        // 缺欄位（空字串）也丟棄
-        if (strlen(name) == 0 || strlen(addr) == 0 || strlen(email) == 0)
-            continue;
-
-        // === Load：以參數化方式寫入資料庫，防 SQL Injection ===
-        sqlite3_stmt *stmt;
-        sqlite3_prepare_v2(db,
-            "INSERT OR REPLACE INTO user_data VALUES(?,?,?,?,?,?);",
-            -1, &stmt, 0);
-        sqlite3_bind_text(stmt, 1, uid,   -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmt, 2, name,  -1, SQLITE_STATIC);
-        sqlite3_bind_int (stmt, 3, atoi(age));
-        sqlite3_bind_text(stmt, 4, addr,  -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmt, 5, email, -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmt, 6, phone, -1, SQLITE_STATIC);
-        sqlite3_step(stmt);
-        sqlite3_finalize(stmt);
-        count++;
-    }
-
-    fclose(fp);
-    printf("成功寫入 %d 筆有效記錄\\n", count);
-    sqlite3_close(db);
-    return 0;
-}`
-      }
-    }
   ]
 }
 ];
