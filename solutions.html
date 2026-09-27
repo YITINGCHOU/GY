@@ -1687,7 +1687,8 @@ C. 使用資料庫系統將整理好的資料寫入，首次寫入先建立 user
 - **Transform**：依 6 項規則清理與驗證，不合格的記錄整筆丟棄。
 - **Load**：透過資料庫系統（本題以 MySQL 為例）建表並寫入，使用 ON DUPLICATE KEY UPDATE 處理重複主鍵。
 
-Python 有內建 re 模組（正規表示式）：使用者號碼用 \\d{8}、手機用 09\\d{8}、年齡用 [1-9]\\d*、email 用簡單的正規式檢查格式。寫入資料庫時一律使用參數化查詢（%s 佔位符），避免 SQL Injection。`,
+Python 有內建 re 模組（正規表示式）：使用者號碼用 \\d{8}、手機用 09\\d{8}、年齡用 [1-9]\\d*、email 用簡單的正規式檢查格式。
+寫入資料庫時一律使用參數化查詢（%s 佔位符），避免 SQL Injection。`,
   code: {
     lang: "python",
     text: `# data.txt → Extract(讀檔) → Transform(清理/驗證) → Load(寫入 MySQL)
@@ -1697,7 +1698,7 @@ import mysql.connector  # Python 連線到 MySQL
 from mysql.connector import Error   # 捕捉資料庫相關的錯誤
 
 # 資料庫設定
-# 這是一個字典（dictionary），存放連線 MySQL 所需的四個參數，之後用 mysql.connector.connect(**DB_CONFIG) 連線時，** 會把這個字典展開成關鍵字參數，等同於寫 connect(host="localhost", user="root", ...)
+# 建立字典（dictionary），存放連線 MySQL 所需的四個參數
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
