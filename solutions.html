@@ -2013,7 +2013,7 @@ int main() {
       id: "111-5", no: "五", topic: "prog", topicName: "程式設計實作",
       title: "員工代號檢查碼與部門特別費合計",
       score: 15,
-      question: `A 公司 1 月人事資料檔含 emp-id、dep-id、age、s_salary。（2題，共15分）
+      question: `A 公司 1 月人事資料檔含 emp_id、dep_id、age、s_salary。（2題，共15分）
 (一) A 公司員工代號共 6 碼數字，第 6 碼是前 5 碼總和的個位數，請撰寫函式 check_dit() 檢查員工代號之正確性。（7分）
 (二) 請撰寫 main()，逐筆讀取人事資料檔，呼叫(一)函式篩選正確員工代號資料，最後列出特別費合計超過 100,000 元之部門代號及合計金額。（8分）`,
       answer: `**解題思路**
@@ -2027,75 +2027,66 @@ int main() {
 #include <stdio.h>
 #include <string.h>
 
-// (一) 檢查員工代號正確性
-// 規則：6 碼數字，第 6 碼 = 前 5 碼數字總和的個位數
-int check_dit(const char *empid) {
-    // 長度須為 6
-    if (strlen(empid) != 6) return 0;
-    // 須全為數字
-    for (int i = 0; i < 6; i++) {
-        if (empid[i] < '0' || empid[i] > '9') return 0;
-    }
-    // 前 5 碼數字加總
-    int sum = 0;
-    for (int i = 0; i < 5; i++) {
-        sum += empid[i] - '0';
-    }
-    // 第 6 碼是否等於總和的個位數
-    int checkDigit = empid[5] - '0';
-    return (sum % 10) == checkDigit;
+/* 回傳 1 表示代號正確，0 表示錯誤 */
+int check_dit(char *emp_id)
+{
+    int i, sum = 0;
+
+    if (strlen(emp_id) != 6)          /* 必須剛好 6 碼 */
+        return 0;
+
+    for (i = 0; i < 6; i++)           /* 必須全為數字 */
+        if (emp_id[i] < '0' || emp_id[i] > '9') return 0;
+
+    for (i = 0; i < 5; i++)           /* 前 5 碼總和 */
+        sum += emp_id[i] - '0';
+
+    return (sum % 10) == (emp_id[5] - '0');   /* 個位數 = 第 6 碼 */
 }
 
-// (二) 主程式
-typedef struct {
-    char emp_id[16];
-    char dep_id[16];
-    int  age;
-    int  s_salary;     // 特別費
-} Record;
+#define MAXDEP 100
 
-int main() {
-    // 假設資料來自檔案，此處以陣列模擬人事資料檔
-    Record data[] = {
-        {"123455", "ABC", 25, 0},
-        {"987655", "ABC", 30, 5000},
-        {"A12345", "AAB", 30, 10000},   // 含字母 → 不合法
-        {"123455", "AAB", 30, 500},
-        {"12345",  "AXX", 25, 5000},    // 只有 5 碼 → 不合法
-        {"234561", "AXX", 35, 15000}
-    };
-    int total = sizeof(data) / sizeof(data[0]);
+struct dept {
+    char id[10];    // 部門代號
+    long total;     // 這個部門的特別費合計
+};
 
-    // 累計各部門特別費（簡化以部門名稱比對累加）
-    char depNames[100][16];
-    int  depSum[100] = {0};
-    int  depCount = 0;
+int main()
+{
+    FILE *fp;                       // 檔案指標，用來操作檔案
+    char emp[20], dep[10];          // 暫存讀進來的員工代號、部門代號
+    int age, i, n = 0;              // age 存年齡；i 是迴圈用；n 是目前已記錄幾個部門
+    long sal;                       // 暫存這筆的特別費
+    struct dept d[MAXDEP];          // 部門陣列，最多 100 個
 
-    for (int i = 0; i < total; i++) {
-        // 篩選：員工代號須通過檢查
-        if (!check_dit(data[i].emp_id)) continue;
-
-        // 找出該部門是否已存在
-        int idx = -1;
-        for (int j = 0; j < depCount; j++) {
-            if (strcmp(depNames[j], data[i].dep_id) == 0) {
-                idx = j; break;
-            }
-        }
-        if (idx == -1) {                       // 新部門
-            idx = depCount++;
-            strcpy(depNames[idx], data[i].dep_id);
-        }
-        depSum[idx] += data[i].s_salary;       // 累加特別費
+    fp = fopen("personnel.txt", "r");   // 以讀取模式開檔
+    if (fp == NULL) {                   // 開檔失敗會回傳 NULL
+        printf("無法開啟檔案\\n");
+        return 1;                       // 結束程式，回傳 1 表示異常
     }
 
-    // 列出特別費合計超過 100,000 的部門
-    printf("特別費合計超過 100,000 元之部門：\\n");
-    for (int j = 0; j < depCount; j++) {
-        if (depSum[j] > 100000) {
-            printf("  部門 %s：合計 %d 元\\n", depNames[j], depSum[j]);
+    while (fscanf(fp, "%19s %9s %d %ld", emp, dep, &age, &sal) == 4) {
+        if (!check_dit(emp))          /* 員工代號錯誤就略過 */
+            continue;
+
+        for (i = 0; i < n; i++)       /* 找部門是否已存在 */
+            if (strcmp(d[i].id, dep) == 0)  // 兩個字串相同時回傳 0，此時 i 就是該部門的位置
+                break;
+                
+        /* 新部門 */
+        if (i == n) {                 // i == n 代表剛才沒找到
+            strcpy(d[n].id, dep);     // 把部門代號複製到新位置（字串不能用 = 賦值）
+            d[n].total = 0;           // 合計從 0 開始
+            n++;                      // 部門數加 1
         }
+        d[i].total += sal;            /* 累加特別費 */
     }
+    fclose(fp);    // 讀完關檔
+    
+    for (i = 0; i < n; i++)
+        if (d[i].total > 100000)
+            printf("部門代號：%s  特別費合計：%ld\\n", d[i].id, d[i].total);
+
     return 0;
 }`
       }
