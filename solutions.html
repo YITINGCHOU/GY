@@ -2169,15 +2169,11 @@ int main() {
       answer: `針對資訊系統的「硬體」與「軟體」元件，常見的 5 項資訊技術防護措施：
 
 1. **防火牆（Firewall）**：建置於內部網路與外部網路之間，依預設規則過濾進出封包，阻擋未經授權的連線與惡意流量，是網路邊界的第一道防線。
-
 2. **防毒軟體 / 端點防護（Antivirus / Endpoint Protection）**：偵測、隔離、清除電腦病毒、木馬、勒索軟體等惡意程式，並持續更新病毒碼以防範新型威脅。
-
 3. **入侵偵測與防禦系統（IDS / IPS）**：
    - IDS（Intrusion Detection System）：監控網路或主機活動，偵測可疑或攻擊行為並發出警報。
    - IPS（Intrusion Prevention System）：在偵測到攻擊時「主動阻擋」，即時防禦。
-
 4. **存取控制與身分驗證（Access Control / Authentication）**：透過帳號密碼、多因子驗證（MFA）、權限分級等機制，確保只有經授權者能存取硬體設備與軟體系統，落實最小權限原則。
-
 5. **資料加密（Encryption）**：對儲存中（at-rest）與傳輸中（in-transit）的資料進行加密，即使設備遺失或資料被竊取，未經授權者也無法解讀內容；常搭配 VPN 保護遠端連線。
 
 （其他可補充措施：定期更新與修補 Patch Management、系統備份與備援、實體門禁與環境控制、稽核日誌等。）`,
@@ -2281,48 +2277,18 @@ IoT 架構常分為四層：
 (二) 請用遞迴撰寫函式 GCD，輸入 2 個正整數，傳回最大公因數。（7分）`,
       answer: `**(一) 細胞繁殖數量（8分）**
 
-*推導遞迴關係*：
-- 設第 N 個月的「成年數」為 A(N)、「幼年數」為 J(N)。
-- 規則：成年細胞「不會消失」，且每月生 2 個幼年；幼年細胞下月「變成」成年。
-- 故 A(N) = A(N-1) + J(N-1)（上月成年仍在 + 上月幼年長大成年）
-       J(N) = 2 × A(N-1)（上月每個成年生 2 個幼年）
-- 總數 T(N) = A(N) + J(N)。
-
-*初始值*：第 0 月假設 1 個成年細胞 → A(0)=1, J(0)=0, T(0)=1。
-- T(1) = A(1)+J(1) = (1+0) + 2×1 = 3
-- T(2) = A(2)+J(2)；A(2)=A(1)+J(1)=1+2=3，J(2)=2×A(1)=2 → T(2)=5
-- 觀察可化簡：T(N) = A(N) + J(N) = A(N) + 2A(N-1)，而 A(N)=A(N-1)+J(N-1)=A(N-1)+2A(N-2)。
-- 也可直接以總數遞迴推得近似費氏型關係。下方程式以 A、J 雙序列遞迴最直觀。
-
-**(二) GCD 最大公因數（7分）**
-
-採輾轉相除法（歐幾里得演算法）：gcd(a, b) = gcd(b, a mod b)，當 b = 0 時 gcd = a。`,
-      code: {
-        lang: "c",
-        text: `// 程式語言：C
-
 #include <stdio.h>
 
-/* === (一) 細胞繁殖數量 ===
-   A(N) = 成年數, J(N) = 幼年數
-   A(N) = A(N-1) + J(N-1)
-   J(N) = 2 * A(N-1)
-   初始：A(0)=1, J(0)=0 */
-int adultCount(int n) {
-    if (n == 0) return 1;                       // 初始 1 個成年
-    return adultCount(n - 1) + juvenileCount(n - 1);
-}
-int juvenileCount(int n) {
-    if (n == 0) return 0;                       // 初始 0 個幼年
-    return 2 * adultCount(n - 1);
-}
-// 第 N 個月細胞總數
+/* (一) 第 N 個月的細胞總數
+   假設第 0 月有 1 個成年細胞：T(0)=1, T(1)=3
+   T(N) = T(N-1) + 2*T(N-2) */
 int CellNumber(int n) {
-    return adultCount(n) + juvenileCount(n);
+    if (n == 0) return 1;
+    if (n == 1) return 3;
+    return CellNumber(n - 1) + 2 * CellNumber(n - 2);
 }
 
-/* === (二) GCD 最大公因數（輾轉相除法）===
-   gcd(a,b) = gcd(b, a mod b)，b=0 時為 a */
+/* (二) 最大公因數（輾轉相除法）*/
 int GCD(int a, int b) {
     if (b == 0) return a;
     return GCD(b, a % b);
@@ -2331,10 +2297,10 @@ int GCD(int a, int b) {
 int main() {
     for (int m = 0; m <= 6; m++)
         printf("第 %d 月細胞總數 = %d\\n", m, CellNumber(m));
-    // 1, 3, 5, 11, 21, 43, 85 ...
+    // 1, 3, 5, 11, 21, 43, 85
 
-    printf("GCD(48, 18) = %d\\n", GCD(48, 18));      // 6
-    printf("GCD(31031, 10013) = %d\\n", GCD(31031, 10013)); // 7
+    printf("GCD(48, 18) = %d\\n", GCD(48, 18));              // 6
+    printf("GCD(31031, 10013) = %d\\n", GCD(31031, 10013));  // 7
     return 0;
 }`
       }
