@@ -3211,11 +3211,8 @@ const EXAM_DATA_PART3 = [
       answer: `**(一) 4 種主流 NoSQL 資料庫類型（12分）**
 
 1. **鍵值資料庫（Key-Value Store）**：以「鍵→值」儲存，結構最簡單，類似大型雜湊表。透過 key 存取極快，適合快取、Session、購物車。代表：Redis、DynamoDB、Memcached。
-
 2. **文件資料庫（Document Store）**：以「文件」為單位儲存，格式為 JSON/BSON/XML，可有巢狀結構、欄位彈性。適合內容管理、半結構化資料。代表：MongoDB、CouchDB。
-
 3. **欄位導向資料庫（Column-Family Store）**：資料以「欄族」組織，同欄資料連續儲存，適合大規模、寫入密集、欄位動態的應用。適合時序資料、日誌。代表：Cassandra、HBase、Bigtable。
-
 4. **圖形資料庫（Graph Database）**：以「節點」與「關係」儲存，專為處理實體間複雜關聯設計。適合社交網路、推薦系統、詐欺偵測。代表：Neo4j、Amazon Neptune。
 
 **(二) NoSQL 特性說明（8分）**
@@ -3288,7 +3285,7 @@ const EXAM_DATA_PART3 = [
 | POST | 請求主體 | 大 | 較高 | 提交、修改資料 |`,
       code: null
     },
-    {
+   {
       id: "107-5", no: "五", topic: "prog", topicName: "程式設計實作",
       title: "身分證字號格式檢查（條件式 / 正規表示法）",
       score: 10,
@@ -3298,39 +3295,64 @@ const EXAM_DATA_PART3 = [
 
 中華民國身分證字號格式：**1 個英文字母 + 9 個數字**，共 10 碼。第 1 碼字母（縣市），第 2 碼為 1 或 2（性別），第 3~10 碼數字。（嚴謹版還需驗證檢查碼，此處依題意以「格式」檢查為主。）`,
       code: {
-        lang: "javascript",
-        text: `// 程式語言：JavaScript
+        lang: "c",
+        text: `// 程式語言：C
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <regex.h>   // POSIX 正規表示法函式庫（Linux/Unix 可用；Windows MSVC 沒有）
 
 // (一) 多條件式判斷
-function checkIdByCondition(id) {
-    if (id.length !== 10) return false;          // 條件1：長度須為 10
+int checkIdByCondition(const char *s) {          // const 表示函式不會修改字串內容
 
-    let first = id.charAt(0);                    // 條件2：第1碼須為英文字母
-    if (!((first >= 'A' && first <= 'Z') ||
-          (first >= 'a' && first <= 'z'))) {
-        return false;
+    if (strlen(s) != 10) return 0;               // 條件1：長度須為 10
+
+    if (!((s[0] >= 'A' && s[0] <= 'Z') ||        // 條件2：第 1 碼須為英文字母
+          (s[0] >= 'a' && s[0] <= 'z'))) {
+        return 0;
     }
 
-    let second = id.charAt(1);                   // 條件3：第2碼須為 1 或 2
-    if (second !== '1' && second !== '2') return false;
+    if (s[1] != '1' && s[1] != '2') return 0;    // 條件3：第 2 碼須為 1 或 2
 
-    for (let i = 2; i < 10; i++) {               // 條件4：第3~10碼須皆為數字
-        let c = id.charAt(i);
-        if (c < '0' || c > '9') return false;
+    for (i = 2; i < 10; i++) {                   // 條件4：第 3~10 碼須皆為數字
+        // isdigit 一次只檢查「單一個字元」，不是整個字串，所以要用迴圈
+        // (unsigned char) 轉型：isdigit 的參數必須是 0~255 或 EOF，
+        // 而 char 在多數平台是有號的，遇到非 ASCII 字元會變負數而行為未定義
+        if (!isdigit((unsigned char)s[i])) return 0;
     }
-    return true;
+    return 1;
 }
 
 // (二) 正規表示法
-function checkIdByRegex(id) {
-    // ^[A-Za-z] 開頭1字母 ; [12] 第2碼1或2 ; [0-9]{8} 八位數字 ; $ 結尾固定長度
-    const pattern = /^[A-Za-z][12][0-9]{8}$/;
-    return pattern.test(id);
+int checkIdByRegex(const char *s) {
+    regex_t re;   // 用來存放「編譯好的正規表示法」，可想成一個空盒子
+    int ok;
+
+    // 步驟1：編譯規則（文字規則要先轉成內部格式才能比對）
+    // &re            : 編譯結果寫到 re（& 是取位址，讓函式能改到 re）
+    // 規則字串       : ^ 開頭 ; [A-Za-z] 1字母 ; [12] 第2碼1或2 ;
+    //                  [0-9]{8} 八位數字 ; $ 結尾
+    // REG_EXTENDED   : 使用擴充語法，{8} 才能直接寫（否則要寫成 \\{8\\}）
+    regcomp(&re, "^[A-Za-z][12][0-9]{8}$", REG_EXTENDED);
+
+    // 步驟2：執行比對
+    // 後三個參數 0, NULL, 0 是「取出比對片段」等進階功能，只判斷格式所以不需要
+    // 注意：regexec 回傳 0 代表「比對成功」
+    ok = (regexec(&re, s, 0, NULL, 0) == 0);
+
+    // 步驟3：釋放 regcomp 內部配置的記憶體，避免記憶體洩漏
+    regfree(&re);
+
+    return ok;
 }
 
-console.log(checkIdByCondition("A123456789")); // true
-console.log(checkIdByRegex("A123456789"));     // true
-console.log(checkIdByRegex("1123456789"));     // false (開頭非字母)`
+int main(void) {
+    printf("%d\\n", checkIdByCondition("A123456789")); // 1 (true)
+    printf("%d\\n", checkIdByRegex("A123456789"));     // 1 (true)
+    printf("%d\\n", checkIdByRegex("1123456789"));     // 0 (false，開頭非字母)
+    return 0;
+}`
       }
     },
     {
