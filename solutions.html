@@ -3355,7 +3355,7 @@ int main(void) {
 }`
       }
     },
-    {
+{
       id: "107-6", no: "六", topic: "ds", topicName: "資料結構與演算法",
       title: "環狀佇列（Circular Queue）實作",
       score: 24,
@@ -3364,60 +3364,73 @@ int main(void) {
 
 佇列（Queue）是「先進先出（FIFO）」結構。用「一般陣列」實作時，front 與 rear 指標只往後移，前端被刪除的空間無法再利用 —— rear 到陣列尾端就誤判為「滿」（假性溢位 false overflow）。
 
-**環狀佇列**把陣列「頭尾相接」想像成一個環，指標移到尾端後可透過「對陣列大小取餘數（mod）」繞回開頭，重複利用前端釋放的空間，解決假性溢位。關鍵運算：\`rear = (rear+1) % SIZE\`、\`front = (front+1) % SIZE\`。
+**環狀佇列**把陣列「頭尾相接」想像成一個環，指標移到尾端後可透過「對陣列大小取餘數（mod）」繞回開頭，重複利用前端釋放的空間，解決假性溢位。關鍵運算：\`rear = (rear+1) % capacity\`、\`front = (front+1) % capacity\`。
 
-**判斷空/滿**：front 與 rear 重合時無法區分空滿，常見解法是「**犧牲一格**」：空 → \`front==rear\`；滿 → \`(rear+1)%SIZE==front\`，實際可存元素 = SIZE−1。`,
+**判斷空/滿**：front 與 rear 重合時無法區分空滿，本實作以「**size 計數**」解決：空 → \`size==0\`；滿 → \`size==capacity\`，陣列每一格皆可使用。front 指向第一個元素，rear 指向下一個要插入的位置。
+
+**時間複雜度**：enqueue 與 dequeue 皆為 O(1)。`,
       code: {
-        lang: "c",
-        text: `// 程式語言：C — 環狀佇列（陣列實作）
+        lang: "java",
+        text: `// 程式語言：Java — 環狀佇列（陣列實作，以 size 計數判斷空／滿）
 
-#include <stdio.h>
-#include <stdbool.h>
-#define SIZE 5          // 陣列大小（實際可存 SIZE-1 = 4 個元素）
+public class CircularQueue {
+    private int[] data;     // 存放元素的陣列
+    private int front;      // 指向第一個元素
+    private int rear;       // 指向下一個要插入的位置
+    private int size;       // 目前元素個數
+    private int capacity;   // 陣列容量
 
-typedef struct {
-    int data[SIZE];
-    int front;          // 指向佇列前端的「前一格」
-    int rear;           // 指向佇列尾端元素
-} CircularQueue;
+    public CircularQueue(int capacity) {
+        this.capacity = capacity;
+        this.data = new int[capacity];
+        this.front = 0;
+        this.rear = 0;
+        this.size = 0;
+    }
 
-void initQueue(CircularQueue *q) { q->front = 0; q->rear = 0; }
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
-bool isEmpty(CircularQueue *q) { return q->front == q->rear; }
+    public boolean isFull() {
+        return size == capacity;
+    }
 
-// 滿：rear 下一格碰到 front（犧牲一格）
-bool isFull(CircularQueue *q) { return (q->rear + 1) % SIZE == q->front; }
+    // 新增元素（enqueue）
+    public boolean enqueue(int value) {
+        if (isFull()) {
+            System.out.println("佇列已滿，無法新增");
+            return false;
+        }
+        data[rear] = value;
+        rear = (rear + 1) % capacity;   // 繞回開頭
+        size++;
+        return true;
+    }
 
-// 新增（enqueue）— 從 rear 端加入
-bool enqueue(CircularQueue *q, int value) {
-    if (isFull(q)) { printf("佇列已滿\\n"); return false; }
-    q->rear = (q->rear + 1) % SIZE;   // rear 往後移，繞環
-    q->data[q->rear] = value;
-    return true;
-}
+    // 刪除元素（dequeue）
+    public int dequeue() {
+        if (isEmpty()) {
+            throw new RuntimeException("佇列為空，無法刪除");
+        }
+        int value = data[front];
+        front = (front + 1) % capacity; // 繞回開頭
+        size--;
+        return value;
+    }
 
-// 刪除（dequeue）— 從 front 端移除
-bool dequeue(CircularQueue *q, int *value) {
-    if (isEmpty(q)) { printf("佇列已空\\n"); return false; }
-    q->front = (q->front + 1) % SIZE; // front 往後移，繞環
-    *value = q->data[q->front];
-    return true;
-}
-
-int main() {
-    CircularQueue q; initQueue(&q);
-    enqueue(&q,10); enqueue(&q,20); enqueue(&q,30); enqueue(&q,40);
-    enqueue(&q,50);                    // 佇列已滿（犧牲一格）
-
-    int v;
-    dequeue(&q,&v); printf("刪除：%d\\n", v);  // 10
-    dequeue(&q,&v); printf("刪除：%d\\n", v);  // 20
-    enqueue(&q,50); enqueue(&q,60);    // 前端已釋放，繞環再利用 → 成功
-
-    printf("剩餘：");
-    while (!isEmpty(&q)) { dequeue(&q,&v); printf("%d ", v); }  // 30 40 50 60
-    printf("\\n");
-    return 0;
+    public static void main(String[] args) {
+        CircularQueue q = new CircularQueue(3);
+        q.enqueue(10);
+        q.enqueue(20);
+        q.enqueue(30);
+        q.enqueue(40);                       // 已滿
+        System.out.println(q.dequeue());     // 10
+        q.enqueue(40);                       // 重複利用空位，成功
+        System.out.println(q.dequeue());     // 20
+        System.out.println(q.dequeue());     // 30
+        System.out.println(q.dequeue());     // 40
+    }
 }`
       }
     }
