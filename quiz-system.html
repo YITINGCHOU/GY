@@ -2152,7 +2152,7 @@ const ALL_Q = [
   stem:"若假設 (365)₁₀ = (731)<sub>R</sub>，則下列何者正確？",
   options:["R = 4","R = 5","R = 6","R = 7"],
   answer:"D",
-  explain:"(731)ᴿ = 7R² + 3R + 1 = 365。<br>試 R=7：7×49 + 3×7 + 1 = 343 + 21 + 1 = <strong>365</strong> ✓。故 R = 7。"
+  explain:"(731)<sub>R</sub> = 7R² + 3R + 1 = 365。<br>試 R=7：7×49 + 3×7 + 1 = 343 + 21 + 1 = <strong>365</strong> ✓。故 R = 7。"
 },
 { id:"109-11", year:"109", no:11, topic:"os",
   stem:"依 CPU 與 I/O 溝通方式（輪詢、中斷、直接記憶體存取 DMA）比較 CPU 利用率排名，下列何者正確？",
@@ -2239,7 +2239,8 @@ const ALL_Q = [
   explain:"X' + XY 用吸收律變形：X' + XY = (X' + X)(X' + Y) = 1·(X' + Y) = <strong>X' + Y</strong>。<br>（套用 A + A'B = A + B 的對偶：X' + XY = X' + Y。）"
 },
 { id:"109-25", year:"109", no:25, topic:"ds",
-  stem:"如下圖二元樹，下列前序、中序、後序追蹤順序何者正確？<br><svg viewBox='0 0 400 200' width='400' height='200' xmlns='http://www.w3.org/2000/svg' style='display:block;margin:10px auto;max-width:100%;background:#ece5d8;border:1px solid #d8cfba;border-radius:10px'><g stroke='#444a57' stroke-width='2.5' stroke-linecap='round'><line x1='188' y1='55' x2='132' y2='96'/><line x1='212' y1='55' x2='268' y2='96'/><line x1='106' y1='128' x2='74' y2='150'/><line x1='134' y1='128' x2='166' y2='150'/><line x1='266' y1='128' x2='234' y2='150'/><line x1='294' y1='128' x2='326' y2='150'/></g><circle cx='200' cy='38' r='20' fill='#fbf5e6' stroke='#a67c28' stroke-width='3'/><g fill='#171e2b'><circle cx='120' cy='112' r='20'/><circle cx='280' cy='112' r='20'/><circle cx='60' cy='168' r='20'/><circle cx='180' cy='168' r='20'/><circle cx='220' cy='168' r='20'/><circle cx='340' cy='168' r='20'/></g><g font-family='Noto Sans TC,Arial,sans-serif' font-size='17' font-weight='700' text-anchor='middle'><text x='200' y='44' fill='#8a6420'>1</text><g fill='#fff'><text x='120' y='118'>2</text><text x='280' y='118'>3</text><text x='60' y='174'>4</text><text x='180' y='174'>5</text><text x='220' y='174'>6</text><text x='340' y='174'>7</text></g></g></svg>",
+  stem:"如下圖二元樹，下列前序、中序、後序追蹤順序何者正確？",
+  figure:"<svg viewBox='0 0 400 200' width='400' height='200' xmlns='http://www.w3.org/2000/svg' style='display:block;margin:0 auto;max-width:100%;background:#ece5d8;border:1px solid #d8cfba;border-radius:10px'><g stroke='#444a57' stroke-width='2.5' stroke-linecap='round'><line x1='183' y1='46' x2='117' y2='89'/><line x1='217' y1='46' x2='283' y2='89'/><line x1='88' y1='116' x2='62' y2='149'/><line x1='112' y1='116' x2='138' y2='149'/><line x1='288' y1='116' x2='262' y2='149'/><line x1='312' y1='116' x2='338' y2='149'/></g><circle cx='200' cy='35' r='20' fill='#fbf5e6' stroke='#a67c28' stroke-width='3'/><g fill='#171e2b'><circle cx='100' cy='100' r='20'/><circle cx='300' cy='100' r='20'/><circle cx='50' cy='165' r='20'/><circle cx='150' cy='165' r='20'/><circle cx='250' cy='165' r='20'/><circle cx='350' cy='165' r='20'/></g><g font-family='Noto Sans TC,Arial,sans-serif' font-size='17' font-weight='700' text-anchor='middle'><text x='200' y='41' fill='#8a6420'>1</text><g fill='#fff'><text x='100' y='106'>2</text><text x='300' y='106'>3</text><text x='50' y='171'>4</text><text x='150' y='171'>5</text><text x='250' y='171'>6</text><text x='350' y='171'>7</text></g></g></svg>",
   options:["前序 - 1245376","中序 - 4251637","前序 - 1254367","後序 - 4526713"],
   answer:"B",
   explain:"此為完全二元樹：1（根）、左 2(子 4,5)、右 3(子 6,7)。<br>前序（根左右）：1,2,4,5,3,6,7<br><strong>中序（左根右）：4,2,5,1,6,3,7 = 4251637</strong> ✓<br>後序（左右根）：4,5,2,6,7,3,1。故 (B) 正確。"
@@ -10805,7 +10806,8 @@ function renderInline(s) {
   let out = escapeHtml(s)
     .replace(/&lt;br&gt;/g, '<br>')
     .replace(/&lt;strong&gt;/g, '<strong>').replace(/&lt;\/strong&gt;/g, '</strong>')
-    .replace(/&lt;code&gt;/g, '<code>').replace(/&lt;\/code&gt;/g, '</code>');
+    .replace(/&lt;code&gt;/g, '<code>').replace(/&lt;\/code&gt;/g, '</code>')
+    .replace(/&lt;(\/?)(sub|sup)&gt;/g, '<$1$2>');
   out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
   return out;
@@ -10981,6 +10983,7 @@ function renderQuestion(q) {
       <div class="q-no">${q.no}</div>
       <div class="q-headmain">
         <div class="q-text">${renderInline(q.stem)}</div>
+        ${q.figure ? `<div class="q-figure" style="margin-top:.6rem">${q.figure}</div>` : ''}
         <div class="q-tags">
           <span class="tag tag-exam exam-${getExam(q)}">${EXAM_INFO[getExam(q)].name}</span>
           <span class="tag tag-topic">${t.name}</span>
