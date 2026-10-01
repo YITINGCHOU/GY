@@ -1768,7 +1768,10 @@ with open("data.txt", encoding="utf-8") as f:
         rows.append((uid, name, int(age), addr, email, phone))
 
 # 寫入資料庫：%s 為佔位符，REPLACE INTO 遇到相同 user_id 會覆蓋
-cur.executemany("REPLACE INTO user_data VALUES (%s,%s,%s,%s,%s,%s)", rows)
+cur.executemany("""
+    REPLACE INTO user_data (user_id, name, age, address, email, phone)
+    VALUES (%s,%s,%s,%s,%s,%s)
+""", rows)
 conn.commit()
 print(f"成功寫入 {len(rows)} 筆")
 conn.close()`
