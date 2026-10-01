@@ -5992,7 +5992,7 @@ Q 支援方法：enqueue(e)、dequeue()、isEmpty()。`,
 
 下方虛擬碼即依此設計（巧妙利用 D 本身的頭尾兩端暫存，避免使用額外變數）。`,
       code: {
-        lang: "c",
+        lang: "pseudo",
         text: `// 虛擬碼 —— 將 D(1..8) 重排為 (1,2,3,5,4,6,7,8)
 // 限制：只能用 D、Q 及其支援方法，不可使用其他變數或物件
 
@@ -7504,7 +7504,11 @@ function renderMarkdown(md) {
         // tree 圍欄：JSON 樹資料 → 自動產生對齊的 SVG 樹狀圖
         html += `<div class="html-diagram">${renderTreeSVG(b.code)}</div>`;
       } else {
-        html += `<pre><code>${escapeHtml(b.code.replace(/\n$/,''))}</code></pre>`;
+        const text = b.code.replace(/\n$/, '');
+        const lang = resolveLang(b.lang, text);
+        html += lang
+          ? codeBlockHtml({ lang, text })
+          : `<pre><code>${escapeHtml(text)}</code></pre>`;
       }
       i++; continue;
     }
@@ -7713,8 +7717,43 @@ function renderTreeSVG(json) {
        + edges + nodes + `</svg>`;
 }
 
-/* ---------- 程式碼語法highlight（逐字元 tokenizer，不在 HTML 上做 regex）---------- */
+/* ---------- 語言判斷 ---------- */
+const LANG_ALIAS = {
+  sql:'sql', mysql:'sql', tsql:'sql', plsql:'sql', pgsql:'sql',
+  c:'c', cpp:'c', 'c++':'c',
+  java:'java', python:'python', py:'python',
+  javascript:'javascript', js:'javascript', php:'php',
+  pseudo:'pseudo', pseudocode:'pseudo',
+  text:'', txt:'', plain:''          // 明確指定純文字 → 不上色
+};
+function detectLang(code) {
+  const t = code.trim();
+  if (/[│─┌└├┐┘▶▼◀▲╱╲]/.test(t)) return '';                       // ASCII 圖
+  if (/^\s*(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|WITH)\b/i.test(t)) return 'sql';
+  if (/#include|\bint\s+main\s*\(/.test(t)) return 'c';
+  if (/\b(public|private)\s+(class|static|void)|System\.out/.test(t)) return 'java';
+  if (/^\s*(def\s|import\s+\w+|from\s+\w+\s+import)/m.test(t)) return 'python';
+  if (/^\s*(Algorithm|Function|Procedure)\b|\bthen\b|\bend\s+(if|while|for)\b|←/i.test(t)) return 'pseudo';
+  return '';
+}
+function resolveLang(lang, code) {
+  const k = (lang || '').toLowerCase();
+  if (k && Object.prototype.hasOwnProperty.call(LANG_ALIAS, k)) return LANG_ALIAS[k];
+  return detectLang(code);
+}
+
+const SQL_KW = new Set(('SELECT FROM WHERE GROUP BY ORDER HAVING ASC DESC JOIN INNER LEFT RIGHT FULL OUTER ON AS ' +
+  'AND OR NOT IN IS NULL LIKE BETWEEN EXISTS UNION ALL DISTINCT TOP LIMIT OFFSET FETCH FIRST ROWS ROW ONLY ' +
+  'CASE WHEN THEN ELSE END INSERT INTO VALUES UPDATE SET DELETE REPLACE CREATE TABLE INDEX VIEW TRIGGER DROP ' +
+  'ALTER ADD PRIMARY KEY FOREIGN REFERENCES CONSTRAINT UNIQUE DEFAULT CLUSTER BEFORE AFTER FOR EACH BEGIN ' +
+  'DECLARE IF SIGNAL SQLSTATE MESSAGE_TEXT WITH USING NEW OLD').split(' '));
+const SQL_TYPE = new Set('INT INTEGER CHAR VARCHAR DATETIME DATE TIMESTAMP DECIMAL FLOAT DOUBLE TEXT BOOLEAN'.split(' '));
+const PSEUDO_KW = new Set(('ALGORITHM FUNCTION PROCEDURE INPUT OUTPUT IF THEN ELSE FOR TO DO WHILE END RETURN ' +
+  'AND OR NOT NULL IS EMPTY').split(' '));
+
+/* ---------- 程式碼語法 highlight（逐字元 tokenizer）---------- */
 function highlightCode(code, lang) {
+  lang = LANG_ALIAS[(lang || '').toLowerCase()] || (lang || '').toLowerCase();
   const kw = {
     c: ['int','char','void','return','if','else','for','while','do','struct','typedef','bool','long','double','float','define','include','sizeof','static','const','unsigned','break','continue','switch','case','NULL','true','false'],
     java: ['public','private','protected','class','int','void','return','if','else','for','while','do','new','static','final','abstract','extends','implements','import','package','this','super','boolean','double','String','char','long','float','try','catch','throw','throws','interface','null','true','false','break','continue'],
@@ -7722,14 +7761,12 @@ function highlightCode(code, lang) {
     javascript: ['function','return','if','else','for','while','let','const','var','new','class','this','try','catch','import','export','from','null','true','false','typeof','break','continue','console'],
     php: ['function','return','if','else','elseif','for','while','foreach','as','class','new','public','private','echo','true','false','null','require','include']
   };
+  const isSql = lang === 'sql', isPseudo = lang === 'pseudo';
   const list = new Set(kw[lang] || kw.c);
 
-  let out = '';
-  let i = 0;
+  let out = '', i = 0;
   const n = code.length;
-  // 包一段文字成指定 token 樣式（內容先 escape）
   const wrap = (cls, text) => `<span class="${cls}">${escapeHtml(text)}</span>`;
-
   const isWordChar = c => /[A-Za-z0-9_@]/.test(c);
   const isDigit = c => c >= '0' && c <= '9';
 
@@ -7737,55 +7774,59 @@ function highlightCode(code, lang) {
     const c = code[i];
     const two = code.substr(i, 2);
 
-    // 區塊註解 /* ... */
     if (two === '/*') {
       let j = code.indexOf('*/', i + 2);
-      if (j === -1) j = n; else j += 2;
-      out += wrap('tok-com', code.slice(i, j));
-      i = j; continue;
+      j = (j === -1) ? n : j + 2;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
     }
-    // 行註解 //...
-    if (two === '//') {
-      let j = code.indexOf('\n', i);
-      if (j === -1) j = n;
-      out += wrap('tok-com', code.slice(i, j));
-      i = j; continue;
+    if (two === '//' && !isSql) {
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
     }
-    // 行註解 #...（Python；PHP 也用，C 的 #include 也歸此類顯示為註解色以外——改用關鍵字處理）
+    if (two === '--' && isSql) {
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
     if (c === '#' && (lang === 'python' || lang === 'php')) {
-      let j = code.indexOf('\n', i);
-      if (j === -1) j = n;
-      out += wrap('tok-com', code.slice(i, j));
-      i = j; continue;
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
     }
-    // 字串 "..." 或 '...'（含跳脫 \）
+    if (lang === 'python' && (code.startsWith('"""', i) || code.startsWith("'''", i))) {
+      const q = code.substr(i, 3);
+      let j = code.indexOf(q, i + 3); j = (j === -1) ? n : j + 3;
+      out += wrap('tok-str', code.slice(i, j)); i = j; continue;
+    }
     if (c === '"' || c === "'") {
       let j = i + 1;
-      while (j < n && code[j] !== c) {
-        if (code[j] === '\\') j++;   // 跳過跳脫字元
-        j++;
-      }
+      while (j < n && code[j] !== c) { if (code[j] === '\\') j++; j++; }
       j = Math.min(j + 1, n);
-      out += wrap('tok-str', code.slice(i, j));
-      i = j; continue;
+      out += wrap('tok-str', code.slice(i, j)); i = j; continue;
     }
-    // 數字
     if (isDigit(c)) {
       let j = i;
       while (j < n && /[0-9.]/.test(code[j])) j++;
-      out += wrap('tok-num', code.slice(i, j));
-      i = j; continue;
+      out += wrap('tok-num', code.slice(i, j)); i = j; continue;
     }
-    // 識別字（可能是關鍵字）
     if (isWordChar(c) && !isDigit(c)) {
       let j = i;
       while (j < n && isWordChar(code[j])) j++;
-      const word = code.slice(i, j);
-      if (list.has(word)) out += wrap('tok-kw', word);
-      else out += escapeHtml(word);
+      const word = code.slice(i, j), up = word.toUpperCase();
+      if (isSql) {
+        if (SQL_TYPE.has(up))      out += wrap('tok-typ', word);
+        else if (SQL_KW.has(up))   out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      } else if (isPseudo) {
+        if (PSEUDO_KW.has(up))     out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      } else {
+        if (list.has(word))        out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      }
       i = j; continue;
     }
-    // 其他單一字元
     out += escapeHtml(c);
     i++;
   }
@@ -7795,8 +7836,8 @@ function highlightCode(code, lang) {
 function codeBlockHtml(codeObj) {
   if (!codeObj) return '';
   const langLabel = {
-    c: 'C', java: 'Java', python: 'Python',
-    javascript: 'JavaScript', php: 'PHP'
+    c: 'C', java: 'Java', python: 'Python', javascript: 'JavaScript',
+    php: 'PHP', sql: 'SQL', pseudo: '虛擬碼'
   }[codeObj.lang] || codeObj.lang;
   return `<div class="code-block">
     <div class="code-head">
