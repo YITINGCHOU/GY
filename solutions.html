@@ -7663,11 +7663,15 @@ function renderMarkdown(md) {
 
 // 行內語法：**粗體**、`code`、<u>底線</u>
 function inline(s) {
+  // 先抽出 `code` 片段保護起來，其餘文字才做標籤還原與粗體
+  const codes = [];
+  s = s.replace(/`([^`]+)`/g, (m, c) => { codes.push(c); return '\u0001' + (codes.length - 1) + '\u0001'; });
   s = escapeHtml(s);
-  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // 還原資料中直接寫的白名單標籤（<u> 用於標示主鍵）
+  s = s.replace(/&lt;(\/?)(strong|code|sub|sup|u)&gt;/g, '<$1$2>');
+  s = s.replace(/&lt;br\s*\/?&gt;/g, '<br>');
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  // 還原 <u>...</u> 底線標籤（用於標示主鍵）
-  s = s.replace(/&lt;u&gt;([\s\S]*?)&lt;\/u&gt;/g, '<u>$1</u>');
+  s = s.replace(/\u0001(\d+)\u0001/g, (m, i) => '<code>' + escapeHtml(codes[+i]) + '</code>');
   return s;
 }
 
