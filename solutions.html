@@ -1732,13 +1732,13 @@ cur = conn.cursor()
 # 首次寫入先建表（IF NOT EXISTS：已存在就不重建）
 cur.execute("""
 CREATE TABLE IF NOT EXISTS user_data (
-    user_id CHAR(8) PRIMARY KEY,
-    name VARCHAR(100),
+    user_id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255),
     age INT,
     address VARCHAR(255),
-    email VARCHAR(100),
-    phone CHAR(10)
-)""")
+    email VARCHAR(255),
+    phone VARCHAR(255)
+)
 
 rows = []
 with open("data.txt", encoding="utf-8") as f:
