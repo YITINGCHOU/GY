@@ -1432,7 +1432,7 @@ bool isThreeFactor(long long a, long long b){
     while ((r + 1) * (r + 1) <= n) r++;
 
     if (r * r != n) return false;            /* 不是完全平方數 */
-    if (r < 2) return false;                 /* n = 0 或 1 */
+    if (r < 2) return false;                 /* n 最小為 4 */
     if (r % 2 == 0) return r == 2;           /* 偶數只有 2 是質數 */
 
     for (long long i = 3; i * i <= r; i += 2)  /* 檢查 r 是否為質數 */
