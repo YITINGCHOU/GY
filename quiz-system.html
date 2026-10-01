@@ -2149,7 +2149,7 @@ const ALL_Q = [
   explain:"<strong>Round Robin（循環排程）</strong>給每個行程固定的時間片（time quantum），用完即被搶占放回就緒佇列末端，等待下一輪。是分時系統的標準排程法。"
 },
 { id:"109-10", year:"109", no:10, topic:"arch",
-  stem:"若假設 (365)₁₀ = (731)ᴿ，則下列何者正確？",
+  stem:"若假設 (365)₁₀ = (731)<sub>R</sub>，則下列何者正確？",
   options:["R = 4","R = 5","R = 6","R = 7"],
   answer:"D",
   explain:"(731)ᴿ = 7R² + 3R + 1 = 365。<br>試 R=7：7×49 + 3×7 + 1 = 343 + 21 + 1 = <strong>365</strong> ✓。故 R = 7。"
@@ -2239,7 +2239,7 @@ const ALL_Q = [
   explain:"X' + XY 用吸收律變形：X' + XY = (X' + X)(X' + Y) = 1·(X' + Y) = <strong>X' + Y</strong>。<br>（套用 A + A'B = A + B 的對偶：X' + XY = X' + Y。）"
 },
 { id:"109-25", year:"109", no:25, topic:"ds",
-  stem:"如右圖二元樹（根 1，左子樹 2 下接 4,5；右子樹 3 下接 6,7），下列前序、中序、後序追蹤順序何者正確？",
+  stem:"如下圖二元樹，下列前序、中序、後序追蹤順序何者正確？<br><svg viewBox='0 0 400 200' width='400' height='200' xmlns='http://www.w3.org/2000/svg' style='display:block;margin:10px auto;max-width:100%;background:#ece5d8;border:1px solid #d8cfba;border-radius:10px'><g stroke='#444a57' stroke-width='2.5' stroke-linecap='round'><line x1='188' y1='55' x2='132' y2='96'/><line x1='212' y1='55' x2='268' y2='96'/><line x1='106' y1='128' x2='74' y2='150'/><line x1='134' y1='128' x2='166' y2='150'/><line x1='266' y1='128' x2='234' y2='150'/><line x1='294' y1='128' x2='326' y2='150'/></g><circle cx='200' cy='38' r='20' fill='#fbf5e6' stroke='#a67c28' stroke-width='3'/><g fill='#171e2b'><circle cx='120' cy='112' r='20'/><circle cx='280' cy='112' r='20'/><circle cx='60' cy='168' r='20'/><circle cx='180' cy='168' r='20'/><circle cx='220' cy='168' r='20'/><circle cx='340' cy='168' r='20'/></g><g font-family='Noto Sans TC,Arial,sans-serif' font-size='17' font-weight='700' text-anchor='middle'><text x='200' y='44' fill='#8a6420'>1</text><g fill='#fff'><text x='120' y='118'>2</text><text x='280' y='118'>3</text><text x='60' y='174'>4</text><text x='180' y='174'>5</text><text x='220' y='174'>6</text><text x='340' y='174'>7</text></g></g></svg>",
   options:["前序 - 1245376","中序 - 4251637","前序 - 1254367","後序 - 4526713"],
   answer:"B",
   explain:"此為完全二元樹：1（根）、左 2(子 4,5)、右 3(子 6,7)。<br>前序（根左右）：1,2,4,5,3,6,7<br><strong>中序（左根右）：4,2,5,1,6,3,7 = 4251637</strong> ✓<br>後序（左右根）：4,5,2,6,7,3,1。故 (B) 正確。"
