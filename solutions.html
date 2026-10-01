@@ -1714,148 +1714,64 @@ C. 使用資料庫系統將整理好的資料寫入，首次寫入先建立 user
 
 這是典型的 ETL（Extract-Transform-Load）流程：
 - **Extract**：逐行讀取 data.txt，以逗號分割成欄位。
-- **Transform**：依 6 項規則清理與驗證，不合格的記錄整筆丟棄。
-- **Load**：透過資料庫系統（本題以 MySQL 為例）建表並寫入，使用 ON DUPLICATE KEY UPDATE 處理重複主鍵。
+- **Transform**：依題目 6 項規則清理與驗證，不合格的記錄整筆丟棄。
+- **Load**：透過資料庫系統（本題以 MySQL 為例）建表並寫入，使用 REPLACE INTO 處理重複主鍵（相同 user_id 則覆蓋舊資料）。
 
-Python 有內建 re 模組（正規表示式）：使用者號碼用 \\d{8}、手機用 09\\d{8}、年齡用 [1-9]\\d*、email 用簡單的正規式檢查格式。
+Python 有內建 re 模組（正規表示式）：使用者號碼用 \\d{8}、手機用 09\\d{8}、年齡用 [1-9]\\d*。
 寫入資料庫時一律使用參數化查詢（%s 佔位符），避免 SQL Injection。`,
   code: {
     lang: "python",
-    text: `# data.txt → Extract(讀檔) → Transform(清理/驗證) → Load(寫入 MySQL)
+    text: `import re
+import mysql.connector
 
-import re   # 正規表達式
-import mysql.connector  # Python 連線到 MySQL
-from mysql.connector import Error   # 捕捉資料庫相關的錯誤
+# 連線 MySQL
+conn = mysql.connector.connect(host="localhost", user="root",
+                               password="admin", database="test_db")
+cur = conn.cursor()
 
-# 資料庫設定
-# 建立字典（dictionary），存放連線 MySQL 所需的四個參數
-DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "admin",
-    "database": "test_db"
-}
-
-# 三個雙引號包起來（多行字串）
-CREATE_TABLE_SQL = """
+# 首次寫入先建表（IF NOT EXISTS：已存在就不重建）
+cur.execute("""
 CREATE TABLE IF NOT EXISTS user_data (
-    user_id VARCHAR(8) PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    age INT NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phone VARCHAR(10) NOT NULL
-);
-"""
+    user_id CHAR(8) PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    address VARCHAR(255),
+    email VARCHAR(100),
+    phone CHAR(10)
+)""")
 
-# %s 是佔位符（placeholder），之後會用實際資料替換
-# ON DUPLICATE KEY UPDATE: 如果 user_id 已經存在（違反主鍵唯一性），就不會報錯插入失敗，而是改成更新該筆資料的其他欄位
-INSERT_SQL = """
-INSERT INTO user_data (user_id, name, age, address, email, phone)
-VALUES (%s, %s, %s, %s, %s, %s)
-ON DUPLICATE KEY UPDATE
-    name=VALUES(name), age=VALUES(age), address=VALUES(address),
-    email=VALUES(email), phone=VALUES(phone);
-"""
+rows = []
+with open("data.txt", encoding="utf-8") as f:
+    for line in f:
+        parts = line.strip().split(",")
+        if len(parts) != 6:     # 欄位數不對 -> 缺欄位，丟棄
+            continue
 
-# Step 1: Extract 讀取檔案
-def extract(filepath):
-    records = []
-    with open(filepath, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            fields = line.split(",")
-            records.append(fields)
-    return records
+        # 清理：每個欄位去頭尾空白、多餘空格縮成一個、email 轉小寫
+        uid, name, age, addr, email, phone = [p.strip() for p in parts]
+        name = re.sub(r"\\s+", " ", name)
+        addr = re.sub(r"\\s+", " ", addr)
+        email = email.lower()
 
-# Step 2: Transform 資料清理與驗證
-def clean_record(fields):
-    # A. 欄位數不足 -> 直接視為壞資料
-    if len(fields) != 6:
-        return None
+        # 缺欄位（清理後為空字串）-> 丟棄
+        if "" in (uid, name, age, addr, email, phone):
+            continue
 
-    user_id, name, age, address, email, phone = fields
+        # 驗證：號碼8位數字、年齡正整數、手機09開頭共10位
+        if not re.fullmatch(r"\\d{8}", uid):
+            continue
+        if not re.fullmatch(r"[1-9]\\d*", age):    # 首位 1~9，排除 0、負數、小數
+            continue
+        if not re.fullmatch(r"09\\d{8}", phone):
+            continue
 
-    # 去除多餘空格（首尾 + 中間連續空格）
-    user_id = user_id.strip()
-    name = re.sub(r"\\s+", "", name.strip())     # \\s+ 代表一個或多個空白，包含 tab、換行等
-    address = re.sub(r"\\s+", "", address.strip())
-    email = email.strip().lower()
-    phone = phone.strip()
-    age = age.strip()
+        rows.append((uid, name, int(age), addr, email, phone))
 
-    # B. 缺欄位（清理後為空字串）-> 丟棄
-    if not all([user_id, name, age, address, email, phone]):
-        return None
-
-    # 驗證使用者號碼：8位數字
-    if not re.fullmatch(r"\\d{8}", user_id):
-        return None
-
-    # 驗證年齡：合法正整數（不含 0、不含負數、不含小數）
-    if not re.fullmatch(r"[1-9]\\d*", age):  # 第一個字元必須是 1~9（排除 0 開頭），後面接 0 個或多個任意數字（\\d*）
-        return None
-    age = int(age)
-
-    # 驗證手機：10位、09 開頭
-    if not re.fullmatch(r"09\\d{8}", phone):
-        return None
-
-    # （可選）簡單驗證 email 格式
-    if not re.fullmatch(r"[^@\\s]+@[^@\\s]+\\.[^@\\s]+", email):    # [^@\\s]+:一個或多個「不是 @ 也不是空白」的字元
-        return None
-
-    return (user_id, name, age, address, email, phone)
-
-def transform(records):
-    cleaned = []
-    dropped = 0
-    for fields in records:
-        result = clean_record(fields)
-        if result:
-            cleaned.append(result)
-        else:
-            dropped += 1
-    print(f"清理完成：有效資料 {len(cleaned)} 筆，丟棄 {dropped} 筆")
-    return cleaned
-
-# Step 3: Load 寫入 MySQL
-def load(records):
-    conn = None
-    try:
-        conn = mysql.connector.connect(**DB_CONFIG)
-        cursor = conn.cursor()
-
-        cursor.execute(CREATE_TABLE_SQL)
-
-        cursor.executemany(INSERT_SQL, records)
-        conn.commit()
-        print(f"成功寫入 {cursor.rowcount} 筆資料")
-
-    except Error as e:
-        print(f"資料庫錯誤: {e}")
-        if conn:
-            conn.rollback()
-
-    finally:
-        if conn and conn.is_connected():
-            cursor.close()
-            conn.close()
-
-# 主程式
-def main():
-    raw = extract("data.txt")
-    cleaned = transform(raw)
-    if cleaned:
-        load(cleaned)
-    else:
-        print("沒有可寫入的合法資料")
-
-
-if __name__ == "__main__":
-    main()`
+# 寫入資料庫：%s 為佔位符，REPLACE INTO 遇到相同 user_id 會覆蓋
+cur.executemany("REPLACE INTO user_data VALUES (%s,%s,%s,%s,%s,%s)", rows)
+conn.commit()
+print(f"成功寫入 {len(rows)} 筆")
+conn.close()`
   }
 }
   ]
