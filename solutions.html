@@ -685,35 +685,101 @@ traceroute 的核心原理是「刻意製造 TTL 過期」。
       code: null
     },
     {
+      
       id: "114-2", no: "二", topic: "sec", topicName: "資訊安全",
       title: "DoH/DoT 與 DNSSEC 的資安互補",
       score: 15,
       question: `請以企業域名(Domain Name)解析的角度，說明 DoH/DoT 與 DNSSEC 在資安功能上如何互補？（15分）`,
-      answer: `**核心觀念：兩者保護的「面向」不同，因此互補。**
+            answer: `**核心觀念：兩者保護的「面向」不同，因此互補。DoH/DoT 保護「傳輸通道」，DNSSEC 保護「資料本身」。**
 
-**DoH / DoT — 保護「傳輸過程的機密性」**
-- **DoH（DNS over HTTPS）**：將 DNS 查詢包裝成 HTTPS 流量，走 443 埠，與一般網頁流量混在一起，更難被識別與封鎖。
-- **DoT（DNS over TLS）**：將 DNS 查詢封裝在 TLS 加密通道中傳輸，使用專屬埠 853。
-- **解決的問題**：傳統 DNS 以明文 UDP/53 傳輸，任何中間人（ISP、公共 Wi-Fi、攻擊者）都能**竊聽**使用者查詢了哪些網域，或進行**竄改/竄改回應**。DoH/DoT 提供**加密**與**傳輸完整性**，防止竊聽與中途竄改，保護使用者隱私。
-- **限制**：DoH/DoT 只保證「從用戶端到 DNS 解析伺服器」這段路是加密的。它**無法驗證 DNS 回應的資料本身是否正確** —— 如果解析伺服器本身被汙染（cache poisoning）或回傳偽造資料，加密通道照樣把錯誤答案安全地送達。
+**一、企業 DNS 解析流程（以員工查詢 www.example.com 為例）**
+1. **用戶端查詢**：先查瀏覽器／作業系統快取與 hosts，沒有就向**企業內部遞迴解析器**發出查詢。【此段可用 DoH/DoT 加密】
+2. **問根伺服器**：解析器先查自身快取，沒有就問根（Root），根回覆 .com 的 TLD 伺服器位置。
+3. **問 TLD 伺服器**：TLD 回覆 example.com 的權威伺服器位置（DNSSEC 下同時提供 DS 記錄）。
+4. **問權威伺服器**：權威伺服器回覆 A 記錄（DNSSEC 下同時附上 RRSIG 簽章與 DNSKEY）。
+5. **驗證**：解析器用 DNSKEY 驗證 RRSIG，並沿「根 → TLD → 網域」信任鏈驗證；失敗則丟棄回應並回報錯誤。【DNSSEC 作用於此】
+6. **快取並回覆**：解析器依 TTL 將已驗證的答案存入快取，再回覆用戶端；用戶端也會快取。【此段可用 DoH/DoT 加密】
 
-**DNSSEC — 保護「資料來源的真實性與完整性」**
-- DNSSEC（DNS Security Extensions）對 DNS 紀錄加上**數位簽章**（RRSIG、DNSKEY、DS 等紀錄）。
-- 解析器收到回應後，可沿著「信任鏈（Chain of Trust）」從根區（root）逐層驗證簽章，確認這筆紀錄**確實來自該網域的授權來源、且未被竄改**。
-- **解決的問題**：防止 DNS 快取毒化、回應偽造（spoofing）—— 即使攻擊者攔截並偽造回應，因無法產生有效簽章，驗證會失敗。
-- **限制**：DNSSEC **不加密**。查詢與回應內容仍是明文，任何人都看得到使用者查了什麼網域。它只保證「答案沒被竄改」，不保證「沒人偷看」。
+\`\`\`htmldiagram
+<svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;font-family:'Noto Sans TC',sans-serif;">
+  <defs>
+    <marker id="dnsArrT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="dnsArrP" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
 
-**互補關係總結**
+  <rect x="30" y="130" width="100" height="56" rx="8" fill="none" stroke="var(--ink-soft)" stroke-width="1.5"/>
+  <text x="80" y="154" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">用戶端</text>
+  <text x="80" y="172" text-anchor="middle" font-size="12" fill="var(--ink-soft)">瀏覽器／OS</text>
+
+  <rect x="225" y="40" width="130" height="236" rx="8" fill="none" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="290" y="64" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">遞迴解析器</text>
+  <text x="290" y="82" text-anchor="middle" font-size="12" fill="var(--ink-soft)">代替用戶端查詢</text>
+  <text x="290" y="236" text-anchor="middle" font-size="14" fill="var(--ink)">⑤ 驗證簽章</text>
+  <text x="290" y="260" text-anchor="middle" font-size="14" fill="var(--ink)">⑥ 依 TTL 快取</text>
+
+  <rect x="490" y="40" width="150" height="56" rx="8" fill="#eef4f7" stroke="var(--accent-2)" stroke-width="1.5"/>
+  <text x="565" y="64" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-2)">根伺服器</text>
+  <text x="565" y="82" text-anchor="middle" font-size="12" fill="var(--accent-2)">Root</text>
+
+  <rect x="490" y="130" width="150" height="56" rx="8" fill="#eef4f7" stroke="var(--accent-2)" stroke-width="1.5"/>
+  <text x="565" y="154" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-2)">TLD 伺服器</text>
+  <text x="565" y="172" text-anchor="middle" font-size="12" fill="var(--accent-2)">例如 .com</text>
+
+  <rect x="490" y="220" width="150" height="56" rx="8" fill="#eef4f7" stroke="var(--accent-2)" stroke-width="1.5"/>
+  <text x="565" y="244" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-2)">權威伺服器</text>
+  <text x="565" y="262" text-anchor="middle" font-size="12" fill="var(--accent-2)">給出最終答案</text>
+
+  <line x1="130" y1="148" x2="223" y2="148" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#dnsArrT)"/>
+  <line x1="223" y1="170" x2="132" y2="170" stroke="#1D9E75" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#dnsArrT)"/>
+  <text x="177" y="140" text-anchor="middle" font-size="12" fill="var(--ink)">① 查詢</text>
+  <text x="177" y="188" text-anchor="middle" font-size="12" fill="var(--ink)">⑥ 回覆答案</text>
+
+  <line x1="355" y1="58" x2="488" y2="58" stroke="var(--accent-2)" stroke-width="1.5" marker-end="url(#dnsArrP)"/>
+  <line x1="488" y1="78" x2="357" y2="78" stroke="var(--accent-2)" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#dnsArrP)"/>
+  <text x="421" y="50" text-anchor="middle" font-size="12" fill="var(--ink)">② 問 .com 在哪</text>
+  <text x="421" y="96" text-anchor="middle" font-size="12" fill="var(--ink)">回：去問 TLD</text>
+
+  <line x1="355" y1="148" x2="488" y2="148" stroke="var(--accent-2)" stroke-width="1.5" marker-end="url(#dnsArrP)"/>
+  <line x1="488" y1="168" x2="357" y2="168" stroke="var(--accent-2)" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#dnsArrP)"/>
+  <text x="421" y="140" text-anchor="middle" font-size="12" fill="var(--ink)">③ 問 example.com</text>
+  <text x="421" y="186" text-anchor="middle" font-size="12" fill="var(--ink)">回：去問權威</text>
+
+  <line x1="355" y1="238" x2="488" y2="238" stroke="var(--accent-2)" stroke-width="1.5" marker-end="url(#dnsArrP)"/>
+  <line x1="488" y1="258" x2="357" y2="258" stroke="var(--accent-2)" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#dnsArrP)"/>
+  <text x="421" y="230" text-anchor="middle" font-size="12" fill="var(--ink)">④ 問 www 的 IP</text>
+  <text x="421" y="276" text-anchor="middle" font-size="12" fill="var(--ink)">回：A 記錄＋簽章</text>
+
+  <line x1="40" y1="316" x2="70" y2="316" stroke="#1D9E75" stroke-width="1.5"/>
+  <text x="78" y="320" font-size="12" fill="var(--ink)">DoH/DoT 加密範圍</text>
+  <line x1="240" y1="316" x2="270" y2="316" stroke="var(--accent-2)" stroke-width="1.5"/>
+  <text x="278" y="320" font-size="12" fill="var(--ink)">DNSSEC 驗證範圍</text>
+  <line x1="440" y1="316" x2="470" y2="316" stroke="var(--ink-soft)" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="478" y="320" font-size="12" fill="var(--ink)">虛線 = 回應</text>
+</svg>
+\`\`\`
+
+**二、DoH / DoT — 保護「傳輸過程的機密性」**
+- **DoH**：將 DNS 查詢包裝成 HTTPS 流量，走 443 埠，與一般網頁流量混在一起，更難被識別與封鎖。
+- **DoT**：將 DNS 查詢封裝在 TLS 加密通道中，使用專屬埠 853。
+- **解決的問題**：傳統 DNS 以明文 UDP/53 傳輸，中間人（ISP、公共 Wi-Fi、攻擊者）可**竊聽**使用者查了哪些網域，或在途中**竄改回應**。DoH/DoT 提供加密與傳輸完整性，保護隱私。
+- **限制**：只保護「用戶端 → 解析器」這一段（步驟 1、6），解析器向外查詢（步驟 2～4）通常不在範圍內；且**無法驗證回應資料本身是否為真**。若解析器被快取毒化或收到偽造資料，加密通道照樣把錯誤答案安全送達。
+
+**三、DNSSEC — 保護「資料來源的真實性與完整性」**
+- 對 DNS 記錄加上**數位簽章**（RRSIG、DNSKEY、DS），解析器沿**信任鏈**從根的信任錨逐層驗證，確認記錄來自授權來源且未被竄改。
+- **解決的問題**：防止快取毒化與回應偽造（步驟 2～5）。攻擊者無法產生有效簽章，驗證會失敗，偽造資料就不會進入快取。
+- **限制**：DNSSEC **不加密**，查詢與回應仍是明文，不防竊聽；且需要網域擁有者與解析器都有部署。
+
+**四、互補關係總結**
 
 | 面向 | DoH/DoT | DNSSEC |
 |---|---|---|
 | 機密性（防竊聽） | ✔ 加密通道 | ✗ 不提供 |
-| 完整性（傳輸途中） | ✔ TLS 保證 | ✔ 簽章保證 |
-| 來源真實性（資料本身） | ✗ 不驗證 | ✔ 信任鏈驗證 |
+| 傳輸途中防竄改 | ✔ TLS 保證 | ✔ 簽章保證 |
+| 資料來源真實性 | ✗ 不驗證 | ✔ 信任鏈驗證 |
 | 防快取毒化 | ✗ | ✔ |
-| 保護範圍 | 用戶端 → 解析器 | 端到端（含權威伺服器） |
+| 主要作用範圍 | 用戶端 ↔ 解析器（步驟 1、6） | 解析器 ↔ 權威伺服器鏈（步驟 2～5，由解析器驗證） |
 
-**企業實務建議**：兩者應**併用**。以 DoH/DoT 加密用戶到企業內部解析器的查詢（防內網竊聽、防員工查詢被外洩）；以 DNSSEC 確保解析器收到的權威回應是真實的（防被導向釣魚網站）。一個管「不被偷看與中途竄改」，一個管「答案是不是真的」，合起來才是完整的 DNS 安全。`,
+**五、企業實務建議**：兩者應**併用**。以 DoH/DoT 加密員工到企業內部解析器的查詢（防內網竊聽、防查詢紀錄外洩）；內部解析器則啟用 DNSSEC 驗證，確保收到並快取的權威回應是真實的（防被導向釣魚網站）。一個管「不被偷看與中途竄改」，一個管「答案是不是真的」，合起來才是完整的 DNS 安全。`,
       code: null
     },
     {
