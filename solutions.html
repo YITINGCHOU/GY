@@ -950,31 +950,25 @@ Author(pNo FK→Product, name)   PK(pNo, name)
 
 銷售金額 = 購買數量 × 單價。需串接 Author（誰寫的）、Buy（賣了幾本）、Product（單價）。
 \`\`\`sql
-SELECT A.name AS author, SUM(B.amount * P.unitPrice) AS totalSales
-FROM Author A
-JOIN Product P ON A.pNo = P.pNo
-JOIN Buy B ON P.pNo = B.pNo
+SELECT A.name, SUM(B.amount * P.unitPrice)
+FROM Author A, Product P, Buy B
+WHERE A.pNo = P.pNo AND P.pNo = B.pNo
 GROUP BY A.name;
 \`\`\`
 
 **(二) 達文西的「鐵粉」（3分）**
-
-「鐵粉」= 達文西的每一本書，該讀者都買過。等價於「不存在一本達文西的書是該讀者沒買過的」。用 NOT EXISTS 雙重否定：
 \`\`\`sql
-SELECT M.name
+SELECT M.name                                   -- 輸出鐵粉的姓名
 FROM Member M
-WHERE NOT EXISTS (
-    SELECT A.pNo
-    FROM Author A
-    WHERE A.name = '達文西'
-      AND NOT EXISTS (
-          SELECT * FROM Buy B
-          WHERE B.mId = M.mId AND B.pNo = A.pNo
-      )
-);
+WHERE (SELECT COUNT(DISTINCT B.pNo)             -- 這位讀者買過「幾本不同的」達文西的書
+       FROM Buy B, Author A
+       WHERE B.mId = M.mId                      -- 只看這位讀者 M 的購買紀錄
+         AND B.pNo = A.pNo                      -- 把購買紀錄對應到作者表
+         AND A.name = '達文西')                 -- 只留達文西的書
+    = (SELECT COUNT(*)                          -- 達文西總共有幾本書
+       FROM Author
+       WHERE name = '達文西');                  -- 兩個數字相等 = 全部都買過 = 鐵粉
 \`\`\`
-邏輯：對每位會員 M，找達文西所有的書 A，若「找不到任何一本 A 是 M 沒買過的」，M 即為鐵粉。
-
 **(三) 硬碟頁存取次數估算（10分）**
 
 *背景*：B+ tree 查詢成本 = 走訪樹高（每層 1 個頁）+ 讀取資料頁。
