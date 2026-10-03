@@ -780,11 +780,11 @@ traceroute 的核心原理是「刻意製造 TTL 過期」。
 | **位址長度** | 32 位元（約 43 億個位址） | 128 位元（約 3.4×10³⁸ 個位址） |
 | **位址型態** | Unicast、Multicast、Broadcast | Unicast、Multicast、Anycast（**取消 Broadcast**，改用 multicast 達成廣播效果） |
 | **位址派發** | 手動設定、DHCP | 手動、DHCPv6、**SLAAC（無狀態位址自動設定）**—主機可依路由器通告（RA）自行產生位址 |
-| **標頭大小** | 可變長度（20–60 bytes，含選項欄位） | **固定 40 bytes** 基本標頭，額外功能改用「延伸標頭（Extension Header）」串接，加快路由器處理 |
+| **標頭大小** | 可變長度（20–60 bytes，含 Options） | **固定 40 bytes** 基本標頭，額外功能改用「延伸標頭（Extension Header）」串接，加快路由器處理 |
 | **鄰居探索** | 使用 **ARP**（廣播）解析 MAC | 使用 **NDP（Neighbor Discovery Protocol）**，基於 ICMPv6 + multicast，並含路由器探索、位址自動設定 |
-| **分片** | 路由器與來源端皆可分片 | **僅來源端可分片**，路由器不分片；改由來源端先做 Path MTU Discovery |
+| **分片** | 來源端與路徑上路由器皆可分片 | **僅來源端可分片**，路由器不分片；改由來源端先做 Path MTU Discovery |
 | **QoS 標記欄位** | ToS（Type of Service）欄位 | **Traffic Class** + **Flow Label（流標籤）** 欄位，可標記同一資料流以利特殊處理 |
-| **總長度欄位** | Total Length（16 bit，含標頭，最大 65535） | **Payload Length（16 bit，僅 payload）**；超大封包用 Jumbogram 延伸標頭支援 |
+| **總長度欄位** | Total Length（標頭＋資料），標頭長度由 IHL 表示 | **Payload Length**（不含基本標頭） |
 | **DNS 解析** | 使用 **A 紀錄**（IPv4 位址） | 使用 **AAAA 紀錄**（IPv6 位址）；反解網域為 ip6.arpa |
 | **行動路由模式** | Mobile IPv4，需「三角繞送」經 Home Agent，效率較差 | Mobile IPv6，支援**路由最佳化（Route Optimization）**，通訊對端可直接與行動節點通訊，免三角繞送 |
 
