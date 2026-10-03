@@ -649,7 +649,7 @@ const EXAM_DATA_PART1 = [
       answer: `**(一) TTL/ICMP 在路徑追蹤扮演的角色（5分）**
 
 traceroute 的核心原理是「刻意製造 TTL 過期」。
-- **TTL（Time To Live）**：IP 標頭中的欄位，每經過一個路由器（hop）就減 1。當 TTL 遞減到 0 時，該路由器會丟棄封包。
+- **TTL（Time To Live）**：IP 標頭中的欄位，每經過一個路由器（hop）就減 1，當 TTL 遞減到 0 時，該路由器會丟棄封包。
 - traceroute 從 TTL=1 開始送出探測封包，第 1 台路由器將 TTL 減為 0、丟棄封包，並回送 **ICMP Time Exceeded（Type 11）** 訊息給來源端。來源端從該 ICMP 封包的來源 IP 得知第 1 跳的位址。
 - 接著送 TTL=2、TTL=3…逐步遞增，每一輪都會讓「第 N 台路由器」回應 ICMP Time Exceeded，於是一跳一跳地把整條路徑探測出來。
 - 當封包抵達目的主機時，目的端回傳 ICMP Port Unreachable 或 Echo Reply，traceroute 以此判斷已到達終點。
