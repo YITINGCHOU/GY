@@ -55,11 +55,6 @@ body {
   border-bottom: 4px solid var(--accent-2);
   position: relative;
 }
-.site-header::after {
-  content: '';
-  position: absolute; left: 0; right: 0; bottom: -4px; height: 4px;
-  background: repeating-linear-gradient(90deg, var(--accent-2) 0 18px, transparent 18px 36px);
-}
 .site-header .kicker {
   font-size: .78rem; letter-spacing: .55em; text-indent: .55em;
   color: var(--gold); font-weight: 700; margin-bottom: .7rem;
@@ -101,8 +96,7 @@ body {
 /* ===== 控制列 ===== */
 .controls {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(244,241,234,0.97);
-  backdrop-filter: blur(8px);
+  background: rgb(244,241,234);
   border-bottom: 1.5px solid var(--line);
   padding: .85rem 1.5rem;
   box-shadow: 0 3px 14px var(--shadow);
@@ -551,7 +545,7 @@ mark.hl {
 
 <header class="site-header">
   <div class="kicker">經濟部所屬事業機構 ‧ 新進職員甄試</div>
-  <h1>計算機原理 <span class="stamp">＋</span> 網路概論</h1>
+  <h1>計算機原理 ＋ 網路概論</h1>
   <div class="sub">歷年單選題 ‧ 刷題系統 ‧ 自動記錄答題與錯題</div>
 </header>
 
