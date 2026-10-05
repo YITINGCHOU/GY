@@ -1664,9 +1664,9 @@ ORDER BY 平均售價 DESC;
 - 當使用者對 \`gets()\` 輸入超過 16 bytes 的字串，多出的資料會「覆蓋」相鄰記憶體 —— 先覆蓋其他變數，再覆蓋返回位址。
 
 *造成的危害*：
-1. **程式崩潰（DoS）**：返回位址被亂數覆蓋，函式返回時跳到無效位址，程式當掉。
-2. **繞過驗證**：精心構造的輸入可覆蓋 password 變數或控制流程，使驗證條件失效。
-3. **任意程式碼執行（最嚴重）**：攻擊者將返回位址覆蓋為自己注入的「惡意機器碼（shellcode）」位址，函式返回時即跳去執行攻擊者的指令，可取得系統控制權 —— 這正是題目所說「執行不被允許的指令」。
+1. **程式崩潰**：返回位址被亂數覆蓋，函式返回時跳到無效位址，程式當掉。
+2. **繞過驗證**：若緩衝區旁邊剛好是驗證用的變數（如 is_admin、authenticated），溢位可直接改掉它的值，使驗證條件失效。
+3. **執行惡意程式（最嚴重）**：返回位址被改為攻擊者注入的「惡意機器碼」位址，取得系統控制權。
 
 **(三) 修訂作法（6分）**
 
@@ -1698,9 +1698,10 @@ int main() {
 \`\`\`
 
 改善要點：
-1. **以 \`fgets()\` 取代 \`gets()\`** —— fgets 需指定最大長度，是最關鍵的修正。
-2. 使用 \`sizeof(buffer)\` 限制讀取量，並處理結尾換行字元。
-3. 其他縱深防禦：編譯器開啟 **Stack Canary（堆疊金絲雀）**、**ASLR（位址空間配置隨機化）**、**DEP/NX（資料區不可執行）**；密碼不應明文比對，應雜湊處理。`,
+1. **以 \`fgets()\` 取代 \`gets()\`** —— fgets 需指定最大讀取長度，是最關鍵的修正。
+2. 使用 \`sizeof(buffer)\` 限制讀取量，處理結尾的換行字元，並檢查回傳值是否為 NULL。
+3. 縱深防禦：編譯器開啟 **Stack Canary（堆疊保護值）**、**ASLR（位址空間配置隨機化）**、**DEP/NX（資料區不可執行）**。
+4. 密碼處理：不應明文比對或寫死在程式碼中，應以加鹽雜湊（如 bcrypt）儲存與驗證。`,
       code: null
     },
     {
@@ -1711,20 +1712,40 @@ int main() {
 (一) 請說明何謂「stack」？（3分）
 (二) 請以 2 個實際應用案例具體說明如何使用「stack」？（6分）
 (三) 請基於「stack」概念設計 1 個程式：將 4 個浮點數(20.22、12.21、70.25、58.29)插入 1 個 stack，然後逐一移除，且須能檢測 stack 是否已為空。（6分）`,
-      answer: `**(一) 何謂 Stack（3分）**
-
-堆疊（Stack）是一種「**後進先出（LIFO, Last-In-First-Out）**」的線性資料結構。所有的新增（push）與刪除（pop）操作都只在同一端「堆疊頂端（top）」進行。最後放入的元素，會最先被取出。
-
-主要操作：push（壓入）、pop（彈出）、peek/top（查看頂端）、isEmpty（是否為空）、isFull（是否已滿，陣列實作時）。
+      answer: `
+**(一) 何謂 Stack（3分）**
+- Stack 是一種線性資料結構，資料的新增與刪除只能在同一端（頂端）進行，遵循後進先出（LIFO）原則。
+- push 在頂端加入元素，pop 移除並回傳頂端元素，top/peek 查看頂端元素但不移除，isEmpty 檢查是否為空。
 
 **(二) Stack 的 2 個實際應用案例（6分）**
+*應用案例 1：**括號匹配***
+使用方式：由左到右掃描運算式，依下列規則處理：
+1. 遇到左括號 \`(\`、\`[\`、\`{\`：push 進 stack。
+2. 遇到右括號 \`)\`、\`]\`、\`}\`：若 stack 為空，表示多了一個右括號，立即判定不匹配；否則 pop 出頂端的左括號，檢查其種類是否與當前右括號相符（\`(\` 對 \`)\`、\`[\` 對 \`]\`、\`{\` 對 \`}\`），不符則判定不匹配。
+3. 掃描結束後，若 stack 為**空**，表示括號完全匹配；若仍有剩餘左括號，表示不匹配。
 
-1. **函式呼叫堆疊（Call Stack）**：程式執行時，每呼叫一個函式就把該函式的「堆疊框（區域變數、參數、返回位址）」push 進呼叫堆疊；函式結束時 pop 出來，回到呼叫點。遞迴能正確運作，正是靠這個 LIFO 機制。
-2. **運算式求值 / 括號匹配**：
-   - 中序轉後序、後序運算式求值都用 stack 暫存運算元與運算子。
-   - 編輯器檢查括號是否成對：遇到左括號 push，遇到右括號 pop 出來比對是否匹配。
+*應用案例 2：**DFS 迷宮走訪***
+使用方式：
+1. 將起點 push 進 stack，並標記為「已走過」。
+2. 每次查看 stack 頂端（top）的位置，嘗試往上、下、左、右尋找**尚未走過**的可行格子；**找到**：標記為已走過，並 push 進 stack，繼續往前走；**找不到（死路）**：pop 頂端位置，退回上一格（回溯），再嘗試其他方向。
+3. 當頂端位置為**終點**時，搜尋成功，此時 stack 內由底到頂的內容就是**一條從起點到終點的可行路徑**。
+4. 若 stack 被 pop 到空仍未到達終點，表示迷宮**無解**。
 
-   其他常見應用：瀏覽器「上一頁」歷史、文書軟體「復原（Undo）」功能、深度優先搜尋（DFS）。
+*應用案例 3：**後序運算式求值***
+使用方式： 由左到右掃描後序運算式，準備一個**運算元 stack**：
+1. 遇到**運算元**：push 進 stack。
+2. 遇到**運算子**：pop 出兩個運算元，先 pop 的是右運算元 b，後 pop 的是左運算元 a，計算 \`a 運算子 b\`，再把結果 push 回 stack。
+3. 掃描結束後，stack 中剩下的唯一一個值就是最終答案。
+*範例*：\`3 4 5 * +\`
+| 掃描 | stack（底→頂）| 動作 |
+|---|---|---|
+| 3 | 3 | push |
+| 4 | 3 4 | push |
+| 5 | 3 4 5 | push |
+| * | 3 20 | pop 5、4，算 4×5=20，push |
+| * | 23 | pop 20、3，算 3+20=23，push |
+
+其他常見應用：中序轉後序、瀏覽器「上一頁」歷史、文書軟體「復原（Undo）」功能。
 
 **(三) Stack 程式實作（6分）**`,
       code: {
@@ -1790,51 +1811,56 @@ conn = mysql.connector.connect(host="localhost", user="root",
 cur = conn.cursor()
 
 # 首次寫入先建表（IF NOT EXISTS：已存在就不重建）
-cur.execute("""
-CREATE TABLE IF NOT EXISTS user_data (
-    user_id VARCHAR(255) PRIMARY KEY,
-    name VARCHAR(255),
-    age INT,
-    address VARCHAR(255),
-    email VARCHAR(255),
-    phone VARCHAR(255)
-)""")
+try:  
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS user_data (
+            user_id VARCHAR(255) PRIMARY KEY,
+            name VARCHAR(255),
+            age INT,
+            address VARCHAR(255),
+            email VARCHAR(255),
+            phone VARCHAR(255)
+        )
+    """)
 
-rows = []
-with open("data.txt", encoding="utf-8") as f:
-    for line in f:
-        parts = line.strip().split(",")
-        if len(parts) != 6:     # 欄位數不對 -> 缺欄位，丟棄
-            continue
+    rows = []
+    with open("data.txt", encoding="utf-8") as f:
+        for line in f:
+            parts = line.strip().split(",")
+            if len(parts) != 6:     # 欄位數不對 -> 缺欄位，丟棄
+                continue
+    
+            # 清理：每個欄位去頭尾空白、多餘空格縮成一個、email 轉小寫
+            uid, name, age, addr, email, phone = [p.strip() for p in parts]
+            name = re.sub(r"\\s+", " ", name)
+            addr = re.sub(r"\\s+", " ", addr)
+            email = email.lower()
+    
+            # 缺欄位（清理後為空字串）-> 丟棄
+            if "" in (uid, name, age, addr, email, phone):
+                continue
+    
+            # 驗證：號碼8位數字、年齡正整數、手機09開頭共10位
+            if not re.fullmatch(r"\\d{8}", uid):
+                continue
+            if not re.fullmatch(r"[1-9]\\d*", age):    # 首位 1~9，排除 0、負數、小數
+                continue
+            if not re.fullmatch(r"09\\d{8}", phone):
+                continue
+    
+            rows.append((uid, name, int(age), addr, email, phone))
 
-        # 清理：每個欄位去頭尾空白、多餘空格縮成一個、email 轉小寫
-        uid, name, age, addr, email, phone = [p.strip() for p in parts]
-        name = re.sub(r"\\s+", " ", name)
-        addr = re.sub(r"\\s+", " ", addr)
-        email = email.lower()
-
-        # 缺欄位（清理後為空字串）-> 丟棄
-        if "" in (uid, name, age, addr, email, phone):
-            continue
-
-        # 驗證：號碼8位數字、年齡正整數、手機09開頭共10位
-        if not re.fullmatch(r"\\d{8}", uid):
-            continue
-        if not re.fullmatch(r"[1-9]\\d*", age):    # 首位 1~9，排除 0、負數、小數
-            continue
-        if not re.fullmatch(r"09\\d{8}", phone):
-            continue
-
-        rows.append((uid, name, int(age), addr, email, phone))
-
-# 寫入資料庫：%s 為佔位符，REPLACE INTO 遇到相同 user_id 會覆蓋
-cur.executemany("""
-    REPLACE INTO user_data (user_id, name, age, address, email, phone)
-    VALUES (%s,%s,%s,%s,%s,%s)
-""", rows)
-conn.commit()
-print(f"成功寫入 {len(rows)} 筆")
-conn.close()`
+    # 寫入資料庫：%s 為佔位符，REPLACE INTO 遇到相同 user_id 會覆蓋
+    if rows:    
+        cur.executemany("""
+            REPLACE INTO user_data (user_id, name, age, address, email, phone)
+            VALUES (%s,%s,%s,%s,%s,%s)
+        """, rows)
+        conn.commit()
+        print(f"成功寫入 {len(rows)} 筆")
+finally:
+    cur.close()
+    conn.close()`
   }
 }
   ]
