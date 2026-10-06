@@ -1933,29 +1933,36 @@ WHERE EXISTS (
       title: "機器學習：監督式 vs 非監督式學習",
       score: 15,
       question: `目前機器學習實務上主要應用的學習方式為監督式學習及非監督式學習，請分別說明其定義、主要處理問題及常見的演算法。（15分）`,
-      answer: `**監督式學習（Supervised Learning）**
-
-- **定義**：使用「**已標記（labeled）**」的訓練資料 —— 每筆資料同時有輸入特徵（X）與正確答案（Y）。模型學習從 X 到 Y 的對應關係，目標是對新資料做出準確預測。
-- **主要處理問題**：
-  - **分類（Classification）**：預測「離散類別」。例：垃圾郵件判別、疾病診斷、影像辨識。
-  - **迴歸（Regression）**：預測「連續數值」。例：房價預測、銷售量預測、氣溫預測。
-- **常見演算法**：線性迴歸、邏輯迴歸、決策樹、隨機森林、支援向量機（SVM）、K 最近鄰（KNN）、神經網路、單純貝氏（Naive Bayes）。
+      answer: `
+**監督式學習（Supervised Learning）**
+**（1）定義**
+- 使用「**已標記（labeled）**」的資料進行訓練 —— 資料包含輸入特徵 X 與正確答案（標籤）Y。
+- 模型學習從 X 到 Y 的對應關係，目標是對新資料做出準確預測。
+**（2）主要處理問題**
+- **分類（Classification）**：預測「離散類別」。例：垃圾郵件判別、疾病診斷、影像辨識。
+- **迴歸（Regression）**：預測「連續數值」。例：房價預測、銷售量預測、氣溫預測。
+**（3）常見演算法**
+- **分類**：邏輯迴歸、KNN、SVM、決策樹、隨機森林、單純貝氏、神經網路。
+- **迴歸**：線性迴歸、多項式迴歸、嶺迴歸／Lasso、迴歸樹、神經網路。
 
 **非監督式學習（Unsupervised Learning）**
-
-- **定義**：使用「**未標記（unlabeled）**」的資料 —— 只有輸入特徵 X，沒有正確答案。模型自行從資料中找出隱藏的結構、模式或群組。
-- **主要處理問題**：
-  - **集群分析（Clustering）**：將相似資料自動分群。例：顧客分群、市場區隔。
-  - **降維（Dimensionality Reduction）**：減少特徵數量、萃取主要資訊。例：資料視覺化、特徵壓縮。
-  - **關聯規則（Association）**：找出資料項目間的關聯。例：購物籃分析（啤酒與尿布）。
-- **常見演算法**：K-means、階層式分群（Hierarchical Clustering）、DBSCAN、主成分分析（PCA）、Apriori 關聯規則。
+**（1）定義**
+- 使用「**未標記（unlabeled）**」的資料進行訓練 —— 只有輸入特徵 X，沒有標準答案。
+- 模型自行從資料中找出隱藏的結構、規律或群組。
+**（2）主要處理問題**：
+- **集群（Clustering）**：將相似資料自動分群。例：顧客分群、市場區隔。
+- **降維（Dimensionality Reduction）**：減少特徵數量並保留重要資訊。例：資料視覺化、去除雜訊。
+- **關聯規則探勘（Association）**：找出項目間的關聯。例：購物籃分析（買尿布的人也常買啤酒）。
+**（3）常見演算法**
+- **集群**：K-means、階層式分群、DBSCAN
+- **降維**：PCA（主成分分析）、t-SNE、自編碼器（Autoencoder）
+- **關聯**：Apriori、FP-Growth
 
 **對照總結**
-
 | 項目 | 監督式學習 | 非監督式學習 |
 |---|---|---|
-| 訓練資料 | 有標記（含答案） | 無標記（無答案） |
-| 學習目標 | 學習輸入→輸出的對應 | 發掘資料內在結構 |
+| 訓練資料 | 有標籤（X, Y） | 無標籤（只有 X） |
+| 學習目標 | 預測新資料的輸出 | 發現資料的結構與規律 |
 | 主要任務 | 分類、迴歸 | 集群、降維、關聯 |
 | 評估方式 | 準確率、誤差等明確指標 | 較主觀，無標準答案 |`,
       code: null
@@ -1979,13 +1986,13 @@ WHERE EXISTS (
 備選項目：使用經審核且持續更新的第三方元件與函式庫、原始碼版本控管與程式碼審查（Code Review）。
 
 **(二) 測試階段的 2 項控制措施（4分）**
-1. **弱點掃描**：以工具掃描系統與元件的已知弱點，並追蹤修補，上線前須完成高風險弱點改善。
-2. **滲透測試與原始碼檢測**：以模擬攻擊驗證防護能力（黑箱／灰箱），並以 SAST／DAST 找出程式缺陷。
+1. **原始碼檢測（SAST）**：上線前以工具或人工審查原始碼，找出注入、不安全函式、寫死密碼等缺陷。
+2. **弱點掃描與滲透測試**：對執行中的系統以弱點掃描工具（含 DAST）找出已知漏洞，並由人員進行黑箱或灰箱滲透測試，驗證漏洞可否被利用，上線前完成修補並複測。
 
 **(三) 部署與維運階段的 3 項控制措施（6分）**
-1. **安全組態設定（Secure Configuration）**：關閉不必要的服務與埠、移除預設帳密與測試資料，並落實環境隔離與最小權限。
-2. **修補與更新管理（Patch Management）**：持續追蹤並即時套用作業系統、中介軟體與套件的安全修補程式。
-3. **持續監控與事件應變**：部署日誌監控、入侵偵測，建立資安事件通報與應變機制，定期備份與演練復原。
+1. **安全組態**：關閉不必要的服務與埠、移除預設帳密與測試資料，並落實環境隔離與最小權限。
+2. **漏洞修補**：定期更新作業系統、Web 伺服器、框架與第三方套件，追蹤弱點通報與 CVE（通用漏洞與暴露），修補前先在測試環境驗證。
+3. **事件監控與應變**：持續監控日誌與異常行為，建立資安事件通報與應變機制，定期備份並演練還原。
 
 （其他可列：權限最小化、上線前安全複查、定期安全評估。）`,
       code: null
@@ -2011,7 +2018,7 @@ WHERE EXISTS (
 
 /* === (一) 遞迴方式 ===
    缺點：F(n-1)、F(n-2) 重複計算，時間複雜度 O(2^n) */
-int fibRecursive(int n) {
+long long fibRecursive(int n) {
     if (n == 0) return 0;
     if (n == 1) return 1;
     return fibRecursive(n - 1) + fibRecursive(n - 2);
@@ -2019,25 +2026,24 @@ int fibRecursive(int n) {
 
 /* === (二) 非遞迴（迴圈）方式 ===
    時間 O(n)、空間 O(1) */
-int fibIterative(int n) {
+long long fibIterative(int n) {
     if (n == 0) return 0;
-    if (n == 1) return 1;
-    int prev2 = 0, prev1 = 1, cur;
+    long long fist = 0, second = 1;
     for (int i = 2; i <= n; i++) {
-        cur = prev1 + prev2;   // 當前項 = 前兩項之和
-        prev2 = prev1;
-        prev1 = cur;
+        long long sum = first + second;
+        first = second;
+        second = sum;
     }
-    return prev1;
+    return second;
 }
 
 /* === (三) 記憶化遞迴（Memoization）===
    仍用遞迴，但以 memo 陣列快取已算過的值，避免重複計算
    時間降為 O(n) */
-#define MAX 100
-int memo[MAX];
+#define MAX 93    // fib(92) 是 long long 能存的最大值
+long long memo[MAX];
 
-int fibMemo(int n) {
+long long fibMemo(int n) {
     if (n == 0) return 0;
     if (n == 1) return 1;
     if (memo[n] != -1)         // 已算過 → 直接回傳快取值
@@ -2047,14 +2053,16 @@ int fibMemo(int n) {
 }
 
 int main() {
-    int n = 10;
-
-    printf("(一) 遞迴      F(%d) = %d\\n", n, fibRecursive(n));
-    printf("(二) 非遞迴    F(%d) = %d\\n", n, fibIterative(n));
+    int n;
+    if (scanf("%d", &n) != 1 || n < 0 || n >= MAX){
+        printf("請輸入 0 到 %d 之間的整數\\n", MAX - 1);
+        return 1;
+    }
+    printf("(一) 遞迴      F(%d) = %lld\\n", n, fibRecursive(n));
+    printf("(二) 非遞迴    F(%d) = %lld\\n", n, fibIterative(n));
 
     for (int i = 0; i < MAX; i++) memo[i] = -1;  // 初始化快取
-    printf("(三) 記憶化遞迴 F(%d) = %d\\n", n, fibMemo(n));
-    // 三者結果皆為 55
+    printf("(三) 記憶化遞迴 F(%d) = %lld\\n", n, fibMemo(n));
     return 0;
 }`
       }
@@ -2076,67 +2084,67 @@ int main() {
 
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
-/* 回傳 1 表示代號正確，0 表示錯誤 */
-int check_dit(char *emp_id)
+bool check_dit(const char *emp_id)
 {
-    int i, sum = 0;
-
-    if (strlen(emp_id) != 6)          /* 必須剛好 6 碼 */
-        return 0;
-
-    for (i = 0; i < 6; i++)           /* 必須全為數字 */
-        if (emp_id[i] < '0' || emp_id[i] > '9') return 0;
-
-    for (i = 0; i < 5; i++)           /* 前 5 碼總和 */
+    if (strlen(emp_id) != 6) return false;
+    for (int i = 0; i < 6; i++) {           
+        if (emp_id[i] < '0' || emp_id[i] > '9') return false;
+    }
+    int sum = 0;
+    for (i = 0; i < 5; i++) {                 // 前 5 碼總和
         sum += emp_id[i] - '0';
-
-    return (sum % 10) == (emp_id[5] - '0');   /* 個位數 = 第 6 碼 */
+    }
+    return (sum % 10) == (emp_id[5] - '0');   // 個位數 = 第 6 碼
 }
 
 #define MAXDEP 100
 
 struct dept {
-    char id[10];    // 部門代號
-    long total;     // 這個部門的特別費合計
+    char id[10];         // 部門代號
+    long long total;     // 這個部門的特別費合計
 };
 
 int main()
 {
-    FILE *fp;                       // 檔案指標，用來操作檔案
-    char emp[20], dep[10];          // 暫存讀進來的員工代號、部門代號
-    int age, i, n = 0;              // age 存年齡；i 是迴圈用；n 是目前已記錄幾個部門
-    long sal;                       // 暫存這筆的特別費
-    struct dept d[MAXDEP];          // 部門陣列，最多 100 個
-
-    fp = fopen("personnel.txt", "r");   // 以讀取模式開檔
-    if (fp == NULL) {                   // 開檔失敗會回傳 NULL
+    FILE *fp = fopen("personnel.txt", "r");   
+    if (fp == NULL) {     
         printf("無法開啟檔案\\n");
-        return 1;                       // 結束程式，回傳 1 表示異常
+        return 1; 
     }
+    
+    char emp[20], dep[10];          
+    int age;
+    int depCount = 0;
+    long long sal;                  
+    struct dept d[MAXDEP];
 
-    while (fscanf(fp, "%19s %9s %d %ld", emp, dep, &age, &sal) == 4) {
-        if (!check_dit(emp))          /* 員工代號錯誤就略過 */
-            continue;
+    while (fscanf(fp, "%19s %9s %d %lld", emp, dep, &age, &sal) == 4) {
+        if (!check_dit(emp)) continue;
 
-        for (i = 0; i < n; i++)       /* 找部門是否已存在 */
-            if (strcmp(d[i].id, dep) == 0)  // 兩個字串相同時回傳 0，此時 i 就是該部門的位置
-                break;
-                
-        /* 新部門 */
-        if (i == n) {                 // i == n 代表剛才沒找到
-            strcpy(d[n].id, dep);     // 把部門代號複製到新位置（字串不能用 = 賦值）
-            d[n].total = 0;           // 合計從 0 開始
-            n++;                      // 部門數加 1
+        int index = -1;                         // -1 代表「還沒找到」
+        for (int i = 0; i < depCount; i++) {    // 只找已登記的 depCount 個部門
+            if (strcmp(d[i].id, dep) == 0) {    // 字串相同時回傳 0
+                index = i;                      // 記下位置
+                break;                          // 找到就不用再找
+            }      
         }
-        d[i].total += sal;            /* 累加特別費 */
+        
+        if (index == -1) {                      // 代表剛才沒找到
+            if (depCount >= MAXDEP) continue;
+            index = depCount++;
+            strcpy(d[index].id, dep);
+            d[index].total = 0;
+        }
+        d[index].total += sal;                  
     }
     fclose(fp);    // 讀完關檔
     
-    for (i = 0; i < n; i++)
+    for (int i = 0; i < depCount; i++) {
         if (d[i].total > 100000)
-            printf("部門代號：%s  特別費合計：%ld\\n", d[i].id, d[i].total);
-
+            printf("部門代號：%s  特別費合計：%lld\\n", d[i].id, d[i].total);
+    }
     return 0;
 }`
       }
@@ -2163,7 +2171,9 @@ int main()
 
 // 交換兩元素
 void swap(int *a, int *b) {
-    int t = *a; *a = *b; *b = t;
+    int t = *a; 
+    *a = *b; 
+    *b = t;
 }
 
 // 分割函式：以 arr[high] 為基準，回傳基準歸位後的索引
