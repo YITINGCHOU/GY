@@ -2283,7 +2283,7 @@ FROM 銷售 S
 JOIN 參考書 P ON S.書籍編號 = P.書籍編號
 WHERE S.書籍編號 = 'B6188'
   AND S.會員編號 <> 'N99'                 -- 僅會員受折扣影響
-  AND S.銷售日期 = '<上架第一天日期>';     -- 限當天
+  AND DATE(S.銷售日期) = CURDATE();       -- 限當天
 \`\`\`
 即：少收金額 = Σ(該書單價 × 0.10 × 當天各會員購買數量)。`,
       code: null
@@ -2318,12 +2318,9 @@ IoT 架構常分為四層：
 3. **SaaS（軟體即服務）**：提供完整應用軟體，使用者透過網路直接使用。
 
 **(四) 資訊倫理（5分）**
-
-資訊倫理（Information Ethics）指人們在蒐集、處理、傳播、使用資訊及運用資訊科技時，所應遵循的道德規範與行為準則。經典的 **PAPA 架構**涵蓋四大議題：
-- **隱私權（Privacy）**：個人資料的蒐集與使用是否經同意、是否被濫用。
-- **正確性（Accuracy）**：資訊的真實性、正確性，誰為錯誤資訊負責。
-- **財產權（Property）**：智慧財產權、軟體著作權、資訊的擁有與授權。
-- **存取權（Accessibility）**：誰有權存取何種資訊、數位落差問題。`,
+- 資訊倫理是指人們在蒐集、儲存、傳播與使用資訊時，應遵循的道德規範與行為標準。
+- 主要議題包括隱私權（保護個人資料）、正確性（不散布假訊息）、財產權（尊重智慧財產權）、存取權（資訊取用的公平與合法授權）。
+- 目的是在享受資訊科技便利的同時，避免傷害他人權益、維護社會秩序。`,
       code: null
     },
         {
@@ -2980,7 +2977,7 @@ P(A∪B) = P(A) + P(B) − P(A∩B)
 
 **(二) 對系統及資料的危害（4分）**
 
-1. **資料外洩**：攻擊者注入 \`' OR '1'='1\` 使條件恆真，可撈出 idtable 全部資料；以 UNION SELECT 可竊取其他資料表內容（如帳號密碼）。
+1. **資料外洩**：攻擊者注入 \`' OR '1'='1\` 使條件恆真，可撈出 \`idtable\` 全部資料，或用 \`UNION SELECT\` 可竊取其他資料表內容（如帳號密碼）。
 2. **資料竄改或刪除**：注入 \`'; UPDATE ... \` 或 \`'; DROP TABLE idtable; --\` 可竄改、刪除資料表。
 3. **繞過身分驗證**：使登入或查詢條件失效，未授權存取系統。
 4. **進一步入侵**：部分資料庫可透過注入執行系統指令、提權，危及整台主機。
@@ -2988,47 +2985,37 @@ P(A∪B) = P(A) + P(B) − P(A∩B)
 
 **(三) 防護函式 checkdata（8分）**
 
-最根本的修法是改用參數化查詢，但題目限定「不變動系統設定與前端」、只能新增字串處理函數，故以「過濾 + 跳脫」方式處理輸入。`,
-      code: {
-        lang: "php",
-        text: `<?php
-// 程式語言：PHP（虛擬碼風格）
+**(三) 防護函式 checkdata（8分）**
 
-// 字串處理函數：將使用者輸入處理為無 SQL Injection 風險的資料
-function checkdata($input) {
-    $data = $input;                                  // 取得待處理的輸入字串
+最根本的修法是改用參數化查詢（Prepared Statement），但題目限定「不變動系統設定與前端」、只能新增字串處理函數，故以「跳脫 + 過濾」方式處理輸入。`,
+code: {
+  lang: "python",
+  text: `# 程式語言：Python（Request、sql_query 為題目假設的函式）
 
-    $data = trim($data);                             // 去除前後多餘空白，避免空白繞過
+# 字串處理函數：將使用者輸入處理為無 SQL Injection 風險的資料
+def checkdata(data):                                  # 定義函數，傳入使用者輸入資料
+    data = str(data).strip()                          # 轉成字串並去除前後空白，避免空白繞過
+    data = data.replace("\\\\", "\\\\\\\\")           # 反斜線 1 個變 2 個，避免被用來吃掉後面的引號
+    data = data.replace("'", "''")                    # 單引號變 2 個，使其無法提前結束字串
+    data = data.replace(";", "")                      # 移除分號，防止注入多段 SQL 指令
+    data = data.replace("--", "")                     # 移除單行註解符號，防止註解掉後段條件
+    data = data.replace("/*", "")                     # 移除區塊註解起始符號
+    data = data.replace("*/", "")                     # 移除區塊註解結束符號
+    return data                                       # 回傳處理後的安全字串
 
-    $data = str_replace("'", "''", $data);           // 將單引號跳脫為兩個單引號，使其無法提前結束字串
+# 使用方式：先經 checkdata 處理，再組合 SQL
+id = checkdata(Request("id"))                         # 對 id 輸入做安全處理
+address = checkdata(Request("address"))               # 對 address 輸入做安全處理
+sqlstring = "Select * from idtable where id = '" + id + "'"  # 組合查詢字串
+result = sql_query(sqlstring)                         # 執行查詢
 
-    $data = str_replace(";", "", $data);             // 移除分號，防止注入多段 SQL 指令
-
-    $data = str_replace("--", "", $data);            // 移除 SQL 註解符號 --，防止其註解掉後段條件
-
-    $data = str_replace("/*", "", $data);            // 移除區塊註解起始符號
-    $data = str_replace("*/", "", $data);            // 移除區塊註解結束符號
-
-    if (!preg_match('/^[A-Za-z0-9]+$/', $data)) {    // 以白名單檢查：id 僅允許英數字
-        $data = "";                                  // 含非法字元則清空，拒絕該輸入
-    }
-
-    return $data;                                    // 回傳處理後的安全字串
+# 補充一：若已知 ID 格式（例如純數字），可再加白名單驗證：
+#   import re
+#   if not re.fullmatch(r"\\d+", id): id = ""
+# 補充二：最佳實務是參數化查詢，將 SQL 結構與資料徹底分離：
+#   cursor.execute("Select * from idtable where id = %s", (Request("id"),))`
 }
 
-// 使用方式：先經 checkdata 過濾，再組合 SQL
-$id = checkdata(Request("id"));                      // 對使用者輸入做安全處理
-$sqlstring = "Select * from idtable where id = '" . $id . "'";  // 組合查詢
-$result = sql_query($sqlstring);                     // 執行查詢
-?>
-
-<?php
-/* 補充：最佳實務應改用「參數化查詢 / Prepared Statement」，
-   將 SQL 結構與資料徹底分離，從根本杜絕 SQL Injection：
-   $stmt = $db->prepare("Select * from idtable where id = ?");
-   $stmt->execute([ Request("id") ]);                          */
-?>`
-      }
     },
     {
       id: "108-5", no: "五", topic: "ds", topicName: "資料結構與演算法",
