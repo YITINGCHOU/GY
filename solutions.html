@@ -2993,7 +2993,7 @@ code: {
 # 字串處理函數：將使用者輸入處理為無 SQL Injection 風險的資料
 def checkdata(data):                                  # 定義函數，傳入使用者輸入資料
     data = str(data).strip()                          # 轉成字串並去除前後空白，避免空白繞過
-    data = data.replace("\\\\", "\\\\\\\\")               # 反斜線 1 個變 2 個，避免被用來吃掉後面的引號
+    data = data.replace("\\\\", "\\\\\\\\")                 # 反斜線 1 個變 2 個，避免被用來吃掉後面的引號
     data = data.replace("'", "''")                    # 單引號變 2 個，使其無法提前結束字串
     data = data.replace(";", "")                      # 移除分號，防止注入多段 SQL 指令
     data = data.replace("--", "")                     # 移除單行註解符號，防止註解掉後段條件
