@@ -2985,8 +2985,6 @@ P(A∪B) = P(A) + P(B) − P(A∩B)
 
 **(三) 防護函式 checkdata（8分）**
 
-**(三) 防護函式 checkdata（8分）**
-
 最根本的修法是改用參數化查詢（Prepared Statement），但題目限定「不變動系統設定與前端」、只能新增字串處理函數，故以「跳脫 + 過濾」方式處理輸入。`,
 code: {
   lang: "python",
@@ -2995,7 +2993,7 @@ code: {
 # 字串處理函數：將使用者輸入處理為無 SQL Injection 風險的資料
 def checkdata(data):                                  # 定義函數，傳入使用者輸入資料
     data = str(data).strip()                          # 轉成字串並去除前後空白，避免空白繞過
-    data = data.replace("\\\\", "\\\\\\\\")           # 反斜線 1 個變 2 個，避免被用來吃掉後面的引號
+    data = data.replace("\\\\", "\\\\\\\\")               # 反斜線 1 個變 2 個，避免被用來吃掉後面的引號
     data = data.replace("'", "''")                    # 單引號變 2 個，使其無法提前結束字串
     data = data.replace(";", "")                      # 移除分號，防止注入多段 SQL 指令
     data = data.replace("--", "")                     # 移除單行註解符號，防止註解掉後段條件
@@ -3004,16 +3002,16 @@ def checkdata(data):                                  # 定義函數，傳入使
     return data                                       # 回傳處理後的安全字串
 
 # 使用方式：先經 checkdata 處理，再組合 SQL
-id = checkdata(Request("id"))                         # 對 id 輸入做安全處理
-address = checkdata(Request("address"))               # 對 address 輸入做安全處理
-sqlstring = "Select * from idtable where id = '" + id + "'"  # 組合查詢字串
-result = sql_query(sqlstring)                         # 執行查詢
+id = checkdata(Request("id"))                                 # 對 id 輸入做安全處理
+address = checkdata(Request("address"))                       # 對 address 輸入做安全處理
+sqlstring = "Select * from idtable where id = '" + id + "'"   # 組合查詢字串
+result = sql_query(sqlstring)                                 # 執行查詢
 
 # 補充一：若已知 ID 格式（例如純數字），可再加白名單驗證：
-#   import re
-#   if not re.fullmatch(r"\\d+", id): id = ""
+import re
+if not re.fullmatch(r"\\d+", id): id = ""
 # 補充二：最佳實務是參數化查詢，將 SQL 結構與資料徹底分離：
-#   cursor.execute("Select * from idtable where id = %s", (Request("id"),))`
+cursor.execute("Select * from idtable where id = %s", (Request("id"),))`
 }
 
     },
