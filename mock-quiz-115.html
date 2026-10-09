@@ -1,0 +1,4325 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>經濟部新進職員甄試｜115 年預測模擬卷｜計算機原理・網路概論</title>
+<style>/* ===== 經濟部考古題刷題系統 — 樣式（與資管/程設詳解系統一致） ===== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink:        #1a1f2c;
+  --ink-soft:   #3d4456;
+  --paper:      #f4f1ea;
+  --paper-warm: #ece6d8;
+  --card:       #fffdf8;
+  --line:       #d8d0bf;
+  --accent:     #8a3324;
+  --accent-2:   #1f5673;
+  --gold:       #a07e2c;
+  --green:      #2d6a4f;
+  --shadow:     rgba(40,32,20,0.13);
+
+  /* 主題分類色（計概/網概專屬） */
+  --t-arch:  #1f5673;  /* 數位邏輯/CPU/記憶體 */
+  --t-os:    #6a4c93;  /* 作業系統 */
+  --t-ds:    #2d6a4f;  /* 資料結構與演算法 */
+  --t-prog:  #b5651d;  /* 程式語言/觀念 */
+  --t-net:   #1a4d6e;  /* 網路基礎/拓樸/媒介 */
+  --t-tcpip: #8a3324;  /* TCP/IP 通訊協定 */
+  --t-wire:  #a07e2c;  /* 無線/行動網路 */
+  --t-sec:   #5c2a2a;  /* 資安 */
+  --t-misc:  #4a5859;  /* 雜項 */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.78;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(31,86,115,0.025) 31px, rgba(31,86,115,0.025) 32px);
+}
+
+/* ===== 頁首 ===== */
+.site-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2.4rem 1.5rem 2rem;
+  text-align: center;
+  border-bottom: 4px solid var(--accent-2);
+  position: relative;
+}
+.site-header .kicker {
+  font-size: .78rem; letter-spacing: .55em; text-indent: .55em;
+  color: var(--gold); font-weight: 700; margin-bottom: .7rem;
+}
+.site-header h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 900; font-size: clamp(1.55rem, 4.2vw, 2.6rem);
+  letter-spacing: .05em; line-height: 1.3;
+}
+.site-header h1 .stamp {
+  display: inline-block; border: 2.5px solid var(--accent-2);
+  color: var(--accent-2); padding: .05em .3em; border-radius: 6px;
+  transform: rotate(-3deg); margin: 0 .15em;
+  font-size: .82em; background: rgba(244,241,234,0.06);
+}
+.site-header .sub {
+  margin-top: .8rem; font-size: .88rem; color: #b8bcca; font-weight: 400;
+  letter-spacing: .04em;
+}
+
+/* ===== 統計列 ===== */
+.stat-bar {
+  display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+  background: var(--paper-warm); padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.stat-bar .stat { text-align: center; min-width: 70px; }
+.stat-bar .num {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: 1.6rem; color: var(--accent-2); line-height: 1;
+}
+.stat-bar .num.correct { color: var(--green); }
+.stat-bar .num.wrong { color: var(--accent); }
+.stat-bar .lbl {
+  font-size: .7rem; color: var(--ink-soft); letter-spacing: .15em;
+  margin-top: .25rem;
+}
+
+/* ===== 控制列 ===== */
+.controls {
+  position: sticky; top: 0; z-index: 50;
+  background: rgb(244,241,234);
+  border-bottom: 1.5px solid var(--line);
+  padding: .85rem 1.5rem;
+  box-shadow: 0 3px 14px var(--shadow);
+}
+.controls-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
+}
+.mode-switch {
+  display: flex; border: 2px solid var(--ink); border-radius: 8px;
+  overflow: hidden;
+}
+.mode-switch button {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: none; background: transparent; cursor: pointer;
+  padding: .5rem 1rem; font-size: .85rem; font-weight: 700;
+  color: var(--ink); transition: all .18s;
+  border-right: 1px solid var(--ink);
+}
+.mode-switch button:last-child { border-right: none; }
+.mode-switch button.active { background: var(--ink); color: var(--paper); }
+.mode-switch button:hover:not(.active) { background: rgba(26,31,44,0.08); }
+
+.group-switch {
+  display: flex; border: 1.5px solid var(--ink-soft); border-radius: 8px;
+  overflow: hidden;
+}
+.group-switch button {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: none; background: transparent; cursor: pointer;
+  padding: .5rem .85rem; font-size: .82rem; font-weight: 500;
+  color: var(--ink-soft); transition: all .18s;
+  border-right: 1px solid var(--line);
+}
+.group-switch button:last-child { border-right: none; }
+.group-switch button.active { background: var(--ink-soft); color: var(--paper); }
+
+.search-box {
+  flex: 1; min-width: 160px; position: relative;
+}
+.search-box input {
+  width: 100%; font-family: 'Noto Sans TC', sans-serif;
+  padding: .5rem .85rem .5rem 2.1rem; font-size: .88rem;
+  border: 1.5px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink);
+}
+.search-box input:focus { outline: 2px solid var(--accent-2); border-color: transparent; }
+.search-box::before {
+  content: '🔍'; position: absolute; left: .65rem; top: 50%;
+  transform: translateY(-50%); font-size: .82rem; opacity: .5;
+}
+
+.btn-small {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--ink-soft); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 8px;
+  padding: .5rem .85rem; font-size: .8rem; font-weight: 500;
+  white-space: nowrap; transition: all .15s;
+}
+.btn-small:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn-small.danger { border-color: var(--accent); color: var(--accent); }
+.btn-small.danger:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+/* ===== 篩選晶片 ===== */
+.filter-row {
+  max-width: 1100px; margin: .7rem auto 0;
+  display: flex; gap: .4rem; flex-wrap: wrap;
+}
+.chip {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--line); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 999px;
+  padding: .35rem .9rem; font-size: .78rem; font-weight: 500;
+  transition: all .15s;
+}
+.chip:hover { border-color: var(--ink-soft); }
+.chip.active {
+  background: var(--ink); color: var(--paper);
+  border-color: var(--ink); font-weight: 700;
+}
+.chip .c-count {
+  opacity: .65; font-size: .9em; margin-left: .25em;
+}
+
+/* ===== 主內容 ===== */
+.wrap {
+  max-width: 1100px; margin: 1.5rem auto; padding: 0 1.5rem;
+}
+
+/* 群組標題 */
+.group {
+  margin-bottom: 2.5rem;
+}
+.group-head {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem; margin-bottom: 1.2rem;
+  background: linear-gradient(180deg, var(--card), var(--paper-warm));
+  border: 1px solid var(--line); border-left: 4px solid var(--accent-2);
+  border-radius: 4px;
+  flex-wrap: wrap;
+}
+.group-head .g-badge {
+  background: var(--ink); color: var(--paper);
+  padding: .25rem .8rem; border-radius: 4px;
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: 1.05rem; letter-spacing: .04em;
+}
+.group-head .g-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: 1rem; color: var(--ink);
+}
+.group-head .g-meta {
+  margin-left: auto; font-size: .78rem; color: var(--ink-soft);
+  text-align: right; line-height: 1.4;
+}
+
+/* ===== 題目卡片 ===== */
+.q-list {
+  display: grid; gap: 1rem;
+}
+.q-card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color .15s, box-shadow .15s;
+}
+.q-card:hover { border-color: var(--ink-soft); }
+.q-card.answered.correct { border-left: 4px solid var(--green); }
+.q-card.answered.wrong { border-left: 4px solid var(--accent); }
+.q-card.bookmarked { box-shadow: 0 0 0 1.5px var(--gold) inset; }
+
+.q-head {
+  padding: .9rem 1.1rem;
+  display: flex; align-items: flex-start; gap: .9rem;
+  border-bottom: 1px solid var(--line);
+}
+.q-no {
+  flex-shrink: 0;
+  width: 2.3rem; height: 2.3rem;
+  background: var(--ink); color: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: .95rem; border-radius: 4px;
+}
+.q-card.answered.correct .q-no { background: var(--green); }
+.q-card.answered.wrong .q-no { background: var(--accent); }
+
+.q-headmain { flex: 1; min-width: 0; }
+.q-text {
+  font-size: .98rem; color: var(--ink); line-height: 1.65;
+  white-space: pre-wrap; word-break: break-word;
+}
+.q-text code, .q-stem-code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--paper-warm); padding: .05em .35em;
+  border-radius: 3px; font-size: .92em;
+}
+
+.q-tags {
+  margin-top: .6rem;
+  display: flex; flex-wrap: wrap; gap: .35rem;
+}
+.tag {
+  font-size: .68rem; padding: .15rem .55rem;
+  border-radius: 99px; letter-spacing: .04em;
+  font-weight: 500; line-height: 1.5;
+}
+.tag-topic { color: #fff; font-weight: 700; }
+.t-arch  .tag-topic { background: var(--t-arch); }
+.t-os    .tag-topic { background: var(--t-os); }
+.t-ds    .tag-topic { background: var(--t-ds); }
+.t-prog  .tag-topic { background: var(--t-prog); }
+.t-net   .tag-topic { background: var(--t-net); }
+.t-tcpip .tag-topic { background: var(--t-tcpip); }
+.t-wire  .tag-topic { background: var(--t-wire); }
+.t-sec   .tag-topic { background: var(--t-sec); }
+.t-misc  .tag-topic { background: var(--t-misc); }
+
+.tag-year {
+  background: var(--paper-warm); color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+.tag-no {
+  background: transparent; color: var(--ink-soft);
+  border: 1px dashed var(--line);
+}
+.tag-multi {
+  background: var(--accent); color: var(--paper);
+  border: 1px solid var(--accent);
+  font-weight: 700;
+}
+.submit-btn {
+  background: var(--accent-2); color: var(--paper);
+  border: none; padding: .45rem 1.1rem;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 700; font-size: .82rem;
+  border-radius: 4px; cursor: pointer;
+  letter-spacing: .06em;
+  transition: background .15s;
+}
+.submit-btn:hover:not(:disabled) { background: var(--ink); }
+.submit-btn:disabled { background: var(--line); color: var(--ink-soft); cursor: not-allowed; }
+
+.q-bookmark {
+  flex-shrink: 0;
+  font-size: 1.4rem; line-height: 1;
+  background: none; border: none; cursor: pointer;
+  color: var(--line); padding: 0; transition: color .15s, transform .15s;
+}
+.q-bookmark:hover { transform: scale(1.15); }
+.q-bookmark.on { color: var(--gold); }
+
+/* ===== 選項 ===== */
+.q-body { padding: 1rem 1.1rem; }
+.options {
+  display: grid; gap: .55rem;
+}
+.opt {
+  display: flex; align-items: flex-start; gap: .7rem;
+  padding: .7rem .9rem;
+  border: 1.5px solid var(--line); border-radius: 5px;
+  background: var(--card); cursor: pointer;
+  transition: all .15s;
+  font-size: .92rem; line-height: 1.55;
+}
+.opt:hover { background: var(--paper-warm); border-color: var(--ink-soft); }
+.opt .opt-letter {
+  flex-shrink: 0;
+  width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  background: var(--paper-warm); color: var(--ink-soft);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: .85rem;
+  border: 1.5px solid var(--line);
+}
+.opt .opt-text {
+  flex: 1; white-space: pre-wrap; word-break: break-word;
+}
+.opt.user-selected {
+  border-color: var(--accent-2); background: rgba(31,86,115,0.06);
+}
+.opt.user-selected .opt-letter {
+  background: var(--accent-2); color: #fff; border-color: var(--accent-2);
+}
+/* 答案揭曉後 */
+.q-card.revealed .opt { cursor: default; }
+.q-card.revealed .opt.correct {
+  border-color: var(--green); background: rgba(45,106,79,0.08);
+}
+.q-card.revealed .opt.correct .opt-letter {
+  background: var(--green); color: #fff; border-color: var(--green);
+}
+.q-card.revealed .opt.user-selected.wrong {
+  border-color: var(--accent); background: rgba(138,51,36,0.07);
+}
+.q-card.revealed .opt.user-selected.wrong .opt-letter {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.q-card.revealed .opt:hover { background: var(--card); }
+.q-card.revealed .opt.correct:hover { background: rgba(45,106,79,0.08); }
+
+/* 提示「正確答案」徽章 */
+.correct-mark, .wrong-mark {
+  margin-left: auto; flex-shrink: 0;
+  font-size: .72rem; padding: .1rem .5rem;
+  border-radius: 3px; font-weight: 700;
+  letter-spacing: .05em;
+}
+.correct-mark { background: var(--green); color: #fff; }
+.wrong-mark { background: var(--accent); color: #fff; }
+
+/* ===== 解析區 ===== */
+.explain {
+  margin-top: .9rem; padding: .9rem 1rem;
+  border: 1px dashed var(--accent-2);
+  background: rgba(31,86,115,0.04);
+  border-radius: 4px;
+  font-size: .9rem; line-height: 1.7;
+  color: var(--ink);
+}
+.explain-label {
+  display: inline-block;
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: .75rem; letter-spacing: .15em;
+  background: var(--accent-2); color: #fff;
+  padding: .1rem .5rem; border-radius: 3px; margin-bottom: .55rem;
+}
+.explain strong { color: var(--accent-2); }
+.explain code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--paper-warm); padding: .05em .35em;
+  border-radius: 3px; font-size: .92em;
+}
+.explain p { margin: .35rem 0; }
+.explain ul { margin: .35rem 0 .35rem 1.25rem; }
+.explain li { margin: .15rem 0; }
+
+/* ===== 動作按鈕（每題下方） ===== */
+.q-actions {
+  margin-top: .9rem; display: flex; gap: .5rem; flex-wrap: wrap;
+}
+.q-actions button {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--line); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 5px;
+  padding: .35rem .8rem; font-size: .8rem; font-weight: 500;
+  transition: all .15s;
+}
+.q-actions button:hover { background: var(--ink-soft); color: var(--paper); border-color: var(--ink-soft); }
+.q-actions button.reveal-btn { border-color: var(--accent-2); color: var(--accent-2); }
+.q-actions button.reveal-btn:hover { background: var(--accent-2); color: #fff; }
+
+/* ===== 空狀態 ===== */
+.empty {
+  text-align: center; padding: 4rem 1.5rem; color: var(--ink-soft);
+}
+.empty .big { font-size: 3rem; margin-bottom: .8rem; opacity: .35; }
+
+/* ===== 回頂部 ===== */
+.to-top {
+  position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 100;
+  width: 2.6rem; height: 2.6rem; border: none;
+  border-radius: 50%; background: var(--ink); color: var(--paper);
+  font-size: 1.1rem; cursor: pointer;
+  box-shadow: 0 4px 12px var(--shadow);
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.to-top.show { opacity: 1; pointer-events: auto; }
+.to-top:hover { background: var(--accent-2); }
+
+/* ===== 頁尾 ===== */
+.site-footer {
+  margin-top: 3rem; padding: 2rem 1.5rem 1.5rem;
+  background: var(--ink); color: #b8bcca;
+  text-align: center; font-size: .82rem;
+}
+.site-footer p { margin: .3rem 0; }
+.site-footer strong { color: var(--paper); }
+
+/* ===== 響應式 ===== */
+@media (max-width: 640px) {
+  .site-header { padding: 1.8rem 1rem 1.5rem; }
+  .stat-bar { gap: 1.2rem; padding: .8rem 1rem; }
+  .stat-bar .num { font-size: 1.3rem; }
+  .controls { padding: .7rem .9rem; }
+  .controls-inner { gap: .5rem; }
+  .filter-row { gap: .3rem; }
+  .chip { padding: .3rem .7rem; font-size: .73rem; }
+  .wrap { padding: 0 .8rem; margin: 1rem auto; }
+  .group-head { padding: .8rem 1rem; }
+  .group-head .g-meta { margin-left: 0; text-align: left; font-size: .72rem; }
+  .q-head { padding: .75rem .85rem; gap: .6rem; }
+  .q-no { width: 2rem; height: 2rem; font-size: .85rem; }
+  .q-text { font-size: .92rem; }
+  .q-body { padding: .85rem; }
+  .opt { padding: .6rem .75rem; font-size: .88rem; }
+}
+
+/* ===== 搜尋強化 / 跳轉面板（新增） ===== */
+.search-box input { padding-right: 2.2rem; }
+.search-clear {
+  position: absolute; right: .35rem; top: 50%; transform: translateY(-50%);
+  border: none; background: transparent; color: var(--ink-soft);
+  font-size: 1.05rem; line-height: 1; cursor: pointer;
+  padding: .25rem .45rem; border-radius: 50%; display: none;
+}
+.search-clear.show { display: block; }
+.search-clear:hover { background: var(--paper-warm); }
+.search-info {
+  max-width: 1100px; margin: .55rem auto 0;
+  font-size: .8rem; color: var(--ink-soft); display: none;
+}
+.search-info.show { display: block; }
+.search-info b { color: var(--accent); }
+mark.hl {
+  background: rgba(255, 208, 70, .6); color: inherit;
+  padding: 0 .06em; border-radius: 2px;
+}
+
+.jump-fab {
+  position: fixed; right: 1.2rem; bottom: 4.3rem; z-index: 90;
+  height: 2.6rem; padding: 0 1rem; border: none; border-radius: 999px;
+  background: var(--accent-2); color: #fff; cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-size: .88rem; font-weight: 700;
+  box-shadow: 0 4px 12px var(--shadow); display: none;
+}
+.jump-fab.show { display: block; }
+.jump-fab:hover { background: var(--ink); }
+.jump-panel {
+  position: fixed; right: 1.2rem; bottom: calc(4.3rem + 3.2rem); z-index: 95;
+  width: min(360px, calc(100vw - 2.4rem)); max-height: 60vh; overflow: auto;
+  background: var(--card); border: 1.5px solid var(--line); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(40,32,20,.25);
+}
+.jump-panel[hidden] { display: none; }
+.jump-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .7rem .9rem; border-bottom: 1px solid var(--line);
+  font-family: 'Noto Serif TC', serif; font-weight: 700; color: var(--ink);
+  position: sticky; top: 0; background: var(--card);
+}
+.jump-head button {
+  border: none; background: transparent; cursor: pointer;
+  font-size: 1rem; color: var(--ink-soft);
+}
+.jump-grid {
+  display: grid; gap: .45rem; padding: .8rem;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+}
+.jump-item {
+  display: flex; flex-direction: column; align-items: center; gap: .1rem;
+  padding: .45rem .3rem; border: 1.5px solid var(--line); border-radius: 8px;
+  background: var(--paper); color: var(--ink); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; line-height: 1.25;
+}
+.jump-item b { font-size: .95rem; }
+.jump-item small { font-size: .68rem; color: var(--ink-soft); }
+.jump-item:hover { border-color: var(--accent-2); background: #fff; }
+.jump-item.on { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2) inset; }
+.jump-item.done small { color: #2d6a4f; font-weight: 700; }
+.jump-foot {
+  display: flex; gap: .5rem; padding: 0 .8rem .8rem;
+}
+.jump-foot button {
+  flex: 1; padding: .45rem; border: 1.5px solid var(--ink-soft); border-radius: 8px;
+  background: var(--card); color: var(--ink-soft); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-size: .8rem;
+}
+.jump-foot button:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ===== 年度群組可收合（新增） ===== */
+.group.collapsible { margin-bottom: 2rem; }
+.group.collapsible:not(.open) { margin-bottom: .7rem; }
+.group.collapsible > .group-head { cursor: pointer; user-select: none; }
+.group.collapsible:not(.open) > .group-head { margin-bottom: 0; }
+.group.collapsible > .group-head:hover { border-left-color: var(--accent); }
+.g-chev {
+  color: var(--ink-soft); font-size: .9rem; width: 1rem; text-align: center;
+  transition: transform .18s;
+}
+.group.open > .group-head .g-chev { transform: rotate(90deg); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="kicker">經濟部所屬事業機構 ‧ 新進職員甄試</div>
+  <h1>計算機原理 ＋ 網路概論</h1>
+  <div class="sub">115 年預測模擬卷 A～D ‧ 共 200 題 ‧ 每題附解析與出題依據</div>
+</header>
+
+<div class="stat-bar">
+  <div class="stat"><div class="num" id="statTotal">—</div><div class="lbl">題目總數</div></div>
+  <div class="stat"><div class="num" id="statYears">—</div><div class="lbl">模擬卷數</div></div>
+  <div class="stat"><div class="num" id="statAnswered">0</div><div class="lbl">已作答</div></div>
+  <div class="stat"><div class="num correct" id="statCorrect">0</div><div class="lbl">答對</div></div>
+  <div class="stat"><div class="num wrong" id="statWrong">0</div><div class="lbl">答錯</div></div>
+  <div class="stat"><div class="num" id="statRate">—</div><div class="lbl">正確率</div></div>
+</div>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="mode-switch">
+      <button class="active" data-mode="quiz" onclick="setMode('quiz')">刷題模式</button>
+      <button data-mode="review" onclick="setMode('review')">閱讀模式</button>
+      <button data-mode="wrong" onclick="setMode('wrong')">錯題複習</button>
+      <button data-mode="bookmark" onclick="setMode('bookmark')">已收藏</button>
+    </div>
+    <div class="group-switch">
+      <button class="active" data-group="year" onclick="setGroup('year')">依試卷</button>
+      <button data-group="topic" onclick="setGroup('topic')">依主題</button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" autocomplete="off" placeholder="搜尋（多個關鍵字用空格分開）">
+      <button class="search-clear" id="searchClear" aria-label="清除搜尋">✕</button>
+    </div>
+    <button class="btn-small" onclick="shuffleQuestions()">🔀 隨機排序</button>
+    <button class="btn-small danger" onclick="resetProgress()">重設進度</button>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="search-info" id="searchInfo"></div>
+</div>
+
+<main class="wrap">
+  <div id="content"></div>
+</main>
+
+<button class="jump-fab" id="jumpFab" onclick="toggleJump()" aria-label="跳轉">📍 跳轉</button>
+<div class="jump-panel" id="jumpPanel" hidden>
+  <div class="jump-head"><span id="jumpTitle">跳到試卷</span><button onclick="toggleJump(false)" aria-label="關閉">✕</button></div>
+  <div class="jump-grid" id="jumpGrid"></div>
+  <div class="jump-foot">
+    <button onclick="expandAllGroups(true)">全部展開</button>
+    <button onclick="expandAllGroups(false)">全部收合</button>
+  </div>
+</div>
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer class="site-footer">
+  <p><strong>經濟部所屬事業機構 新進職員甄試</strong>　計算機原理・網路概論　刷題系統</p>
+  <p>本頁為參考國營 95～114 年及地方特考、中華郵政、高普考、關務近年考題編寫之模擬題，非官方試題；每題解析附出題依據。</p>
+  <p style="margin-top:.6rem; opacity:.7;">作答進度自動儲存於本機瀏覽器 ‧ 切換裝置不會同步</p>
+</footer>
+
+<script>
+/* ============================================================
+   題目資料
+   每題格式：
+   { id: "114-1", year: "114", no: 1,
+     topic: "arch",  // 主題分類代號（見 TOPIC_INFO）
+     stem: "題幹文字",
+     options: ["選項A", "選項B", "選項C", "選項D"],
+     answer: "C",    // 正確答案字母
+     explain: "解析（可含 markdown：**粗體** `代碼` <br> 換行）"
+   }
+   ============================================================ */
+
+const TOPIC_INFO = {
+  arch:  { name: '數位邏輯/CPU/記憶體', cls: 't-arch'  },
+  os:    { name: '作業系統',             cls: 't-os'    },
+  ds:    { name: '資料結構/演算法',      cls: 't-ds'    },
+  prog:  { name: '程式語言/觀念',        cls: 't-prog'  },
+  net:   { name: '網路基礎/拓樸',        cls: 't-net'   },
+  tcpip: { name: 'TCP/IP 通訊協定',      cls: 't-tcpip' },
+  wire:  { name: '無線/行動網路',        cls: 't-wire'  },
+  sec:   { name: '資訊安全',             cls: 't-sec'   },
+  misc:  { name: '雲端/物聯/其他',       cls: 't-misc'  }
+};
+
+const ALL_Q = [
+ {
+  "id": "115A-1",
+  "year": "模擬卷A",
+  "no": 1,
+  "topic": "arch",
+  "stem": "在 8 位元 2 的補數系統中，計算 01101010 + 01011100，下列敘述何者正確？",
+  "options": [
+   "結果為 11000110，未發生溢位",
+   "結果為 11000110，發生溢位",
+   "結果為 00110110，發生溢位",
+   "結果為 11000110，代表 +198"
+  ],
+  "answer": "B",
+  "explain": "01101010 = +106，01011100 = +92，真實和為 +198。<br>8 位元 2 補數範圍為 −128～+127，+198 超出範圍 → <strong>溢位</strong>。<br>位元相加得 11000110，以 2 補數解讀為 −58（兩個正數相加得到負數，正是溢位的判斷依據）。"
+ },
+ {
+  "id": "115A-2",
+  "year": "模擬卷A",
+  "no": 2,
+  "topic": "arch",
+  "stem": "將十六進位數 (2AC)₁₆ 轉換為八進位，結果為何？",
+  "options": [
+   "(1254)₈",
+   "(1324)₈",
+   "(2254)₈",
+   "(1252)₈"
+  ],
+  "answer": "A",
+  "explain": "經由二進位轉換：2AC₁₆ = <code>0010 1010 1100</code>。<br>由右往左每 3 位一組：<code>001 010 101 100</code> = 1 2 5 4 → <strong>(1254)₈</strong>。<br>驗算：2AC₁₆ = 684；1254₈ = 512+128+40+4 = 684。"
+ },
+ {
+  "id": "115A-3",
+  "year": "模擬卷A",
+  "no": 3,
+  "topic": "arch",
+  "stem": "某系統快取存取時間 2 ns、主記憶體存取時間 80 ns，快取命中率 95%。若未命中時須先查快取、再存取主記憶體，平均有效存取時間為何？",
+  "options": [
+   "5.9 ns",
+   "6.0 ns",
+   "4.0 ns",
+   "82 ns"
+  ],
+  "answer": "B",
+  "explain": "命中：2 ns；未命中：2 + 80 = 82 ns。<br>EAT = 0.95 × 2 + 0.05 × 82 = 1.9 + 4.1 = <strong>6.0 ns</strong>。<br>（若題目說「未命中時直接存取主記憶體」，則為 0.95×2 + 0.05×80 = 5.9 ns，作答時要看清題意。）"
+ },
+ {
+  "id": "115A-4",
+  "year": "模擬卷A",
+  "no": 4,
+  "topic": "arch",
+  "stem": "某程式有 60% 可平行化，其餘須循序執行。若改用 4 核心處理器，依 Amdahl 定律，最大加速比約為何？",
+  "options": [
+   "4",
+   "2.5",
+   "1.82",
+   "1.6"
+  ],
+  "answer": "C",
+  "explain": "加速比 = 1 / [(1 − P) + P / N] = 1 / (0.4 + 0.6/4) = 1 / (0.4 + 0.15) = 1 / 0.55 ≈ <strong>1.82</strong>。<br>重點：循序部分（40%）限制了上限，即使核心無限多，加速比也不會超過 1/0.4 = 2.5。"
+ },
+ {
+  "id": "115A-5",
+  "year": "模擬卷A",
+  "no": 5,
+  "topic": "arch",
+  "stem": "以 6 顆 2 TB 硬碟組成 RAID 6，可用容量為何？",
+  "options": [
+   "12 TB",
+   "10 TB",
+   "8 TB",
+   "6 TB"
+  ],
+  "answer": "C",
+  "explain": "RAID 6 採<strong>雙重分散式同位元</strong>，需犧牲 2 顆硬碟的容量，可容忍任 2 顆同時故障。<br>可用容量 = (6 − 2) × 2 TB = <strong>8 TB</strong>。<br>對照：RAID 5 為 (n−1)，RAID 1 為一半，RAID 0 為全部。"
+ },
+ {
+  "id": "115A-6",
+  "year": "模擬卷A",
+  "no": 6,
+  "topic": "arch",
+  "stem": "布林函數 F = (A + B)(A + B') 化簡後為何？",
+  "options": [
+   "A",
+   "B",
+   "AB",
+   "A + B"
+  ],
+  "answer": "A",
+  "explain": "分配律：(A + B)(A + B') = A + BB' = A + 0 = <strong>A</strong>。<br>也可展開：AA + AB' + AB + BB' = A + A(B' + B) + 0 = A。"
+ },
+ {
+  "id": "115A-7",
+  "year": "模擬卷A",
+  "no": 7,
+  "topic": "os",
+  "stem": "三個行程 P1（到達 0，執行 6）、P2（到達 1，執行 3）、P3（到達 2，執行 5），採 Round Robin、時間片段 4，平均等待時間為何？（新到達的行程排在被搶占行程之前）",
+  "options": [
+   "約 5.67",
+   "約 6.33",
+   "約 4.67",
+   "7"
+  ],
+  "answer": "A",
+  "explain": "甘特圖：P1(0–4) → P2(4–7，完成) → P3(7–11) → P1(11–13，完成) → P3(13–14，完成)。<br>等待時間 = 完成 − 到達 − 執行：<br>P1 = 13 − 0 − 6 = 7；P2 = 7 − 1 − 3 = 3；P3 = 14 − 2 − 5 = 7。<br>平均 = 17 / 3 ≈ <strong>5.67</strong>。"
+ },
+ {
+  "id": "115A-8",
+  "year": "模擬卷A",
+  "no": 8,
+  "topic": "os",
+  "stem": "下列何種做法可破壞死結的「循環等待」條件？",
+  "options": [
+   "允許多個行程同時使用印表機",
+   "改用 Round Robin 排程",
+   "增加實體記憶體容量",
+   "規定所有行程依資源編號由小到大的順序申請資源"
+  ],
+  "answer": "D",
+  "explain": "死結四條件：互斥、占用並等待、不可搶奪、<strong>循環等待</strong>。<br>將資源編號並規定<strong>只能依遞增順序申請</strong>，就不可能形成環狀等待鏈，屬於死結預防。<br>(A) 違反印表機的互斥本質，實務上做不到；(B)(C) 與死結無直接關係。"
+ },
+ {
+  "id": "115A-9",
+  "year": "模擬卷A",
+  "no": 9,
+  "topic": "os",
+  "stem": "某系統虛擬位址 32 位元、分頁大小 4 KB、每個頁表項 4 bytes。若採單層頁表，每個行程的頁表大小為何？",
+  "options": [
+   "4 KB",
+   "1 MB",
+   "4 MB",
+   "16 MB"
+  ],
+  "answer": "C",
+  "explain": "頁內偏移 = log₂(4K) = 12 位元，頁號 = 32 − 12 = 20 位元 → 共 2²⁰ 個頁表項。<br>頁表大小 = 2²⁰ × 4 bytes = <strong>4 MB</strong>。<br>這正是多層分頁或反轉頁表出現的原因：單層頁表太大。"
+ },
+ {
+  "id": "115A-10",
+  "year": "模擬卷A",
+  "no": 10,
+  "topic": "misc",
+  "stem": "關於容器（Container）與虛擬機器（VM）的比較，下列何者正確？",
+  "options": [
+   "每個容器都包含一套完整的客體作業系統",
+   "容器共用宿主機的作業系統核心，啟動快、資源耗用少",
+   "容器的隔離性一般比虛擬機器更強",
+   "Hypervisor 是容器的執行引擎"
+  ],
+  "answer": "B",
+  "explain": "<strong>容器</strong>（如 Docker）共用宿主 OS 核心，只封裝應用程式與相依套件，因此輕量、秒級啟動。<br><strong>VM</strong> 透過 Hypervisor 模擬硬體，每台各有完整客體 OS，隔離性較強但較重。<br>(A)(D) 描述的是 VM；(C) 相反，VM 隔離性較強。"
+ },
+ {
+  "id": "115A-11",
+  "year": "模擬卷A",
+  "no": 11,
+  "topic": "os",
+  "stem": "使用號誌（Semaphore）保護臨界區間以達成互斥時，二元號誌的初始值應設為多少？",
+  "options": [
+   "0",
+   "1",
+   "−1",
+   "等於行程數 n"
+  ],
+  "answer": "B",
+  "explain": "互斥用的二元號誌初值為 <strong>1</strong>，代表「目前有 1 個名額可進入」。<br>進入前 wait(S)：S 由 1 變 0；其他行程再 wait 就會被阻擋。離開時 signal(S) 歸還名額。<br>初值設 0 常用於「同步」（等待某事件發生），不是互斥。"
+ },
+ {
+  "id": "115A-12",
+  "year": "模擬卷A",
+  "no": 12,
+  "topic": "ds",
+  "stem": "後序式 <code>a b + c d − *</code>，若 a = 4、b = 2、c = 7、d = 3，其值為何？",
+  "options": [
+   "24",
+   "18",
+   "12",
+   "10"
+  ],
+  "answer": "A",
+  "explain": "以堆疊求值：<br>a b + → 4 + 2 = 6；c d − → 7 − 3 = 4；最後 * → 6 × 4 = <strong>24</strong>。<br>對應中序式為 (a + b) × (c − d)。"
+ },
+ {
+  "id": "115A-13",
+  "year": "模擬卷A",
+  "no": 13,
+  "topic": "ds",
+  "stem": "依序將 15、9、20、5、30 插入一個空的 Max-Heap，完成後以陣列（層序）表示為何？",
+  "options": [
+   "30, 20, 15, 5, 9",
+   "30, 15, 20, 9, 5",
+   "30, 20, 15, 9, 5",
+   "20, 30, 15, 5, 9"
+  ],
+  "answer": "A",
+  "explain": "逐步插入（新元素放最後，再與父節點比較往上調整）：<br>15 → [15]<br>9 → [15, 9]<br>20 → [15, 9, 20]，20 > 15 交換 → [20, 9, 15]<br>5 → [20, 9, 15, 5]<br>30 → 放在第 5 格，父節點為 9 → 交換 → 父節點 20 → 再交換 → <strong>[30, 20, 15, 5, 9]</strong>。"
+ },
+ {
+  "id": "115A-14",
+  "year": "模擬卷A",
+  "no": 14,
+  "topic": "ds",
+  "stem": "雜湊表大小為 7，雜湊函數 h(k) = k mod 7，以線性探測解決碰撞。依序插入 10、17、24、3，則 3 最終存放於哪個位置？",
+  "options": [
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "answer": "D",
+  "explain": "10 mod 7 = 3 → 放 3。<br>17 mod 7 = 3（碰撞）→ 探測 4 → 放 4。<br>24 mod 7 = 3 → 3、4 已占 → 放 5。<br>3 mod 7 = 3 → 3、4、5 已占 → 放 <strong>6</strong>。<br>這種連續占用的現象稱為<strong>主要叢集（primary clustering）</strong>，是線性探測的缺點。"
+ },
+ {
+  "id": "115A-15",
+  "year": "模擬卷A",
+  "no": 15,
+  "topic": "ds",
+  "stem": "在含有 n 個節點的 AVL 樹中搜尋一個鍵值，最差時間複雜度為何？",
+  "options": [
+   "O(1)",
+   "O(log n)",
+   "O(n)",
+   "O(n log n)"
+  ],
+  "answer": "B",
+  "explain": "AVL 樹是自我平衡的二元搜尋樹，任一節點左右子樹高度差 ≤ 1，樹高維持 O(log n)，因此搜尋、插入、刪除的最差情況都是 <strong>O(log n)</strong>。<br>對照：一般 BST 退化成鏈狀時，最差為 O(n)。"
+ },
+ {
+  "id": "115A-16",
+  "year": "模擬卷A",
+  "no": 16,
+  "topic": "prog",
+  "stem": "執行下列 C 程式片段，輸出為何？<br><code>int a[] = {1, 2, 3, 4, 5};<br>int *p = a + 1;<br>printf(\"%d\", *(p + 2) + p[-1]);</code>",
+  "options": [
+   "4",
+   "6",
+   "5",
+   "7"
+  ],
+  "answer": "C",
+  "explain": "p 指向 a[1]。<br>*(p + 2) = a[3] = 4；p[−1] = *(p − 1) = a[0] = 1。<br>4 + 1 = <strong>5</strong>。"
+ },
+ {
+  "id": "115A-17",
+  "year": "模擬卷A",
+  "no": 17,
+  "topic": "prog",
+  "stem": "執行下列 Python 程式碼，輸出為何？<br><code>s = [1, 2, 3]<br>t = s<br>t.append(4)<br>print(len(s))</code>",
+  "options": [
+   "3",
+   "4",
+   "發生錯誤",
+   "None"
+  ],
+  "answer": "B",
+  "explain": "<code>t = s</code> 並沒有複製串列，只是讓 t 與 s <strong>指向同一個 list 物件</strong>。透過 t 新增元素，s 看到的也是同一個物件，所以長度為 <strong>4</strong>。<br>若要複製應寫 <code>t = s.copy()</code> 或 <code>t = s[:]</code>。"
+ },
+ {
+  "id": "115A-18",
+  "year": "模擬卷A",
+  "no": 18,
+  "topic": "prog",
+  "stem": "關於 Java 的抽象類別（abstract class）與介面（interface），下列何者正確？",
+  "options": [
+   "抽象類別可以直接用 new 建立物件",
+   "一個類別可以同時繼承多個抽象類別",
+   "一個類別可以實作多個介面",
+   "介面中不能宣告任何方法"
+  ],
+  "answer": "C",
+  "explain": "Java 只允許<strong>單一繼承</strong>（extends 一個類別），但可以 <strong>implements 多個介面</strong>，藉此達到類似多重繼承的效果。<br>(A) 抽象類別不能被實體化；(B) 不能多重繼承類別；(D) 介面就是用來宣告方法（Java 8 起還可有 default 方法）。"
+ },
+ {
+  "id": "115A-19",
+  "year": "模擬卷A",
+  "no": 19,
+  "topic": "prog",
+  "stem": "已知遞迴函數 f(n) = f(n − 1) + f(n − 2)，且 f(0) = 1、f(1) = 1，則 f(5) 為何？",
+  "options": [
+   "5",
+   "3",
+   "13",
+   "8"
+  ],
+  "answer": "D",
+  "explain": "依序計算：f(0)=1、f(1)=1、f(2)=2、f(3)=3、f(4)=5、f(5)=<strong>8</strong>。<br>注意起始值與標準費氏數列（F(0)=0）不同，要看清題目定義。"
+ },
+ {
+  "id": "115A-20",
+  "year": "模擬卷A",
+  "no": 20,
+  "topic": "net",
+  "stem": "第二層交換器（Layer 2 Switch）是依據下列何者轉送訊框？",
+  "options": [
+   "IP 位址",
+   "埠號（Port Number）",
+   "網域名稱",
+   "MAC 位址"
+  ],
+  "answer": "D",
+  "explain": "L2 交換器運作於<strong>資料鏈結層</strong>，依訊框的目的 <strong>MAC 位址</strong>查詢 MAC 位址表後轉送。<br>依 IP 位址轉送的是路由器（L3）；依埠號處理的是 L4 設備（如防火牆、負載平衡器）。"
+ },
+ {
+  "id": "115A-21",
+  "year": "模擬卷A",
+  "no": 21,
+  "topic": "net",
+  "stem": "IEEE 802.1Q 標籤中的 VLAN ID 欄位長 12 位元，扣除保留值 0 與 4095 後，可使用的 VLAN 數量為何？",
+  "options": [
+   "4096",
+   "4094",
+   "1024",
+   "256"
+  ],
+  "answer": "B",
+  "explain": "12 位元可表示 2¹² = 4096 個值，扣除保留的 0 與 4095，可用 <strong>4094</strong> 個 VLAN。<br>802.1Q 標籤共 4 bytes，插在來源 MAC 與 EtherType 之間。"
+ },
+ {
+  "id": "115A-22",
+  "year": "模擬卷A",
+  "no": 22,
+  "topic": "net",
+  "stem": "生成樹協定（STP, IEEE 802.1D）的主要功能為何？",
+  "options": [
+   "在有實體迴圈的交換網路中阻斷冗餘路徑，避免廣播風暴",
+   "將區域網路切割成多個廣播網域",
+   "動態分配 IP 位址給主機",
+   "加密交換器之間的流量"
+  ],
+  "answer": "A",
+  "explain": "交換網路為了備援常有多條實體路徑，若不處理，廣播訊框會無限循環造成<strong>廣播風暴</strong>。STP 選出根橋接器，邏輯上阻斷多餘的埠，形成無迴圈的樹狀拓樸；主要鏈路故障時再重新收斂啟用備援路徑。<br>(B) 是 VLAN；(C) 是 DHCP。"
+ },
+ {
+  "id": "115A-23",
+  "year": "模擬卷A",
+  "no": 23,
+  "topic": "net",
+  "stem": "關於軟體定義網路（SDN），下列敘述何者正確？",
+  "options": [
+   "SDN 將路由決策交由每台交換器各自獨立計算",
+   "SDN 只能用於無線網路",
+   "SDN 的核心概念是將控制平面與資料平面分離，由集中式控制器管理",
+   "SDN 必須使用專屬的實體網路線"
+  ],
+  "answer": "C",
+  "explain": "SDN 把網路設備的「大腦」（<strong>控制平面</strong>）抽出，集中到 SDN 控制器；設備只保留「轉送」（<strong>資料平面</strong>），控制器透過南向介面（如 OpenFlow）下達規則。<br>好處是網路可程式化、集中管理，雲端資料中心大量採用。"
+ },
+ {
+  "id": "115A-24",
+  "year": "模擬卷A",
+  "no": 24,
+  "topic": "tcpip",
+  "stem": "主機 IP 位址為 172.20.45.130/22，其所屬子網路的網路位址與廣播位址分別為何？",
+  "options": [
+   "172.20.44.0 與 172.20.47.255",
+   "172.20.45.0 與 172.20.45.255",
+   "172.20.40.0 與 172.20.47.255",
+   "172.20.44.0 與 172.20.48.255"
+  ],
+  "answer": "A",
+  "explain": "/22 → 遮罩 255.255.252.0，第 3 個八位元組的區塊大小為 256 − 252 = 4。<br>45 落在 44～47 這一段 → 網路位址 <strong>172.20.44.0</strong>，廣播位址 <strong>172.20.47.255</strong>。<br>快速法：45 ÷ 4 = 11 餘 1 → 11 × 4 = 44。"
+ },
+ {
+  "id": "115A-25",
+  "year": "模擬卷A",
+  "no": 25,
+  "topic": "tcpip",
+  "stem": "某部門需要 500 個可用主機位址，下列哪一個遮罩長度最節省位址？",
+  "options": [
+   "/22",
+   "/23",
+   "/24",
+   "/25"
+  ],
+  "answer": "B",
+  "explain": "可用主機數 = 2^(32−n) − 2。<br>/24：254（不足）；<strong>/23：2⁹ − 2 = 510</strong>（足夠且最小）；/22：1022（浪費）。"
+ },
+ {
+  "id": "115A-26",
+  "year": "模擬卷A",
+  "no": 26,
+  "topic": "tcpip",
+  "stem": "將 10.1.64.0/24 至 10.1.71.0/24 共 8 個連續網段聚合成一筆路由，結果為何？",
+  "options": [
+   "10.1.64.0/20",
+   "10.1.64.0/22",
+   "10.1.64.0/21",
+   "10.1.0.0/16"
+  ],
+  "answer": "C",
+  "explain": "8 個 /24 = 2³ 個，聚合時遮罩縮短 3 位 → /21。<br>檢查起點：64 = 01000000，後 3 位為 0，且 64～71 恰為一個 /21 區塊 → <strong>10.1.64.0/21</strong>。<br>與 114 年第 27 題同一題型。"
+ },
+ {
+  "id": "115A-27",
+  "year": "模擬卷A",
+  "no": 27,
+  "topic": "tcpip",
+  "stem": "IPv6 位址 2001:0db8:0000:0000:0000:ff00:0042:8329 的最簡寫法為何？",
+  "options": [
+   "2001:db8::ff:42:8329",
+   "2001:db8:0:0::ff00:42:8329::",
+   "2001:0db8::ff00:0042:8329:0",
+   "2001:db8::ff00:42:8329"
+  ],
+  "answer": "D",
+  "explain": "規則一：每組的<strong>前導 0</strong> 可省略（0db8 → db8、0042 → 42），但組內後面的 0 不能省（ff00 不能寫成 ff）。<br>規則二：連續的全 0 組可用 <strong>::</strong> 取代，且<strong>只能用一次</strong>。<br>結果：<strong>2001:db8::ff00:42:8329</strong>。"
+ },
+ {
+  "id": "115A-28",
+  "year": "模擬卷A",
+  "no": 28,
+  "topic": "tcpip",
+  "stem": "TCP 三向交握中，伺服器回覆的第二個區段設定了哪些旗標？",
+  "options": [
+   "SYN 與 ACK",
+   "只有 ACK",
+   "FIN 與 ACK",
+   "SYN 與 RST"
+  ],
+  "answer": "A",
+  "explain": "① 用戶端送 <strong>SYN</strong>（seq = x）<br>② 伺服器回 <strong>SYN + ACK</strong>（seq = y，ack = x + 1）<br>③ 用戶端送 <strong>ACK</strong>（ack = y + 1）<br>SYN Flood 攻擊就是讓伺服器停在第 ② 步，留下大量半開連線。"
+ },
+ {
+  "id": "115A-29",
+  "year": "模擬卷A",
+  "no": 29,
+  "topic": "tcpip",
+  "stem": "TCP Reno 壅塞控制中，若發生重傳逾時（timeout），傳送端會如何處理？",
+  "options": [
+   "壅塞視窗加倍",
+   "ssthresh 設為目前視窗的一半，壅塞視窗重設為 1 MSS，重新進入慢啟動",
+   "直接關閉連線",
+   "停止傳送直到接收端通知視窗大於 0"
+  ],
+  "answer": "B",
+  "explain": "逾時代表網路嚴重壅塞：<strong>ssthresh = cwnd / 2，cwnd = 1 MSS</strong>，重新慢啟動。<br>若是收到 3 個重複 ACK（較輕微），Reno 則採快速重傳加快速恢復：cwnd 減半後直接進入壅塞避免。<br>(D) 描述的是接收視窗為 0 的<strong>流量控制</strong>，不是壅塞控制。"
+ },
+ {
+  "id": "115A-30",
+  "year": "模擬卷A",
+  "no": 30,
+  "topic": "tcpip",
+  "stem": "下列服務與預設埠號的配對，何者錯誤？",
+  "options": [
+   "SSH ─ 22",
+   "DNS ─ 53",
+   "IMAP ─ 143",
+   "SNMP ─ 25"
+  ],
+  "answer": "D",
+  "explain": "SNMP 使用 <strong>UDP 161</strong>（Trap 用 162），25 是 SMTP。<br>常考埠號：FTP 20/21、SSH 22、Telnet 23、SMTP 25、DNS 53、DHCP 67/68、HTTP 80、POP3 110、IMAP 143、SNMP 161、LDAP 389、HTTPS 443、RDP 3389。"
+ },
+ {
+  "id": "115A-31",
+  "year": "模擬卷A",
+  "no": 31,
+  "topic": "tcpip",
+  "stem": "用戶端透過 DHCP 取得 IP 位址時，訊息交換的正確順序為何？",
+  "options": [
+   "Request → Offer → Discover → Ack",
+   "Discover → Request → Offer → Ack",
+   "Discover → Offer → Request → Ack",
+   "Offer → Discover → Ack → Request"
+  ],
+  "answer": "C",
+  "explain": "DHCP 四步驟簡稱 <strong>DORA</strong>：<br>Discover（用戶端廣播尋找伺服器）→ Offer（伺服器提供位址）→ Request（用戶端請求使用）→ Ack（伺服器確認）。<br>DHCP 使用 UDP，伺服器埠 67、用戶端埠 68。"
+ },
+ {
+  "id": "115A-32",
+  "year": "模擬卷A",
+  "no": 32,
+  "topic": "tcpip",
+  "stem": "使用者已登入網站，但嘗試存取沒有權限的頁面時，伺服器最適合回應哪一個 HTTP 狀態碼？",
+  "options": [
+   "301",
+   "401",
+   "403",
+   "503"
+  ],
+  "answer": "C",
+  "explain": "<strong>403 Forbidden</strong>：伺服器知道你是誰，但你沒有權限。<br>401 Unauthorized：尚未認證或認證失敗，需要登入。<br>301：永久轉址；503：服務暫時無法使用。"
+ },
+ {
+  "id": "115A-33",
+  "year": "模擬卷A",
+  "no": 33,
+  "topic": "tcpip",
+  "stem": "HTTP/3 的傳輸層是建立在下列哪一個協定之上？",
+  "options": [
+   "QUIC（基於 UDP）",
+   "TCP",
+   "SCTP",
+   "ICMP"
+  ],
+  "answer": "A",
+  "explain": "HTTP/3 改用 <strong>QUIC</strong>，QUIC 運作在 <strong>UDP</strong> 上，自行實作可靠傳輸、壅塞控制，並內建 TLS 1.3。<br>優點：減少交握延遲（可 0-RTT）、避免 TCP 的隊頭阻塞、換網路時連線不中斷。"
+ },
+ {
+  "id": "115A-34",
+  "year": "模擬卷A",
+  "no": 34,
+  "topic": "tcpip",
+  "stem": "資料位元為 101101，生成多項式 G(x) = x³ + x + 1，以 CRC 編碼後實際傳送的位元串為何？",
+  "options": [
+   "101101100",
+   "101101011",
+   "101101001",
+   "101101110"
+  ],
+  "answer": "B",
+  "explain": "G(x) = x³ + x + 1 → 除數 <code>1011</code>，次數 3，在資料後補 3 個 0：<code>101101000</code>。<br>模 2 除法：101101000 先與 1011 XOR 得 000001000，再對剩下的 1000 與 1011 XOR 得 011 → 餘數 <strong>011</strong>。<br>傳送：101101 + 011 = <strong>101101011</strong>。"
+ },
+ {
+  "id": "115A-35",
+  "year": "模擬卷A",
+  "no": 35,
+  "topic": "tcpip",
+  "stem": "某編碼的最小漢明距離為 4，則最多可偵測幾個位元錯誤、更正幾個位元錯誤？",
+  "options": [
+   "偵測 2 個、更正 1 個",
+   "偵測 3 個、更正 2 個",
+   "偵測 4 個、更正 2 個",
+   "偵測 3 個、更正 1 個"
+  ],
+  "answer": "D",
+  "explain": "最小距離 d：可偵測 d − 1 個錯誤，可更正 ⌊(d − 1) / 2⌋ 個錯誤。<br>d = 4 → 偵測 <strong>3</strong> 個，更正 ⌊3/2⌋ = <strong>1</strong> 個。<br>這正是 SECDED（單錯更正、雙錯偵測）記憶體 ECC 的原理。"
+ },
+ {
+  "id": "115A-36",
+  "year": "模擬卷A",
+  "no": 36,
+  "topic": "wire",
+  "stem": "Wi-Fi 6（IEEE 802.11ax）引入、讓 AP 能同時以不同子載波服務多個用戶的技術為何？",
+  "options": [
+   "CSMA/CD",
+   "OFDMA",
+   "FHSS",
+   "WEP"
+  ],
+  "answer": "B",
+  "explain": "<strong>OFDMA</strong>（正交分頻多工存取）把一個頻道切成多個資源單元（RU），同時分配給不同用戶，在多裝置環境中大幅提升效率。<br>Wi-Fi 6 其他重點：上下行 MU-MIMO、TWT（目標喚醒時間，省電）、1024-QAM。"
+ },
+ {
+  "id": "115A-37",
+  "year": "模擬卷A",
+  "no": 37,
+  "topic": "wire",
+  "stem": "WPA3 個人版以哪一種機制取代 WPA2 的預共用金鑰（PSK）交握，以抵禦離線字典攻擊？",
+  "options": [
+   "TKIP",
+   "WEP",
+   "WPS",
+   "SAE"
+  ],
+  "answer": "D",
+  "explain": "<strong>SAE</strong>（Simultaneous Authentication of Equals，又稱 Dragonfly）取代 WPA2-PSK 的四向交握。攻擊者即使側錄交握封包，也無法離線暴力猜密碼，並提供前向保密。<br>WEP、TKIP 都已被視為不安全；WPS 是便利配對機制，本身有漏洞。"
+ },
+ {
+  "id": "115A-38",
+  "year": "模擬卷A",
+  "no": 38,
+  "topic": "sec",
+  "stem": "「零信任架構（Zero Trust Architecture）」的核心原則為何？",
+  "options": [
+   "內部網路一律可信任，只需加強邊界防火牆",
+   "通過 VPN 驗證後即可存取所有內部資源",
+   "永不信任、持續驗證，每次存取都依身分、設備與情境評估授權",
+   "只要安裝防毒軟體即符合零信任"
+  ],
+  "answer": "C",
+  "explain": "零信任的口號是 <strong>Never trust, always verify</strong>：不因位於內網就給予信任，每一次存取都要依身分、設備狀態與情境動態授權，並落實<strong>最小權限</strong>。<br>(A)(B) 正是傳統「城堡護城河」模型，也是零信任要取代的觀念。"
+ },
+ {
+  "id": "115A-39",
+  "year": "模擬卷A",
+  "no": 39,
+  "topic": "sec",
+  "stem": "為防範勒索軟體，業界提出的「3-2-1-1-0」備份原則中，第二個「1」代表什麼？",
+  "options": [
+   "至少 1 份離線（air-gapped）或不可變（immutable）的備份",
+   "每 1 天備份一次",
+   "只保留 1 份最新備份",
+   "由 1 位專人管理備份"
+  ],
+  "answer": "A",
+  "explain": "3：3 份資料副本；2：2 種不同儲存媒體；1：1 份放異地；<strong>1：1 份離線或不可竄改的備份</strong>；0：還原測試 0 錯誤。<br>勒索軟體常會一併加密連線中的備份，因此離線或不可變的那一份是最後防線。<br>與 112 年第 36 題「3-2-1 原則」為延伸題。"
+ },
+ {
+  "id": "115A-40",
+  "year": "模擬卷A",
+  "no": 40,
+  "topic": "sec",
+  "stem": "系統儲存使用者密碼時，下列做法何者最安全？",
+  "options": [
+   "以 MD5 雜湊後儲存",
+   "以 SHA-1 雜湊後儲存",
+   "以 AES 加密後儲存，金鑰放在同一台伺服器",
+   "以 bcrypt 或 Argon2 等加鹽的慢速雜湊函數儲存"
+  ],
+  "answer": "D",
+  "explain": "密碼應使用<strong>專為密碼設計的慢速雜湊</strong>（bcrypt、scrypt、Argon2、PBKDF2），並為每個帳號加入隨機 <strong>salt</strong>，可抵禦彩虹表與大量暴力破解。<br>MD5、SHA-1 計算太快且有碰撞弱點；可逆加密一旦金鑰外洩，所有密碼都會被還原。"
+ },
+ {
+  "id": "115A-41",
+  "year": "模擬卷A",
+  "no": 41,
+  "topic": "sec",
+  "stem": "關於 TLS 1.3，下列敘述何者正確？",
+  "options": [
+   "仍支援以 RSA 直接交換金鑰",
+   "只保留具前向保密的 (EC)DHE 金鑰交換，並將交握縮短為 1-RTT",
+   "取消了所有加密功能以提升速度",
+   "與 SSL 3.0 完全相容"
+  ],
+  "answer": "B",
+  "explain": "TLS 1.3 重點：<br>‧ 移除 RSA 金鑰交換、RC4、SHA-1 等不安全項目，只保留 <strong>(EC)DHE</strong>，確保<strong>前向保密</strong>（私鑰日後外洩也解不開過去的流量）。<br>‧ 交握由 2-RTT 縮短為 <strong>1-RTT</strong>，可選 0-RTT 重連。"
+ },
+ {
+  "id": "115A-42",
+  "year": "模擬卷A",
+  "no": 42,
+  "topic": "sec",
+  "stem": "攻擊者將網址 <code>/order?id=1001</code> 改為 <code>/order?id=1002</code>，就看到別人的訂單。此弱點屬於 OWASP Top 10（2021）哪一類？",
+  "options": [
+   "Broken Access Control（存取控制失效）",
+   "Cryptographic Failures（加密機制失效）",
+   "Injection（注入）",
+   "Security Logging Failures（日誌監控不足）"
+  ],
+  "answer": "A",
+  "explain": "這種直接修改物件識別碼就能存取他人資料的弱點稱為 <strong>IDOR</strong>，屬於 <strong>Broken Access Control</strong>，也是 OWASP 2021 第 1 名。<br>防範：伺服器端每次都要檢查「目前使用者是否有權存取該筆資料」，不能只靠前端隱藏。"
+ },
+ {
+  "id": "115A-43",
+  "year": "模擬卷A",
+  "no": 43,
+  "topic": "sec",
+  "stem": "下列何者「不是」防範跨站腳本攻擊（XSS）的有效措施？",
+  "options": [
+   "對輸出到 HTML 的內容做編碼",
+   "設定 Content Security Policy（CSP）",
+   "使用預備語句（Prepared Statement）查詢資料庫",
+   "將 Session Cookie 設為 HttpOnly"
+  ],
+  "answer": "C",
+  "explain": "<strong>Prepared Statement 是防 SQL Injection</strong> 的手段，對 XSS 無效。<br>XSS 的防禦重點：輸出編碼（最根本）、CSP 限制腳本來源、HttpOnly 讓 JavaScript 讀不到 Cookie、輸入驗證。"
+ },
+ {
+  "id": "115A-44",
+  "year": "模擬卷A",
+  "no": 44,
+  "topic": "sec",
+  "stem": "近年供應鏈攻擊頻傳，軟體物料清單（SBOM）的主要用途為何？",
+  "options": [
+   "加密軟體原始碼",
+   "列出軟體所使用的元件、套件與版本，以便追蹤已知漏洞",
+   "取代防火牆的功能",
+   "提供使用者操作手冊"
+  ],
+  "answer": "B",
+  "explain": "<strong>SBOM</strong>（Software Bill of Materials）就像軟體的「成分表」，列出所有第三方元件及版本。當某套件爆出漏洞（例如 Log4Shell），可以快速查出哪些系統受影響並修補。"
+ },
+ {
+  "id": "115A-45",
+  "year": "模擬卷A",
+  "no": 45,
+  "topic": "sec",
+  "stem": "甲要傳送一份文件給乙，並讓乙確認文件確實是甲發出且未被竄改，正確做法為何？",
+  "options": [
+   "甲以乙的公鑰簽章，乙以乙的私鑰驗證",
+   "甲以甲的公鑰簽章，乙以甲的私鑰驗證",
+   "甲以對稱金鑰加密即可",
+   "甲以甲的私鑰對文件雜湊值簽章，乙以甲的公鑰驗證"
+  ],
+  "answer": "D",
+  "explain": "數位簽章流程：甲計算文件雜湊值 → 以<strong>甲的私鑰</strong>簽章 → 乙以<strong>甲的公鑰</strong>驗證，並自行計算雜湊比對。<br>可達成<strong>來源鑑別、完整性、不可否認性</strong>，但不提供機密性（要保密需再用乙的公鑰加密）。"
+ },
+ {
+  "id": "115A-46",
+  "year": "模擬卷A",
+  "no": 46,
+  "topic": "sec",
+  "stem": "DNS、NTP、Memcached 常被用來發動「反射放大型 DDoS」，主要是利用了這些服務的何種特性？",
+  "options": [
+   "使用 TCP，需要三向交握",
+   "必須先通過身分驗證",
+   "採用 UDP 無連線傳輸，攻擊者可偽造來源 IP，且小請求會換得大回應",
+   "只能在內部網路使用"
+  ],
+  "answer": "C",
+  "explain": "UDP 不需交握，攻擊者把請求的<strong>來源 IP 偽造成受害者</strong>，伺服器就把回應送給受害者（反射）；而這些服務的回應遠大於請求（放大，Memcached 可達數萬倍）。<br>防禦：關閉不必要的公開服務、限制 Open Resolver、ISP 端實施來源位址驗證（BCP 38）、流量清洗。"
+ },
+ {
+  "id": "115A-47",
+  "year": "模擬卷A",
+  "no": 47,
+  "topic": "sec",
+  "stem": "下列哪一種驗證方式最能抵禦釣魚網站竊取登入憑證？",
+  "options": [
+   "簡訊一次性密碼（SMS OTP）",
+   "要求密碼包含大小寫與符號",
+   "FIDO2／Passkey 通行金鑰",
+   "密碼提示問題"
+  ],
+  "answer": "C",
+  "explain": "<strong>FIDO2／Passkey</strong> 採公私鑰驗證，私鑰不離開裝置，且簽章與<strong>網站網域綁定</strong>，釣魚網站拿不到可重用的憑證，屬於「抗釣魚」驗證。<br>SMS OTP 仍可能被使用者輸入到假網站，或遭 SIM 卡盜換。"
+ },
+ {
+  "id": "115A-48",
+  "year": "模擬卷A",
+  "no": 48,
+  "topic": "misc",
+  "stem": "在雲端「共同責任模型」下，若企業採用 IaaS（如租用虛擬機），下列何者屬於「客戶」的責任？",
+  "options": [
+   "資料中心的實體門禁",
+   "虛擬機作業系統的安全修補",
+   "Hypervisor 的維護",
+   "機房電力與冷卻"
+  ],
+  "answer": "B",
+  "explain": "IaaS 中，雲端業者負責實體設施、硬體、網路與虛擬化層；<strong>客戶負責作業系統以上</strong>：OS 修補、中介軟體、應用程式、資料、帳號權限。<br>越往 PaaS、SaaS 移動，客戶責任越少，但<strong>資料與帳號權限永遠是客戶的責任</strong>。"
+ },
+ {
+  "id": "115A-49",
+  "year": "模擬卷A",
+  "no": 49,
+  "topic": "misc",
+  "stem": "下列何者屬於「無伺服器運算（Serverless）／函數即服務（FaaS）」？",
+  "options": [
+   "企業自建機房的實體伺服器",
+   "Amazon EC2 虛擬機",
+   "Microsoft 365 Office 線上版",
+   "AWS Lambda，依函數實際執行次數與時間計費"
+  ],
+  "answer": "D",
+  "explain": "<strong>FaaS</strong>：開發者只上傳函數，由事件觸發執行，平台自動擴充，<strong>依實際執行計費</strong>，閒置不收費，完全不需管理伺服器。代表：AWS Lambda、Azure Functions、Google Cloud Functions。<br>(B) 是 IaaS；(C) 是 SaaS。"
+ },
+ {
+  "id": "115A-50",
+  "year": "模擬卷A",
+  "no": 50,
+  "topic": "misc",
+  "stem": "生成式 AI 應用中常見的「檢索增強生成（RAG）」技術，主要目的為何？",
+  "options": [
+   "先從外部知識庫檢索相關資料，再交給語言模型生成回答，以降低幻覺並使用最新或內部資料",
+   "加快 GPU 的運算時脈",
+   "將模型參數壓縮以節省記憶體",
+   "取代資料庫的備份機制"
+  ],
+  "answer": "A",
+  "explain": "<strong>RAG</strong>：使用者提問 → 從向量資料庫等知識庫<strong>檢索</strong>相關文件 → 連同問題送入大型語言模型<strong>生成</strong>答案。<br>優點：不必重新訓練模型就能使用企業內部或最新資料，回答可附來源，減少「幻覺」。"
+ },
+ {
+  "id": "115B-1",
+  "year": "模擬卷B",
+  "no": 1,
+  "topic": "arch",
+  "stem": "以 8 位元 2 的補數表示十進位數 −37，結果為何？",
+  "options": [
+   "10100101",
+   "11011010",
+   "11011011",
+   "00100101"
+  ],
+  "answer": "C",
+  "explain": "+37 = 00100101 → 每位取反得 11011010（這是 1 的補數）→ 再加 1 得 <strong>11011011</strong>。<br>(A) 是符號大小表示法；(B) 是 1 的補數；(D) 是 +37。<br><br>📌 <strong>出題依據</strong>：國營每年第 1～3 題必考補數；其他考試 113–115 年計算機概要此類題比例約為國營的 2 倍。"
+ },
+ {
+  "id": "115B-2",
+  "year": "模擬卷B",
+  "no": 2,
+  "topic": "arch",
+  "stem": "十進位數 59 以 BCD（8421 碼）表示為何？",
+  "options": [
+   "00111011",
+   "01011001",
+   "01010101",
+   "10011001"
+  ],
+  "answer": "B",
+  "explain": "BCD 是每一位十進位數字各用 4 位元表示：5 → 0101，9 → 1001 → <strong>0101 1001</strong>。<br>(A) 00111011 是 59 的純二進位，兩者不要搞混。<br><br>📌 <strong>出題依據</strong>：國營 112 年第 5 題；地方特考 110 年四等計算機概要。"
+ },
+ {
+  "id": "115B-3",
+  "year": "模擬卷B",
+  "no": 3,
+  "topic": "arch",
+  "stem": "布林函數 F(A, B, C) = Σm(1, 3, 5, 7) 化簡後為何？",
+  "options": [
+   "A",
+   "B",
+   "C",
+   "A + C"
+  ],
+  "answer": "C",
+  "explain": "最小項 1、3、5、7 的二進位為 001、011、101、111，共同點是 <strong>C = 1</strong>，A、B 任意。<br>畫卡諾圖可見 C = 1 那一整列都是 1，因此 F = <strong>C</strong>。<br><br>📌 <strong>出題依據</strong>：國營 109、110 年卡諾圖化簡；其他考試 113–115 年邏輯閘與卡諾圖題比例遠高於國營。"
+ },
+ {
+  "id": "115B-4",
+  "year": "模擬卷B",
+  "no": 4,
+  "topic": "arch",
+  "stem": "若指令已在 CPU 中，採用「間接定址（Indirect Addressing）」取得運算元，需要存取主記憶體幾次？",
+  "options": [
+   "0 次",
+   "1 次",
+   "2 次",
+   "3 次"
+  ],
+  "answer": "C",
+  "explain": "間接定址：指令中的位址欄指向「存放運算元位址」的記憶體位置。<br>第 1 次：讀出運算元的真正位址；第 2 次：依該位址讀出運算元 → 共 <strong>2 次</strong>。<br>對照：立即定址 0 次、直接定址 1 次。<br><br>📌 <strong>出題依據</strong>：國營 112 年第 2 題考立即定址最快，本題換角度考間接定址。"
+ },
+ {
+  "id": "115B-5",
+  "year": "模擬卷B",
+  "no": 5,
+  "topic": "arch",
+  "stem": "某處理器採 5 級管線，每級 1 個時脈週期。在沒有任何危障（hazard）的情況下，執行 100 道指令共需幾個時脈週期？",
+  "options": [
+   "500",
+   "100",
+   "105",
+   "104"
+  ],
+  "answer": "D",
+  "explain": "第一道指令需要 5 個週期填滿管線，之後每個週期完成一道指令。<br>總週期 = k + (n − 1) = 5 + 99 = <strong>104</strong>。<br>若不使用管線則需 5 × 100 = 500，加速比約 4.8。<br><br>📌 <strong>出題依據</strong>：國營 113 年結構危障題、RISC 與管線相關題共 9 題；地方特考四等計算機概要常考。"
+ },
+ {
+  "id": "115B-6",
+  "year": "模擬卷B",
+  "no": 6,
+  "topic": "arch",
+  "stem": "某電腦以位元組定址，位址匯流排共 24 條線，最大可定址的記憶體空間為何？",
+  "options": [
+   "16 MB",
+   "24 MB",
+   "4 GB",
+   "16 GB"
+  ],
+  "answer": "A",
+  "explain": "24 條位址線可表示 2²⁴ 個位址，每個位址 1 byte → 2²⁴ bytes = <strong>16 MB</strong>。<br>（2²⁰ = 1 MB，2²⁴ = 16 × 2²⁰）<br><br>📌 <strong>出題依據</strong>：國營 104 年第 9 題、108 年第 2 題同類題。"
+ },
+ {
+  "id": "115B-7",
+  "year": "模擬卷B",
+  "no": 7,
+  "topic": "os",
+  "stem": "四個行程 P1（到達 0，執行 7）、P2（到達 2，執行 4）、P3（到達 4，執行 1）、P4（到達 5，執行 4），採非搶奪式 SJF 排程（執行時間相同時先到先做），平均等待時間為何？",
+  "options": [
+   "4",
+   "3",
+   "4.5",
+   "5"
+  ],
+  "answer": "A",
+  "explain": "t = 0 只有 P1，先執行 0–7。<br>t = 7 時 P2、P3、P4 都已到達，最短的 P3 執行 7–8；P2 與 P4 都是 4，P2 先到，執行 8–12；P4 執行 12–16。<br>等待時間：P1 = 0、P3 = 7 − 4 = 3、P2 = 8 − 2 = 6、P4 = 12 − 5 = 7。<br>平均 = 16 / 4 = <strong>4</strong>。<br><br>📌 <strong>出題依據</strong>：國營 111 年第 6 題 SJF 平均等待時間；A 卷已考 RR，本卷換 SJF。"
+ },
+ {
+  "id": "115B-8",
+  "year": "模擬卷B",
+  "no": 8,
+  "topic": "os",
+  "stem": "系統有 3 個頁框，初始為空，採 FIFO 頁面置換。參考字串為 7, 0, 1, 2, 0, 3, 0, 4，共發生幾次分頁錯誤？",
+  "options": [
+   "5",
+   "6",
+   "7",
+   "8"
+  ],
+  "answer": "C",
+  "explain": "7(錯) 0(錯) 1(錯) → [7,0,1]<br>2(錯，換出 7) → [0,1,2]<br>0 命中<br>3(錯，換出 0) → [1,2,3]<br>0(錯，換出 1) → [2,3,0]<br>4(錯，換出 2) → [3,0,4]<br>共 <strong>7 次</strong>。<br><br>📌 <strong>出題依據</strong>：國營 109 年 LRU 置換題、112 年 Belady 異常題。"
+ },
+ {
+  "id": "115B-9",
+  "year": "模擬卷B",
+  "no": 9,
+  "topic": "os",
+  "stem": "增加頁框數，分頁錯誤次數反而可能增加的「Belady 異常」，會發生在下列哪一種頁面置換演算法？",
+  "options": [
+   "LRU",
+   "OPT（最佳置換）",
+   "所有堆疊式（stack）演算法",
+   "FIFO"
+  ],
+  "answer": "D",
+  "explain": "<strong>FIFO</strong> 不具「堆疊性質」，頁框變多時，記憶體中的頁面集合不一定包含頁框較少時的集合，因此可能出現 Belady 異常。<br>LRU 與 OPT 屬於堆疊式演算法，頁框越多錯誤只會越少或相同，<strong>不會</strong>發生此異常。<br><br>📌 <strong>出題依據</strong>：國營 112 年第 12 題 Belady 異常。"
+ },
+ {
+  "id": "115B-10",
+  "year": "模擬卷B",
+  "no": 10,
+  "topic": "os",
+  "stem": "同一個行程中的多個執行緒（thread），下列哪一項是「各自獨立擁有」而不共用的？",
+  "options": [
+   "程式碼區段",
+   "全域變數",
+   "開啟的檔案",
+   "堆疊與暫存器內容"
+  ],
+  "answer": "D",
+  "explain": "同一行程的執行緒<strong>共用</strong>程式碼、全域資料、Heap 與開啟的檔案，因此切換成本比行程低。<br>但每個執行緒有自己的<strong>程式計數器、暫存器與堆疊</strong>，才能各自執行不同的函式呼叫。<br><br>📌 <strong>出題依據</strong>：其他考試 113–115 年行程與執行緒題比例約為國營的 2.6 倍；國營 112 年 PCB 題。"
+ },
+ {
+  "id": "115B-11",
+  "year": "模擬卷B",
+  "no": 11,
+  "topic": "ds",
+  "stem": "以最大堆積（Max-Heap）實作優先佇列，「插入一個元素」與「取出最大值」的時間複雜度分別為何？",
+  "options": [
+   "O(log n)、O(log n)",
+   "O(1)、O(1)",
+   "O(n)、O(1)",
+   "O(1)、O(n)"
+  ],
+  "answer": "A",
+  "explain": "插入：放在最後再往上調整，最多走樹高 → <strong>O(log n)</strong>。<br>取出最大值：拿走根，把最後一個元素移到根再往下調整 → <strong>O(log n)</strong>。<br>對照：用排序陣列實作是插入 O(n)、取最大 O(1)；用未排序陣列是插入 O(1)、取最大 O(n)。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年三等資料結構第二題原題型；國營 112 年第 20 題 Heap。"
+ },
+ {
+  "id": "115B-12",
+  "year": "模擬卷B",
+  "no": 12,
+  "topic": "ds",
+  "stem": "依序將 50、30、70、20、40、60、80 插入空的二元搜尋樹，再刪除 50。若刪除時以「中序後繼者」取代，新的樹根為何？",
+  "options": [
+   "40",
+   "30",
+   "70",
+   "60"
+  ],
+  "answer": "D",
+  "explain": "50 有左右兩個子樹，刪除時要用<strong>右子樹的最小值</strong>（中序後繼者）或左子樹的最大值（中序前驅者）取代。<br>右子樹為 70（左 60、右 80），最小值為 <strong>60</strong>。<br>若改用中序前驅者，新根則為 40。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年三等資料結構第三題原題（數字相同）；國營 108、113 年 BST 申論。"
+ },
+ {
+  "id": "115B-13",
+  "year": "模擬卷B",
+  "no": 13,
+  "topic": "ds",
+  "stem": "一個圖有 n 個頂點，邊數接近 n²（稠密圖），下列哪一種儲存方式最適合？",
+  "options": [
+   "相鄰矩陣（adjacency matrix）",
+   "相鄰串列（adjacency list）",
+   "邊列表（edge list）",
+   "雜湊表"
+  ],
+  "answer": "A",
+  "explain": "相鄰矩陣固定佔 O(n²) 空間，可在 O(1) 判斷兩點是否相鄰。稠密圖的邊數本來就接近 n²，用矩陣不浪費空間又快。<br>相鄰串列空間為 O(n + e)，適合<strong>稀疏圖</strong>。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年三等資料結構第一題原題；國營 103 年相鄰矩陣申論。"
+ },
+ {
+  "id": "115B-14",
+  "year": "模擬卷B",
+  "no": 14,
+  "topic": "ds",
+  "stem": "下列程式片段的時間複雜度為何？<br><code>for (i = 1; i &lt; n; i = i * 2)<br>  for (j = 0; j &lt; n; j++)<br>    sum++;</code>",
+  "options": [
+   "O(n)",
+   "O(log n)",
+   "O(n log n)",
+   "O(n²)"
+  ],
+  "answer": "C",
+  "explain": "外層 i 每次乘 2，執行約 log₂n 次；內層每次都跑 n 次。<br>總次數 ≈ n × log₂n → <strong>O(n log n)</strong>。<br><br>📌 <strong>出題依據</strong>：115 年關務三等資料結構第一題（迴圈求漸近複雜度）；國營 113 年第 21 題。"
+ },
+ {
+  "id": "115B-15",
+  "year": "模擬卷B",
+  "no": 15,
+  "topic": "prog",
+  "stem": "執行下列 C 程式，輸出為何？<br><code>int t = 10;<br>void f() { int t = 20; t = t + 5; printf(\"%d \", t); }<br>int main() { printf(\"%d \", t); f(); printf(\"%d\", t); }</code>",
+  "options": [
+   "10 25 25",
+   "10 25 10",
+   "10 15 15",
+   "20 25 10"
+  ],
+  "answer": "B",
+  "explain": "f() 內宣告了同名的區域變數 t，會<strong>遮蔽</strong>全域變數；修改的是區域的 t，全域的 t 不受影響。<br>輸出：全域 10 → f() 中 20 + 5 = 25 → 回到 main，全域仍是 10 → <strong>10 25 10</strong>。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年四等程式設計第四題原題型；國營 108 年申論第六題（全域、區域、靜態變數）。"
+ },
+ {
+  "id": "115B-16",
+  "year": "模擬卷B",
+  "no": 16,
+  "topic": "prog",
+  "stem": "下列遞迴函式，呼叫 a(7) 的回傳值為何？<br><code>int a(int n) { if (n &lt;= 1) return 1; return n + a(n - 2); }</code>",
+  "options": [
+   "13",
+   "15",
+   "16",
+   "28"
+  ],
+  "answer": "C",
+  "explain": "a(7) = 7 + a(5)<br>a(5) = 5 + a(3)<br>a(3) = 3 + a(1) = 3 + 1 = 4<br>回推：a(5) = 9、a(7) = <strong>16</strong>。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年四等程式設計第二題（遞迴追蹤）；國營 111、113 年程式追蹤題。"
+ },
+ {
+  "id": "115B-17",
+  "year": "模擬卷B",
+  "no": 17,
+  "topic": "prog",
+  "stem": "執行下列 C++ 程式並輸入「7 10」，輸出為何？<br><code>void f(int&amp; a, int&amp; b) { int t = a; a = b; b = t; }<br>int main() { int x, y; cin &gt;&gt; x &gt;&gt; y; f(x, y); cout &lt;&lt; x &lt;&lt; \" \" &lt;&lt; y; }</code>",
+  "options": [
+   "7 10",
+   "10 7",
+   "10 10",
+   "7 7"
+  ],
+  "answer": "B",
+  "explain": "參數宣告為 <code>int&amp;</code>，是<strong>傳參考（call by reference）</strong>，函式內交換的就是 main 裡的 x、y 本身，輸出 <strong>10 7</strong>。<br>若改成 <code>int a, int b</code>（傳值），只交換副本，輸出仍為 7 10。<br><br>📌 <strong>出題依據</strong>：地方特考 113 年四等程式設計第三題原題；國營 112、114 年傳值與傳址題。"
+ },
+ {
+  "id": "115B-18",
+  "year": "模擬卷B",
+  "no": 18,
+  "topic": "net",
+  "stem": "交換器上行政辦公室屬於 VLAN 10、教學實驗室屬於 VLAN 20。在沒有任何第三層設備的情況下，兩個 VLAN 的主機能否互相連線？",
+  "options": [
+   "可以，同一台交換器即可轉送",
+   "可以，只要 IP 位址在同一網段",
+   "不行，不同 VLAN 是不同廣播網域，需透過路由器或第三層交換器",
+   "不行，因為 VLAN 會加密所有封包"
+  ],
+  "answer": "C",
+  "explain": "VLAN 在邏輯上把一台交換器切成多個<strong>獨立的廣播網域</strong>，第二層訊框不會跨 VLAN 轉送。<br>要讓不同 VLAN 互通，必須經過<strong>路由器或第三層交換器</strong>（VLAN 間路由）。<br><br>📌 <strong>出題依據</strong>：115 年普考資通網路與安全概要第一題原題；國營 110 年第 42 題、114 年 VLAN 題。"
+ },
+ {
+  "id": "115B-19",
+  "year": "模擬卷B",
+  "no": 19,
+  "topic": "wire",
+  "stem": "Wi-Fi 無線網路不採用 CSMA/CD，主要原因為何？",
+  "options": [
+   "無線網卡傳送時難以同時偵測碰撞，且存在隱藏節點問題",
+   "無線網路傳輸速率太快",
+   "CSMA/CD 只能用於光纖",
+   "無線網路沒有碰撞問題"
+  ],
+  "answer": "A",
+  "explain": "CSMA/CD 要求邊傳送邊偵測碰撞，但無線網卡的發射訊號遠強於接收訊號，難以同時收發；加上隱藏節點彼此聽不到，傳送端也偵測不到碰撞。<br>因此 Wi-Fi 改用 <strong>CSMA/CA</strong>：事先避免碰撞（隨機退讓、RTS/CTS、ACK 確認）。<br><br>📌 <strong>出題依據</strong>：115 年普考資通網路與安全概要第二題原題；國營 113 年第 38 題 CSMA/CA。"
+ },
+ {
+  "id": "115B-20",
+  "year": "模擬卷B",
+  "no": 20,
+  "topic": "net",
+  "stem": "學校在學生端架設一台伺服器，代替學生向外部網站發出請求並過濾惡意網站，此設備屬於下列何者？",
+  "options": [
+   "反向代理（Reverse Proxy）",
+   "正向代理（Forward Proxy）",
+   "負載平衡器",
+   "DNS 伺服器"
+  ],
+  "answer": "B",
+  "explain": "<strong>正向代理</strong>站在<strong>用戶端前面</strong>，代表用戶端向外連線，可做網頁過濾、快取、隱藏內部 IP。<br><strong>反向代理</strong>站在<strong>伺服器前面</strong>，代表伺服器接受外部請求，常用於負載平衡、SSL 卸載、WAF。<br><br>📌 <strong>出題依據</strong>：115 年高考資通網路與安全第一題；國營 100 年第 52 題 Proxy。"
+ },
+ {
+  "id": "115B-21",
+  "year": "模擬卷B",
+  "no": 21,
+  "topic": "net",
+  "stem": "將對外提供服務的 Web 伺服器放在防火牆的 DMZ，而不是放在內部網路，主要目的為何？",
+  "options": [
+   "提升網頁載入速度",
+   "讓伺服器不需要 IP 位址",
+   "即使 Web 伺服器遭入侵，攻擊者也無法直接存取內部網路",
+   "讓內部員工無法連到 Web 伺服器"
+  ],
+  "answer": "C",
+  "explain": "DMZ 是介於外網與內網之間的緩衝區。防火牆只允許外網連到 DMZ 的特定服務（如 TCP 443），並<strong>禁止 DMZ 主動連入內網</strong>。<br>因此對外服務即使被攻破，損害也被限制在 DMZ。<br><br>📌 <strong>出題依據</strong>：115 年高考資通網路與安全第一題（DMZ 防火牆政策）；國營 104、107 年 DMZ 題。"
+ },
+ {
+  "id": "115B-22",
+  "year": "模擬卷B",
+  "no": 22,
+  "topic": "sec",
+  "stem": "會記錄每條連線的狀態，能判斷回應封包是否屬於已建立的連線，並據此放行的防火牆類型為何？",
+  "options": [
+   "狀態檢測防火牆（Stateful Inspection）",
+   "封包過濾防火牆（Packet Filter）",
+   "電路層閘道",
+   "個人防毒軟體"
+  ],
+  "answer": "A",
+  "explain": "<strong>封包過濾</strong>：只看單一封包的 IP、埠號、協定，不記得連線。<br><strong>狀態檢測</strong>：維護連線狀態表，只放行屬於合法連線的回應封包，安全性較高。<br><strong>應用層防火牆／代理</strong>：解析到應用層內容（如 HTTP），可檢查惡意指令，但效能較低。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第三題（三種防火牆）、112 年第三題（無狀態與有狀態）；115 年關務資通網路第四題；國營 114 年第 48 題 WAF。"
+ },
+ {
+  "id": "115B-23",
+  "year": "模擬卷B",
+  "no": 23,
+  "topic": "net",
+  "stem": "Windows 電腦的 IP 位址顯示為 169.254.1.5，且無法上網，最可能的原因為何？",
+  "options": [
+   "DNS 伺服器故障",
+   "電腦未能從 DHCP 伺服器取得 IP 位址，自動使用了 APIPA 位址",
+   "IP 位址與其他電腦衝突",
+   "網路速度太慢"
+  ],
+  "answer": "B",
+  "explain": "169.254.0.0/16 是 <strong>APIPA</strong>（自動私人 IP 定址）範圍。電腦向 DHCP 伺服器要位址卻沒有回應時，會自動給自己一個 169.254.x.x，只能和同網段主機通訊，無法上網。<br>排查方向：網路線、路由器的 DHCP 服務、交換器連線。<br><br>📌 <strong>出題依據</strong>：115 年關務三等資通網路第一題原題；國營 100 年、110 年 DHCP 題。"
+ },
+ {
+  "id": "115B-24",
+  "year": "模擬卷B",
+  "no": 24,
+  "topic": "tcpip",
+  "stem": "某大樓分配到 192.168.10.0/24，教學實驗室需要 100 個 IP、行政辦公室需要 50 個 IP。以 VLSM 規劃並優先配置需求較大的部門，行政辦公室的子網路為何？",
+  "options": [
+   "192.168.10.0/26",
+   "192.168.10.64/26",
+   "192.168.10.128/26",
+   "192.168.10.128/25"
+  ],
+  "answer": "C",
+  "explain": "VLSM 要<strong>先配大的</strong>：<br>實驗室 100 台 → 需 2⁷ = 128 個位址 → <strong>192.168.10.0/25</strong>（可用 .1～.126）。<br>辦公室 50 台 → 需 2⁶ = 64 個位址 → 接在後面 <strong>192.168.10.128/26</strong>（可用 .129～.190）。<br>剩下的 192.168.10.192/26 可保留給未來使用。<br><br>📌 <strong>出題依據</strong>：115 年普考資通網路與安全概要第一題原題；國營 112、114 年子網路題。"
+ },
+ {
+  "id": "115B-25",
+  "year": "模擬卷B",
+  "no": 25,
+  "topic": "tcpip",
+  "stem": "將 172.16.8.0/22 平均分配給 5 個部門，且每個部門大小相同、使用最長的遮罩，每個部門最多有幾個可用主機位址？",
+  "options": [
+   "254",
+   "204",
+   "62",
+   "126"
+  ],
+  "answer": "D",
+  "explain": "5 個部門至少要切成 2³ = 8 個子網（2² = 4 不夠），遮罩由 /22 增加 3 位成為 <strong>/25</strong>。<br>每個 /25 有 128 個位址，扣掉網路位址與廣播位址 → <strong>126</strong> 個可用。<br>剩餘 3 個子網可留給未來新增的部門，舊部門的遮罩不必更動。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年三等資通網路與安全第二題原題型（5 個部門，再增加 3 個）。"
+ },
+ {
+  "id": "115B-26",
+  "year": "模擬卷B",
+  "no": 26,
+  "topic": "tcpip",
+  "stem": "某主機 IP 為 168.199.170.82/27，該網段的第一個與最後一個可用主機位址分別為何？",
+  "options": [
+   "168.199.170.65 與 168.199.170.94",
+   "168.199.170.64 與 168.199.170.95",
+   "168.199.170.81 與 168.199.170.94",
+   "168.199.170.65 與 168.199.170.126"
+  ],
+  "answer": "A",
+  "explain": "/27 → 區塊大小 32。82 落在 64～95 這一段。<br>網路位址 .64、廣播位址 .95 → 可用主機為 <strong>.65～.94</strong>。<br><br>📌 <strong>出題依據</strong>：地方特考 113 年四等資通網路與安全概要第一題原題（同一個 IP）；國營 108 年第 44 題。"
+ },
+ {
+  "id": "115B-27",
+  "year": "模擬卷B",
+  "no": 27,
+  "topic": "tcpip",
+  "stem": "16.27.24.0/26、16.27.24.64/26、16.27.24.128/25 三個區塊合併為一個區塊，結果為何？",
+  "options": [
+   "16.27.24.0/24",
+   "16.27.24.0/25",
+   "16.27.24.0/23",
+   "無法合併"
+  ],
+  "answer": "A",
+  "explain": "前兩個 /26 合起來是 16.27.24.0/25（.0～.127），再加上 16.27.24.128/25（.128～.255），剛好組成完整的 <strong>16.27.24.0/24</strong>。<br>檢查方法：三段範圍連續、總數為 2 的次方（64 + 64 + 128 = 256）、且起點 .0 對齊 /24 邊界。<br><br>📌 <strong>出題依據</strong>：114 年關務三等資通網路第一題原題；國營 114 年第 27 題路由聚合。"
+ },
+ {
+  "id": "115B-28",
+  "year": "模擬卷B",
+  "no": 28,
+  "topic": "tcpip",
+  "stem": "某機構擁有 130.56.0.0/16，管理者將其平均切成 1024 個子網路，每個子網路的遮罩長度為何？",
+  "options": [
+   "/24",
+   "/25",
+   "/26",
+   "/27"
+  ],
+  "answer": "C",
+  "explain": "1024 = 2¹⁰，需借 10 個主機位元 → 16 + 10 = <strong>/26</strong>。<br>每個子網 64 個位址，第一個子網為 130.56.0.0～130.56.0.63。<br><br>📌 <strong>出題依據</strong>：114 年關務三等資通網路第一題原題。"
+ },
+ {
+  "id": "115B-29",
+  "year": "模擬卷B",
+  "no": 29,
+  "topic": "tcpip",
+  "stem": "TCP 接收端預期收到的序號為 3001，此時收到序號 3001、長度 400 bytes 的區段。接收端回覆的確認號（ACK number）應為何？",
+  "options": [
+   "3001",
+   "3400",
+   "3401",
+   "3402"
+  ],
+  "answer": "C",
+  "explain": "這 400 bytes 佔用序號 3001～3400，接收端下一個期待的是 <strong>3401</strong>，所以 ACK = 3401。<br>若接收端此時沒有資料要回傳，依延遲確認機制，可稍等一下（例如 500 ms 內或收到下一個區段）再送出 ACK，以減少封包數量。<br><br>📌 <strong>出題依據</strong>：114 年關務三等資通網路第二題原題；國營 114 年第 28 題 TCP。"
+ },
+ {
+  "id": "115B-30",
+  "year": "模擬卷B",
+  "no": 30,
+  "topic": "tcpip",
+  "stem": "TCP 傳送端實際可一次送出、尚未被確認的資料量上限為何？",
+  "options": [
+   "只由壅塞視窗 cwnd 決定",
+   "只由接收視窗 rwnd 決定",
+   "cwnd 與 rwnd 兩者中較小的值",
+   "cwnd 與 rwnd 的總和"
+  ],
+  "answer": "C",
+  "explain": "傳送視窗 = <strong>min(cwnd, rwnd)</strong>。<br>rwnd 由接收端通告，避免接收緩衝區溢位（<strong>流量控制</strong>）；cwnd 由傳送端依網路狀況調整，避免網路壅塞（<strong>壅塞控制</strong>）。<br><br>📌 <strong>出題依據</strong>：114 年關務三等資通網路第二題（cwnd 與 rwnd）；國營 112、114 年流量控制題。"
+ },
+ {
+  "id": "115B-31",
+  "year": "模擬卷B",
+  "no": 31,
+  "topic": "tcpip",
+  "stem": "主機開機或設定 IP 後，主動廣播一個「詢問自己 IP」的 ARP 封包，藉此偵測是否有 IP 衝突，這種封包稱為何？",
+  "options": [
+   "Proxy ARP",
+   "Inverse ARP",
+   "RARP",
+   "Gratuitous ARP（免費 ARP）"
+  ],
+  "answer": "D",
+  "explain": "<strong>Gratuitous ARP</strong> 是查詢自己 IP 的 ARP 請求，正常情況下不會有人回應；若收到回應，代表該 IP 已被別台主機使用，即 <strong>IP 衝突</strong>。它也用來在網卡更換後通知其他主機更新 ARP 快取。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年三等資通網路與安全第一題原題（ARP 與 IP 衝突偵測）；國營 109、111 年 ARP 題。"
+ },
+ {
+  "id": "115B-32",
+  "year": "模擬卷B",
+  "no": 32,
+  "topic": "tcpip",
+  "stem": "企業內部 Web 伺服器使用私有 IP，若要讓外部使用者連入，常在 NAT 設備上採用哪一種設定？",
+  "options": [
+   "動態 NAT 位址池",
+   "PAT（多對一埠號轉換）",
+   "停用 NAT 即可",
+   "靜態 NAT 或通訊埠轉送（Port Forwarding）"
+  ],
+  "answer": "D",
+  "explain": "一般 PAT 只處理<strong>由內向外</strong>的連線，外部主動連入時 NAT 不知道要轉給誰。<br>需設定<strong>靜態 NAT</strong>（公有 IP 固定對應某私有 IP），或<strong>通訊埠轉送</strong>（公有 IP:443 轉到內部伺服器:443）。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第一節第二題（NAT 與外部如何連入內部伺服器）；地方特考 114 年四等 NAT 類型。"
+ },
+ {
+  "id": "115B-33",
+  "year": "模擬卷B",
+  "no": 33,
+  "topic": "tcpip",
+  "stem": "網域的 SPF 寄件者驗證資訊，通常設定在下列哪一種 DNS 紀錄中？",
+  "options": [
+   "A",
+   "CNAME",
+   "MX",
+   "TXT"
+  ],
+  "answer": "D",
+  "explain": "<strong>TXT</strong> 紀錄可存放任意文字，SPF、DKIM 公鑰、DMARC 政策及網域擁有權驗證都放在 TXT。<br>A：網域對應 IPv4；AAAA：對應 IPv6；MX：郵件伺服器；CNAME：別名。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第四題（A、AAAA、MX、TXT 紀錄用途）、112 年第二題（SPF、DKIM）。"
+ },
+ {
+  "id": "115B-34",
+  "year": "模擬卷B",
+  "no": 34,
+  "topic": "tcpip",
+  "stem": "執行 <code>nslookup www.example.com</code> 回傳「Non-existent domain（NXDOMAIN）」，代表何種情況？",
+  "options": [
+   "DNS 伺服器回覆查無此網域名稱",
+   "網路線未連接",
+   "目標網站的 Web 伺服器當機",
+   "TCP 三向交握失敗"
+  ],
+  "answer": "A",
+  "explain": "NXDOMAIN 是 DNS 伺服器<strong>正常回覆</strong>「這個名稱不存在」，代表 DNS 查詢有成功送達並得到答案。<br>可能原因：網址拼錯、網域已過期或未註冊、內部 DNS 缺少該筆紀錄。可改用其他 DNS 伺服器查詢交叉比對。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第一節第三題原題（ping、tracert、nslookup 排錯）；國營 114 年申論 traceroute 診斷。"
+ },
+ {
+  "id": "115B-35",
+  "year": "模擬卷B",
+  "no": 35,
+  "topic": "tcpip",
+  "stem": "使用 tracert 追蹤路徑時，到了某一跳之後全部顯示「*」逾時，下列何者「不是」可能的原因？",
+  "options": [
+   "中間路由器或防火牆封鎖了 ICMP 回應",
+   "該處之後的路徑中斷",
+   "目標主機設定不回應探測封包",
+   "本機 DNS 快取過期"
+  ],
+  "answer": "D",
+  "explain": "tracert 依靠每一跳回覆 ICMP Time Exceeded。持續逾時可能是設備封鎖 ICMP、路由中斷或目標主機不回應。<br>DNS 快取只影響名稱解析，與某一跳之後逾時無關。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第一節第三題原題；國營 114 年申論第一題。"
+ },
+ {
+  "id": "115B-36",
+  "year": "模擬卷B",
+  "no": 36,
+  "topic": "wire",
+  "stem": "手機漫遊到原註冊區域以外的地方時，用來暫存該手機資訊的資料庫為何？",
+  "options": [
+   "本籍註冊資料庫（HLR）",
+   "客籍註冊資料庫（VLR）",
+   "驗證中心（AUC）",
+   "設備身分資料庫（EIR）"
+  ],
+  "answer": "B",
+  "explain": "<strong>HLR</strong>：存放用戶永久資料與目前所在位置，一個用戶只登記在一個 HLR。<br><strong>VLR</strong>：存放目前在本區域內（含漫遊進來）用戶的暫時資料，並通知 HLR 更新位置。<br>AUC 負責驗證金鑰；EIR 記錄手機設備序號（如遭竊黑名單）。<br><br>📌 <strong>出題依據</strong>：115 年關務三等資通網路第二題原題；國營 109 年第 33 題交遞。屬國營較少考的觀念，機率中等。"
+ },
+ {
+  "id": "115B-37",
+  "year": "模擬卷B",
+  "no": 37,
+  "topic": "wire",
+  "stem": "藍牙（Bluetooth）主要採用哪一種媒介存取方式？",
+  "options": [
+   "CSMA/CD",
+   "CSMA/CA 搭配 RTS/CTS",
+   "主裝置輪詢、主從分時，並搭配跳頻展頻",
+   "令牌傳遞（Token Passing）"
+  ],
+  "answer": "C",
+  "explain": "藍牙的 piconet 由一個<strong>主裝置</strong>控制最多 7 個從裝置，採<strong>分時雙工</strong>，由主裝置輪詢決定誰可以傳送，因此沒有碰撞問題；並使用<strong>跳頻展頻（FHSS）</strong>對抗干擾。<br>Wi-Fi 則是 CSMA/CA。<br><br>📌 <strong>出題依據</strong>：114 年關務三等資通網路第三題原題（Wi-Fi 與藍牙的媒介存取）；國營 109、113 年藍牙題。"
+ },
+ {
+  "id": "115B-38",
+  "year": "模擬卷B",
+  "no": 38,
+  "topic": "sec",
+  "stem": "小明用自己的私鑰對文件的訊息摘要簽章後，連同原始文件寄給小美。小美驗證的正確步驟為何？",
+  "options": [
+   "用小明的公鑰解開簽章得到摘要，再自行對原始文件做雜湊，比對兩個摘要是否相同",
+   "用小美的私鑰解開簽章，與原始文件直接比對",
+   "用小明的私鑰重新簽章後比對",
+   "直接檢查原始文件的檔名與大小"
+  ],
+  "answer": "A",
+  "explain": "驗證流程：① 用<strong>小明的公鑰</strong>解開簽章，得到摘要 H1 ② 對收到的原始文件做同一雜湊得到 H2 ③ 比對 H1 = H2。<br>相同就代表文件未被竄改（<strong>完整性</strong>）、確實是小明簽的（<strong>來源鑑別</strong>）、小明事後無法否認（<strong>不可否認性</strong>）。<br><br>📌 <strong>出題依據</strong>：115 年關務三等資通網路第三題原題；中華郵政 112 年數位簽章；國營 110、111 年數位簽章題。"
+ },
+ {
+  "id": "115B-39",
+  "year": "模擬卷B",
+  "no": 39,
+  "topic": "sec",
+  "stem": "防範中間人攻擊（MITM）最有效的做法為何？",
+  "options": [
+   "使用 HTTP 傳輸",
+   "使用 TLS 加密並嚴格驗證伺服器憑證，搭配 HSTS",
+   "關閉防毒軟體以加快速度",
+   "使用較長的網址"
+  ],
+  "answer": "B",
+  "explain": "MITM 攻擊者夾在通訊雙方之間竊聽或竄改，常見手法有 ARP 欺騙、假 Wi-Fi 熱點、DNS 欺騙。<br>防範重點是<strong>端對端加密加上身分驗證</strong>：TLS 並檢查憑證有效性、HSTS 強制 HTTPS；內網可用動態 ARP 檢測（DAI）。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第二題、112 年第一題；地方特考 113 年四等第三題；國營 111、113 年中間人攻擊題。"
+ },
+ {
+  "id": "115B-40",
+  "year": "模擬卷B",
+  "no": 40,
+  "topic": "sec",
+  "stem": "防火牆與 IPS 互相搭配，有時仍無法完全擋下大規模 DDoS 攻擊，最主要的原因為何？",
+  "options": [
+   "防火牆不支援 TCP",
+   "DDoS 只攻擊應用層",
+   "IPS 只能偵測病毒",
+   "攻擊流量在抵達防火牆之前就已塞滿對外頻寬，設備本身也可能先被耗盡"
+  ],
+  "answer": "D",
+  "explain": "大型 DDoS 的流量可能遠超過機構的對外線路頻寬，封包還沒進到防火牆，線路就已經滿載；防火牆與 IPS 的連線表、運算資源也可能先被耗盡。<br>因此需要<strong>上游 ISP 或雲端流量清洗</strong>、CDN 分散流量、黑洞路由等。<br><br>📌 <strong>出題依據</strong>：地方特考 113 年三等資通網路與安全第一題原題；國營 114 年第 39 題黑洞路由。"
+ },
+ {
+  "id": "115B-41",
+  "year": "模擬卷B",
+  "no": 41,
+  "topic": "sec",
+  "stem": "關於「異常偵測式（Anomaly-based）」入侵偵測系統，下列敘述何者正確？",
+  "options": [
+   "只能偵測已知攻擊的特徵碼",
+   "需要先建立正常行為基準，可發現未知攻擊，但誤報率通常較高",
+   "完全不會產生誤報",
+   "不需要任何學習或設定"
+  ],
+  "answer": "B",
+  "explain": "異常偵測先學習網路或使用者的<strong>正常行為基準</strong>，偏離基準即告警，因此能發現零時差等<strong>未知攻擊</strong>。<br>缺點是正常行為會變動（例如月底報表流量暴增），容易<strong>誤報</strong>。改善方式：持續更新基準、多特徵綜合判斷、搭配特徵比對、人工調整閾值。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年四等資通網路與安全概要第四題原題；國營 114 年第 46 題。"
+ },
+ {
+  "id": "115B-42",
+  "year": "模擬卷B",
+  "no": 42,
+  "topic": "sec",
+  "stem": "依我國政府推動的零信任架構，下列何者「不是」其三大核心機制之一？",
+  "options": [
+   "身分鑑別",
+   "設備鑑別",
+   "信任推斷",
+   "邊界防火牆白名單"
+  ],
+  "answer": "D",
+  "explain": "政府零信任架構三大核心機制：<strong>身分鑑別</strong>（確認是誰，如 FIDO 多因子）、<strong>設備鑑別</strong>（確認設備可信與健康狀態）、<strong>信任推斷</strong>（依行為與情境動態判斷是否授權）。<br>邊界防火牆白名單正是零信任想要取代的傳統邊界思維。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第一題原題；地方特考 113、114 年零信任申論；國營 114 年第 38 題。"
+ },
+ {
+  "id": "115B-43",
+  "year": "模擬卷B",
+  "no": 43,
+  "topic": "sec",
+  "stem": "某企業已導入零信任，卻仍發生內部人員以合法帳號大量下載機密資料。下列何者最能有效改善？",
+  "options": [
+   "落實最小權限並定期審查權限，搭配使用者行為分析（UEBA）偵測異常存取",
+   "取消所有多因子驗證",
+   "把所有員工都設為管理者",
+   "只加強外部防火牆"
+  ],
+  "answer": "A",
+  "explain": "內部濫權的原因常是<strong>權限過大、權限未隨職務調整、只驗證身分卻不監控行為</strong>。<br>對策：最小權限與即時授權、定期權限審查、職責分離、資料外洩防護（DLP）、<strong>UEBA</strong> 偵測異常下載量或非上班時間存取。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年四等資通網路與安全概要第三題原題（零信任下的內部濫權）。"
+ },
+ {
+  "id": "115B-44",
+  "year": "模擬卷B",
+  "no": 44,
+  "topic": "sec",
+  "stem": "依據主體與資源的安全等級標籤，由系統統一強制決定存取權限，使用者無法自行變更，這是哪一種存取控制模式？",
+  "options": [
+   "自主存取控制（DAC）",
+   "強制存取控制（MAC）",
+   "角色為基礎的存取控制（RBAC）",
+   "屬性為基礎的存取控制（ABAC）"
+  ],
+  "answer": "B",
+  "explain": "<strong>DAC</strong>：資源擁有者自行決定誰能存取（如檔案分享權限）。<br><strong>MAC</strong>：依機密等級標籤由系統強制決定（如軍事的「機密、極機密」）。<br><strong>RBAC</strong>：依職務角色授權。<br><strong>ABAC</strong>：依使用者、資源、環境等屬性的規則動態判斷。<br><br>📌 <strong>出題依據</strong>：中華郵政 113 年第四題原題（DAC、MAC、RBAC、ABAC）；國營 114 年第 44 題 IAM 與 RBAC。"
+ },
+ {
+  "id": "115B-45",
+  "year": "模擬卷B",
+  "no": 45,
+  "topic": "sec",
+  "stem": "身分識別與存取管理（IAM）的 IAAA 四個核心中，最後一個 A 代表什麼？",
+  "options": [
+   "Availability（可用性）",
+   "Accounting／Accountability（稽核與可歸責性）",
+   "Anonymity（匿名性）",
+   "Antivirus（防毒）"
+  ],
+  "answer": "B",
+  "explain": "IAAA = <strong>Identification</strong>（識別：你宣稱是誰）→ <strong>Authentication</strong>（驗證：證明你是誰）→ <strong>Authorization</strong>（授權：你能做什麼）→ <strong>Accounting／Accountability</strong>（稽核：記錄你做了什麼，事後可追查）。<br><br>📌 <strong>出題依據</strong>：115 年普考資通網路與安全概要第四題原題；國營 114 年第 44 題 IAM。"
+ },
+ {
+  "id": "115B-46",
+  "year": "模擬卷B",
+  "no": 46,
+  "topic": "sec",
+  "stem": "挑戰-回應（Challenge-Response）驗證能有效抵禦重放攻擊（Replay Attack），主要原因為何？",
+  "options": [
+   "密碼以明文傳送",
+   "回應訊息長度固定",
+   "使用者每次都要更換帳號",
+   "伺服器每次都送出不同的隨機挑戰值（nonce），舊的回應無法重複使用"
+  ],
+  "answer": "D",
+  "explain": "伺服器每次產生新的<strong>隨機挑戰值</strong>，用戶端以密碼或金鑰對它運算後回應，密碼本身不在網路上傳送。<br>攻擊者即使側錄到某次回應，下次挑戰值已經不同，<strong>重送舊回應也無效</strong>。<br><br>📌 <strong>出題依據</strong>：中華郵政 112 年第一題原題；國營 107 年 Challenge-Response 題。"
+ },
+ {
+  "id": "115B-47",
+  "year": "模擬卷B",
+  "no": 47,
+  "topic": "sec",
+  "stem": "發現某台檔案伺服器遭勒索軟體加密，第一時間最適當的處置為何？",
+  "options": [
+   "立即支付贖金",
+   "立即將主機斷開網路以阻止擴散，並保留現場供鑑識",
+   "直接格式化所有主機",
+   "先重新開機看看是否恢復"
+  ],
+  "answer": "B",
+  "explain": "第一步是<strong>圍堵</strong>：拔掉網路線或隔離網段，避免加密擴散到其他主機與備份；盡量<strong>不要關機或重開機</strong>，以保留記憶體中的鑑識證據（部分情況可找回金鑰）。<br>接著通報、確認受影響範圍，再從離線備份還原。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第二題（勒索軟體攻擊手法與防禦）；國營 112 年第 36 題 3-2-1 備份。"
+ },
+ {
+  "id": "115B-48",
+  "year": "模擬卷B",
+  "no": 48,
+  "topic": "sec",
+  "stem": "關於「DNS 隧道（DNS Tunneling）」攻擊，下列何者是常見的偵測指標？",
+  "options": [
+   "DNS 查詢量極少",
+   "出現大量超長、看似亂碼的子網域查詢，以及異常大量的 TXT 查詢",
+   "只使用 TCP 80 埠",
+   "DNS 回應全部為 NXDOMAIN 以外的正常 A 紀錄"
+  ],
+  "answer": "B",
+  "explain": "DNS 隧道把資料編碼進子網域名稱（例如 <code>a8f3k2…​.evil.com</code>），利用多半不被封鎖的 DNS 流量外傳資料或接收指令。<br>偵測：子網域長度與亂度異常、對同一網域的查詢頻率異常、TXT 或 NULL 紀錄查詢大增。防禦：只允許內部 DNS 伺服器對外查詢、DNS 防火牆或 RPZ。<br><br>📌 <strong>出題依據</strong>：中華郵政 114 年第四題原題（DNS 隧道攻擊手法、偵測與防禦）；國營 114 年申論 DNS 安全。"
+ },
+ {
+  "id": "115B-49",
+  "year": "模擬卷B",
+  "no": 49,
+  "topic": "misc",
+  "stem": "與公有雲相比，私有雲在資安管理上的主要特點為何？",
+  "options": [
+   "完全不需要資安管理",
+   "組織對基礎設施與資料的控管程度較高、較易符合特定法規，但建置與維運成本與責任也較高",
+   "一定比公有雲便宜",
+   "一定由雲端業者負責所有資安"
+  ],
+  "answer": "B",
+  "explain": "私有雲專屬單一組織，<strong>控管權高</strong>、資料落地與隔離較容易滿足法規，但硬體、人力、修補都要自己負責，成本與專業需求較高。<br>公有雲彈性大、成本低，但屬多租戶環境，須依共同責任模型做好自己的設定與權限管理。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年三等資通網路與安全第四題原題；地方特考 113 年三等資訊管理第四題；國營 113 年雲端申論。"
+ },
+ {
+  "id": "115B-50",
+  "year": "模擬卷B",
+  "no": 50,
+  "topic": "misc",
+  "stem": "在安全系統發展生命週期（SSDLC）中，「威脅建模（Threat Modeling）」最主要在哪一個階段進行？",
+  "options": [
+   "需求與設計階段",
+   "上線後的維運階段",
+   "系統廢棄階段",
+   "只在發生資安事件後"
+  ],
+  "answer": "A",
+  "explain": "威脅建模（例如以 STRIDE 分析）要在<strong>設計階段</strong>找出可能的攻擊面與威脅，並據以設計防護。越早發現問題，修正成本越低。<br>其他階段的重點：開發時安全編碼與源碼檢測、測試時弱點掃描與滲透測試、部署維運時安全組態與修補管理。<br><br>📌 <strong>出題依據</strong>：地方特考 114 年三等資通網路與安全第三題（SSDLC）；114 年關務資訊管理第三題；國營 111 年申論 SSDLC。"
+ },
+ {
+  "id": "115C-1",
+  "year": "模擬卷C",
+  "no": 1,
+  "topic": "arch",
+  "stem": "以 IEEE 754 單精度浮點數表示 −6.5，其十六進位表示為何？",
+  "options": [
+   "C0D00000",
+   "40D00000",
+   "C0C80000",
+   "C1500000"
+  ],
+  "answer": "A",
+  "explain": "① 符號：負數 → 1。<br>② 6.5 = 110.1₂ = 1.101 × 2²。<br>③ 指數：2 + 127（偏移值）= 129 = 10000001。<br>④ 尾數：取小數點後 101，補 0 到 23 位。<br>組合：1 10000001 10100000…0 → 1100 0000 1101 0000 … → <strong>C0D00000</strong>。<br>40D00000 是 +6.5，只差符號位元。<br><br>📌 <strong>出題依據</strong>：國營 97 年選擇題、112–113 年申論考過浮點數表示；地方特考四等計算機概要常見。"
+ },
+ {
+  "id": "115C-2",
+  "year": "模擬卷C",
+  "no": 2,
+  "topic": "arch",
+  "stem": "二進位數 (101101.101)₂ 轉換為十進位，結果為何？",
+  "options": [
+   "45.5",
+   "45.625",
+   "45.75",
+   "46.625"
+  ],
+  "answer": "B",
+  "explain": "整數部分：101101 = 32 + 8 + 4 + 1 = 45。<br>小數部分：.101 = 1/2 + 0/4 + 1/8 = 0.5 + 0.125 = 0.625。<br>合計 <strong>45.625</strong>。<br><br>📌 <strong>出題依據</strong>：國營每年必考進位轉換（近 5 年 9 題）。"
+ },
+ {
+  "id": "115C-3",
+  "year": "模擬卷C",
+  "no": 3,
+  "topic": "arch",
+  "stem": "下列哪一種邏輯閘「單獨使用」就能組合出任何布林函數？",
+  "options": [
+   "XOR 閘",
+   "AND 閘",
+   "OR 閘",
+   "NAND 閘"
+  ],
+  "answer": "D",
+  "explain": "<strong>NAND</strong> 與 NOR 稱為萬用閘（universal gate）。<br>NOT A = A NAND A；A AND B = (A NAND B) NAND (A NAND B)；OR 可由 De Morgan 定理推出。<br>AND、OR 無法產生反相；XOR 無法組出 AND。<br><br>📌 <strong>出題依據</strong>：國營 109、110、114 年邏輯閘題；其他考試計算機概要高頻。"
+ },
+ {
+  "id": "115C-4",
+  "year": "模擬卷C",
+  "no": 4,
+  "topic": "arch",
+  "stem": "下列記憶體依「存取速度由快到慢」排列，何者正確？",
+  "options": [
+   "暫存器 → 主記憶體 → 快取 → SSD → 傳統硬碟",
+   "快取 → 暫存器 → 主記憶體 → 傳統硬碟 → SSD",
+   "暫存器 → 快取 → 主記憶體 → SSD → 傳統硬碟",
+   "主記憶體 → 快取 → 暫存器 → SSD → 傳統硬碟"
+  ],
+  "answer": "C",
+  "explain": "記憶體階層越靠近 CPU 越快、越貴、容量越小：<br><strong>暫存器 → 快取（L1、L2、L3）→ 主記憶體（DRAM）→ SSD → 傳統硬碟 → 磁帶</strong>。<br>SSD 沒有機械讀寫頭，比傳統硬碟快得多。<br><br>📌 <strong>出題依據</strong>：國營 105、114 年記憶體階層題。"
+ },
+ {
+  "id": "115C-5",
+  "year": "模擬卷C",
+  "no": 5,
+  "topic": "arch",
+  "stem": "使用 DMA（Direct Memory Access）的主要好處為何？",
+  "options": [
+   "讓多個行程共用同一塊實體記憶體",
+   "讓 CPU 可以直接執行硬碟上的程式",
+   "提高快取的命中率",
+   "I/O 裝置與主記憶體間大量傳輸資料時，不需 CPU 逐一搬移每個位元組"
+  ],
+  "answer": "D",
+  "explain": "沒有 DMA 時，CPU 要自己一個字一個字地搬資料（程式控制 I/O），非常浪費時間。<br>有 DMA 時，CPU 只要告訴 DMA 控制器「來源、目的、長度」，由 <strong>DMA 控制器直接在 I/O 與記憶體間搬移</strong>，搬完再發中斷通知 CPU。期間 CPU 可去做別的事。<br><br>📌 <strong>出題依據</strong>：國營 DMA／中斷近 10 個年度出現，114 年仍有。"
+ },
+ {
+  "id": "115C-6",
+  "year": "模擬卷C",
+  "no": 6,
+  "topic": "arch",
+  "stem": "某程式共執行 2 × 10⁹ 道指令，其中 50% 的 CPI 為 1、30% 的 CPI 為 2、20% 的 CPI 為 3。若 CPU 時脈為 2 GHz，執行時間為何？",
+  "options": [
+   "1.0 秒",
+   "1.5 秒",
+   "1.7 秒",
+   "3.4 秒"
+  ],
+  "answer": "C",
+  "explain": "平均 CPI = 0.5×1 + 0.3×2 + 0.2×3 = 0.5 + 0.6 + 0.6 = 1.7。<br>執行時間 = 指令數 × CPI ÷ 時脈 = 2×10⁹ × 1.7 ÷ (2×10⁹) = <strong>1.7 秒</strong>。<br><br>📌 <strong>出題依據</strong>：國營 100、111 年 CPI／MIPS 計算。"
+ },
+ {
+  "id": "115C-7",
+  "year": "模擬卷C",
+  "no": 7,
+  "topic": "os",
+  "stem": "下列何者「不是」發生死結（Deadlock）的必要條件之一？",
+  "options": [
+   "循環等待（Circular Wait）",
+   "互斥（Mutual Exclusion）",
+   "持有並等待（Hold and Wait）",
+   "資源可被搶先（Preemption）"
+  ],
+  "answer": "D",
+  "explain": "死結的四個必要條件：互斥、持有並等待、<strong>不可搶先（No Preemption）</strong>、循環等待，四者同時成立才可能死結。<br>「資源可被搶先」正好相反，反而是破壞死結的方法之一。<br><br>📌 <strong>出題依據</strong>：國營死結題 7 個年度（113 年仍有）；郵政 114 年系統操作「作業系統」第二題。"
+ },
+ {
+  "id": "115C-8",
+  "year": "模擬卷C",
+  "no": 8,
+  "topic": "os",
+  "stem": "銀行家演算法（Banker's Algorithm）屬於下列哪一種死結處理策略？",
+  "options": [
+   "死結避免（Avoidance）",
+   "死結預防（Prevention）",
+   "死結偵測與復原（Detection & Recovery）",
+   "忽略死結（鴕鳥演算法）"
+  ],
+  "answer": "A",
+  "explain": "銀行家演算法在每次分配資源前，先模擬分配後系統是否仍處於<strong>安全狀態</strong>（存在一個可讓所有行程完成的順序）；不安全就不分配。<br>這是動態地「避開」死結，屬於<strong>死結避免</strong>。<br>預防是直接破壞四個必要條件之一。<br><br>📌 <strong>出題依據</strong>：國營 107 年銀行家演算法；郵政 114 年系統操作「死結預防策略」。"
+ },
+ {
+  "id": "115C-9",
+  "year": "模擬卷C",
+  "no": 9,
+  "topic": "os",
+  "stem": "Round Robin 排程若把時間配額（time quantum）設得非常大（大於所有行程的執行時間），其行為會接近下列何者？",
+  "options": [
+   "優先權排程",
+   "最短工作優先（SJF）",
+   "先到先服務（FCFS）",
+   "多層佇列排程"
+  ],
+  "answer": "C",
+  "explain": "時間配額大到每個行程都能一次做完，就不會被中途切換，等於依到達順序執行，退化成 <strong>FCFS</strong>。<br>反之，配額太小則切換（context switch）過於頻繁，額外負擔大增。<br><br>📌 <strong>出題依據</strong>：國營 CPU 排程題 23 次（近 5 年 8 次）。"
+ },
+ {
+  "id": "115C-10",
+  "year": "模擬卷C",
+  "no": 10,
+  "topic": "os",
+  "stem": "系統發生「輾轉現象（Thrashing）」的主要原因為何？",
+  "options": [
+   "硬碟空間不足無法建立暫存檔",
+   "CPU 時脈過高造成過熱降頻",
+   "行程分配到的頁框太少，頻繁發生分頁錯誤，大部分時間都在換頁",
+   "行程之間互相等待資源"
+  ],
+  "answer": "C",
+  "explain": "多工程度過高時，每個行程分到的頁框太少，不足以容納其工作集（working set），於是<strong>不斷發生分頁錯誤</strong>、CPU 大部分時間在等待換頁，使用率反而下降。<br>對策：降低多工程度、依工作集模型或分頁錯誤頻率（PFF）分配頁框。<br><br>📌 <strong>出題依據</strong>：國營 thrashing 選擇題 5 個年度、申論 100、103、110 年；郵政 114 年系統操作「分頁機制」。"
+ },
+ {
+  "id": "115C-11",
+  "year": "模擬卷C",
+  "no": 11,
+  "topic": "ds",
+  "stem": "中序式 <code>A + B * C - D / E</code> 轉換為後序式，結果為何？",
+  "options": [
+   "+ A * B C - / D E",
+   "A B + C * D E / -",
+   "A B C * D E / - +",
+   "A B C * + D E / -"
+  ],
+  "answer": "D",
+  "explain": "依優先順序加括號：((A + (B * C)) - (D / E))。<br>把每個運算子移到它所屬括號的右邊：<br>B*C → B C *；A+… → A B C * +；D/E → D E /；最後 → <strong>A B C * + D E / -</strong>。<br>最後一個選項是前序式的形式。<br><br>📌 <strong>出題依據</strong>：郵政 114 年系統操作第二題（Infix 轉 Postfix）；地方特考 114 年三等資料結構；國營 98 年選擇題、105 年申論。"
+ },
+ {
+  "id": "115C-12",
+  "year": "模擬卷C",
+  "no": 12,
+  "topic": "ds",
+  "stem": "某二元樹的前序走訪為 A B D E C F，中序走訪為 D B E A F C，其後序走訪為何？",
+  "options": [
+   "D E B F C A",
+   "D E B C F A",
+   "E D B F C A",
+   "D B E F C A"
+  ],
+  "answer": "A",
+  "explain": "① 前序第一個 A 是根；中序中 A 左邊 D B E 為左子樹、右邊 F C 為右子樹。<br>② 左子樹前序 B D E → 根 B，左 D、右 E。<br>③ 右子樹前序 C F → 根 C；中序 F C 表示 F 在 C 的左邊。<br>後序（左 → 右 → 根）：D E B，F C，A → <strong>D E B F C A</strong>。<br><br>📌 <strong>出題依據</strong>：國營 114 年仍考走訪重建（共 9 個年度）；郵政 114 年系統操作第二題（由後序與中序畫二元樹）。"
+ },
+ {
+  "id": "115C-13",
+  "year": "模擬卷C",
+  "no": 13,
+  "topic": "ds",
+  "stem": "四個符號出現機率分別為 A：0.4、B：0.3、C：0.2、D：0.1，以霍夫曼編碼（Huffman Coding）後，平均碼長為幾個位元？",
+  "options": [
+   "1.7",
+   "1.9",
+   "2.0",
+   "2.1"
+  ],
+  "answer": "B",
+  "explain": "每次合併機率最小的兩個：<br>① C(0.2) + D(0.1) = 0.3<br>② B(0.3) + CD(0.3) = 0.6<br>③ A(0.4) + 0.6 = 1.0<br>碼長：A = 1、B = 2、C = 3、D = 3。<br>平均碼長 = 0.4×1 + 0.3×2 + 0.2×3 + 0.1×3 = <strong>1.9</strong> 位元（固定長度編碼需 2 位元）。<br><br>📌 <strong>出題依據</strong>：國營 102、105、108 年霍夫曼樹；114 年關務三等資料結構第三題。"
+ },
+ {
+  "id": "115C-14",
+  "year": "模擬卷C",
+  "no": 14,
+  "topic": "ds",
+  "stem": "快速排序法每次以「第一個元素」為樞紐（pivot），在下列哪一種輸入下會出現最差的 O(n²)？",
+  "options": [
+   "資料完全隨機",
+   "資料已經由小到大排好",
+   "資料中所有數值都不相同",
+   "資料長度為 2 的次方"
+  ],
+  "answer": "B",
+  "explain": "已排序時，以第一個元素為樞紐，每次分割都只分出「0 個」與「n − 1 個」，遞迴深度為 n。<br>比較次數 = (n−1) + (n−2) + … + 1 = n(n−1)/2 → <strong>O(n²)</strong>。<br>改善方法：隨機選樞紐、三數取中（median-of-three）。<br><br>📌 <strong>出題依據</strong>：國營快速排序選擇題 7 個年度、申論 4 個年度；113 年高考資料結構第二題（最差情況推導）。"
+ },
+ {
+  "id": "115C-15",
+  "year": "模擬卷C",
+  "no": 15,
+  "topic": "prog",
+  "stem": "執行下列 C 程式片段後，<code>s</code> 的值為何？<br><code>int i, s = 0;<br>for (i = 1; i &lt;= 10; i += 3)<br>&nbsp;&nbsp;s += i;</code>",
+  "options": [
+   "15",
+   "12",
+   "22",
+   "35"
+  ],
+  "answer": "C",
+  "explain": "i 依序為 1、4、7、10（下一個 13 &gt; 10 結束）。<br>s = 1 + 4 + 7 + 10 = <strong>22</strong>。<br><br>📌 <strong>出題依據</strong>：國營程式追蹤題近 5 年 6 題。"
+ },
+ {
+  "id": "115C-16",
+  "year": "模擬卷C",
+  "no": 16,
+  "topic": "prog",
+  "stem": "執行下列 Python 程式，輸出為何？<br><code>a = [1, 2, 3, 4, 5, 6]<br>print(a[1:5:2])</code>",
+  "options": [
+   "[2, 4, 6]",
+   "[1, 3, 5]",
+   "[2, 3, 4, 5]",
+   "[2, 4]"
+  ],
+  "answer": "D",
+  "explain": "切片 a[start:stop:step]：從索引 1 開始、到索引 5 之前停止、每次跳 2。<br>取索引 1、3 → 元素 2、4 → <strong>[2, 4]</strong>。<br>注意 stop 本身不包含在內，所以索引 5（元素 6）不會取到。<br><br>📌 <strong>出題依據</strong>：國營 Python 題 14 題（近 5 年 7 題）；地方特考、關務程式題 Python 比例逐年提高。"
+ },
+ {
+  "id": "115C-17",
+  "year": "模擬卷C",
+  "no": 17,
+  "topic": "prog",
+  "stem": "在物件導向語言中，下列哪一種機制是在「執行時期」才決定要呼叫哪一個方法？",
+  "options": [
+   "子類別覆寫（Override）父類別的方法，再以父類別參考呼叫",
+   "同一類別中方法多載（Overload）",
+   "呼叫靜態（static）方法",
+   "呼叫建構子（Constructor）"
+  ],
+  "answer": "A",
+  "explain": "以父類別型態的參考指向子類別物件，呼叫被<strong>覆寫</strong>的方法時，會依「實際物件型態」決定執行哪個版本，稱為動態繫結（dynamic binding），是多型的核心。<br>多載是依參數型態與個數，在<strong>編譯時期</strong>就決定。<br><br>📌 <strong>出題依據</strong>：國營物件導向選擇題 31 題、申論 7 個年度；115 年普考程式設計第一題（多形）。"
+ },
+ {
+  "id": "115C-18",
+  "year": "模擬卷C",
+  "no": 18,
+  "topic": "net",
+  "stem": "架設在網站伺服器前端，代替伺服器接收外部使用者的請求，並可做負載平衡與隱藏後端伺服器的設備為何？",
+  "options": [
+   "正向代理（Forward Proxy）",
+   "反向代理（Reverse Proxy）",
+   "DHCP 伺服器",
+   "DNS 解析器"
+  ],
+  "answer": "B",
+  "explain": "<strong>反向代理</strong>站在伺服器端，代表伺服器面對外部使用者，可做負載平衡、SSL 卸載、快取、隱藏內部架構。<br>正向代理站在用戶端，代表使用者向外連線，常用於上網過濾與快取。<br><br>📌 <strong>出題依據</strong>：115 年高考資通網路與安全第一題（正向與反向代理）；國營 98、100 年代理伺服器題。"
+ },
+ {
+  "id": "115C-19",
+  "year": "模擬卷C",
+  "no": 19,
+  "topic": "wire",
+  "stem": "無線網路使用 RTS／CTS 機制，主要是為了解決下列哪一個問題？",
+  "options": [
+   "IP 位址衝突",
+   "訊號衰減",
+   "隱藏節點（Hidden Terminal）問題",
+   "頻道不足"
+  ],
+  "answer": "C",
+  "explain": "兩台站台都能和 AP 通訊、彼此卻收不到對方訊號時，會同時傳送而在 AP 端碰撞，稱為<strong>隱藏節點問題</strong>。<br>傳送前先送 RTS，AP 回覆 CTS 廣播給所有站台，其他站台聽到 CTS 就在指定時間內不傳送。<br><br>📌 <strong>出題依據</strong>：國營 RTS／CTS 題 4 個年度（114 年仍有）；115 年普考資通網路第二題（CSMA/CA）。"
+ },
+ {
+  "id": "115C-20",
+  "year": "模擬卷C",
+  "no": 20,
+  "topic": "net",
+  "stem": "內容傳遞網路（CDN）的主要效益為何？",
+  "options": [
+   "取代防火牆阻擋所有攻擊",
+   "加密使用者與伺服器之間的所有流量",
+   "自動為網站產生網域名稱",
+   "將內容快取到靠近使用者的節點，降低延遲並分散原始伺服器的流量"
+  ],
+  "answer": "D",
+  "explain": "CDN 在各地設置邊緣節點，使用者會被導向<strong>最近的節點</strong>取得內容，因此延遲低、原始伺服器負擔小。<br>大量流量分散到各節點，也有助於吸收 DDoS 攻擊。<br><br>📌 <strong>出題依據</strong>：113 年高考資通網路第二題（CDN 與 WAF 結合的效益）；國營 98、114 年申論提及 CDN。"
+ },
+ {
+  "id": "115C-21",
+  "year": "模擬卷C",
+  "no": 21,
+  "topic": "net",
+  "stem": "一台 8 埠的第二層交換器（未設定 VLAN），所有埠都接了電腦。共形成幾個碰撞網域與幾個廣播網域？",
+  "options": [
+   "8 個碰撞網域、1 個廣播網域",
+   "1 個碰撞網域、1 個廣播網域",
+   "8 個碰撞網域、8 個廣播網域",
+   "1 個碰撞網域、8 個廣播網域"
+  ],
+  "answer": "A",
+  "explain": "交換器的<strong>每個埠各自是一個碰撞網域</strong> → 8 個。<br>交換器會轉送廣播，未切 VLAN 時所有埠在同一個廣播網域 → 1 個。<br>對照：集線器全部埠同一個碰撞網域；路由器每個介面是一個廣播網域。<br><br>📌 <strong>出題依據</strong>：國營 100、112 年碰撞網域與廣播網域題。"
+ },
+ {
+  "id": "115C-22",
+  "year": "模擬卷C",
+  "no": 22,
+  "topic": "sec",
+  "stem": "為防範 DNS 快取下毒（DNS Cache Poisoning），讓解析器能驗證 DNS 回應確實來自合法來源且未被竄改的技術為何？",
+  "options": [
+   "DHCP Snooping",
+   "DNSSEC",
+   "NAT",
+   "SNMPv1"
+  ],
+  "answer": "B",
+  "explain": "<strong>DNSSEC</strong> 為 DNS 紀錄加上數位簽章（RRSIG），並由上層區域逐層背書公鑰，形成信任鏈。解析器驗章失敗就丟棄回應，攻擊者無法偽造。<br>注意：DNSSEC 提供來源驗證與完整性，不提供加密。<br><br>📌 <strong>出題依據</strong>：113 年關務三等資通網路第二題（DNS cache poisoning 原理與防範）；國營 114 年申論考過 DNS 安全。"
+ },
+ {
+  "id": "115C-23",
+  "year": "模擬卷C",
+  "no": 23,
+  "topic": "net",
+  "stem": "關於 MAC 位址與 IP 位址的比較，下列何者正確？",
+  "options": [
+   "IP 位址燒錄在網路卡上，無法變更",
+   "MAC 位址由 ISP 動態分配",
+   "MAC 位址長 48 位元，用於資料鏈結層，在同一個區域網路內傳送訊框",
+   "封包經過路由器時，來源 IP 會被換成路由器的 IP，來源 MAC 則保持不變"
+  ],
+  "answer": "C",
+  "explain": "<strong>MAC 位址</strong>：48 位元、實體位址、資料鏈結層、在同一網段內使用。<br><strong>IP 位址</strong>：邏輯位址、網路層、可由管理者或 DHCP 設定，用於跨網段定址。<br>封包每經過一台路由器，來源與目的 <strong>MAC 都會改寫</strong>成該段鏈路的介面位址，IP 則維持不變（NAT 除外）。<br><br>📌 <strong>出題依據</strong>：113 年郵政第四題（MAC Address 與 IP Address 的差異）。"
+ },
+ {
+  "id": "115C-24",
+  "year": "模擬卷C",
+  "no": 24,
+  "topic": "tcpip",
+  "stem": "將 192.168.1.0/24 切成數個 /27 的子網路，可切出幾個子網路？每個子網路有幾個可用主機位址？",
+  "options": [
+   "16 個子網路、每個 14 個主機",
+   "8 個子網路、每個 32 個主機",
+   "4 個子網路、每個 62 個主機",
+   "8 個子網路、每個 30 個主機"
+  ],
+  "answer": "D",
+  "explain": "/24 → /27 借了 3 個位元：2³ = <strong>8 個子網路</strong>。<br>主機位元剩 5 個：2⁵ − 2 = <strong>30</strong>（扣掉網路位址與廣播位址）。<br><br>📌 <strong>出題依據</strong>：國營子網路計算 36 題；113 年關務三等第一題（/23 切子網路）。"
+ },
+ {
+  "id": "115C-25",
+  "year": "模擬卷C",
+  "no": 25,
+  "topic": "tcpip",
+  "stem": "主機 IP 為 10.10.37.200/21，其所屬網段的廣播位址為何？",
+  "options": [
+   "10.10.39.255",
+   "10.10.37.255",
+   "10.10.47.255",
+   "10.10.32.255"
+  ],
+  "answer": "A",
+  "explain": "/21 的第三個位元組遮罩為 248（11111000），區塊大小 = 256 − 248 = 8。<br>37 落在 32～39 這一塊 → 網路位址 10.10.32.0、廣播位址 <strong>10.10.39.255</strong>。<br><br>📌 <strong>出題依據</strong>：國營 IP 計算每年必考；地方特考 114 年三等第二題。"
+ },
+ {
+  "id": "115C-26",
+  "year": "模擬卷C",
+  "no": 26,
+  "topic": "tcpip",
+  "stem": "下列哪一個 IPv4 位址屬於私有（Private）位址？",
+  "options": [
+   "172.15.0.1",
+   "172.31.255.1",
+   "172.32.0.1",
+   "192.169.0.1"
+  ],
+  "answer": "B",
+  "explain": "RFC 1918 私有位址範圍：<br>10.0.0.0/8；<strong>172.16.0.0/12（172.16.0.0～172.31.255.255）</strong>；192.168.0.0/16。<br>172.15、172.32 都在範圍外；192.169 也不是 192.168。<br><br>📌 <strong>出題依據</strong>：國營私有位址、NAT 題 47 次（近 5 年 19 次）。"
+ },
+ {
+  "id": "115C-27",
+  "year": "模擬卷C",
+  "no": 27,
+  "topic": "tcpip",
+  "stem": "RIP（Routing Information Protocol）以跳躍數作為路徑成本，跳躍數為多少時代表「無法到達」？",
+  "options": [
+   "15",
+   "16",
+   "255",
+   "64"
+  ],
+  "answer": "B",
+  "explain": "RIP 最大有效跳躍數為 15，<strong>16 代表無限大（無法到達）</strong>，因此 RIP 只適用小型網路。<br>這也限制了「無限計數問題」最多數到 16 就停止。<br><br>📌 <strong>出題依據</strong>：國營 RIP 題 9 個年度；113 年關務三等第四題（距離向量與 RIP）。"
+ },
+ {
+  "id": "115C-28",
+  "year": "模擬卷C",
+  "no": 28,
+  "topic": "tcpip",
+  "stem": "OSPF 路由協定計算最短路徑時使用的演算法為何？",
+  "options": [
+   "Prim 演算法",
+   "Bellman-Ford 演算法",
+   "Dijkstra 演算法",
+   "Floyd-Warshall 演算法"
+  ],
+  "answer": "C",
+  "explain": "OSPF 是<strong>鏈路狀態（Link State）</strong>協定：每台路由器以 LSA 交換鏈路資訊、建立整個區域的拓樸圖，再以 <strong>Dijkstra</strong> 演算法算出最短路徑樹。成本預設與頻寬成反比。<br>RIP 等距離向量協定則以 Bellman-Ford 為基礎。<br><br>📌 <strong>出題依據</strong>：國營 OSPF 選擇題 11 個年度、114 年申論；115 年高考資通網路第一題（OSPF 主線斷線）。"
+ },
+ {
+  "id": "115C-29",
+  "year": "模擬卷C",
+  "no": 29,
+  "topic": "tcpip",
+  "stem": "關於 BGP（Border Gateway Protocol），下列敘述何者正確？",
+  "options": [
+   "使用 UDP 520 定期廣播整張路由表",
+   "用於同一個區域網路內交換 MAC 位址",
+   "是鏈路狀態協定，以 Dijkstra 演算法計算路徑",
+   "用於不同自治系統（AS）之間交換路由，屬於路徑向量協定，透過 TCP 179 建立連線"
+  ],
+  "answer": "D",
+  "explain": "<strong>BGP</strong> 是網際網路骨幹的外部閘道協定（EGP），在<strong>自治系統之間</strong>交換路由。<br>它記錄完整的 AS 路徑（路徑向量）以避免迴圈，並可依政策選路；鄰居之間以 <strong>TCP 179</strong> 建立連線。<br>UDP 520 是 RIP。<br><br>📌 <strong>出題依據</strong>：國營 BGP 選擇題 4 個年度、114 年申論；113 年郵政第四題（BGP 的意義與重要性）。"
+ },
+ {
+  "id": "115C-30",
+  "year": "模擬卷C",
+  "no": 30,
+  "topic": "tcpip",
+  "stem": "距離向量路由協定可能發生「無限計數（Count to Infinity）」問題，下列何者可加以改善？",
+  "options": [
+   "水平分割（Split Horizon）",
+   "增加路由器的記憶體",
+   "縮短 DHCP 租約時間",
+   "改用靜態 ARP"
+  ],
+  "answer": "A",
+  "explain": "<strong>水平分割</strong>：從某介面學到的路由，不再從同一介面通告回去，避免兩台路由器互相以對方為下一跳而越數越大。<br>其他方法：毒性逆轉（Poison Reverse）、觸發更新、抑制計時器（Hold-down）、設定最大跳躍數。<br><br>📌 <strong>出題依據</strong>：113 年關務三等第四題（距離向量路由演算法）；國營 RIP 相關題 9 個年度。"
+ },
+ {
+  "id": "115C-31",
+  "year": "模擬卷C",
+  "no": 31,
+  "topic": "tcpip",
+  "stem": "由 IP 位址反查網域名稱（反向 DNS 查詢）時，使用的 DNS 紀錄類型為何？",
+  "options": [
+   "MX",
+   "PTR",
+   "CNAME",
+   "AAAA"
+  ],
+  "answer": "B",
+  "explain": "<strong>PTR</strong>（指標紀錄）存放「IP → 網域名稱」，反查 IPv4 時使用 in-addr.arpa 網域。<br>MX：郵件伺服器；CNAME：別名；AAAA：IPv6 位址。<br>反查常用於郵件伺服器驗證寄件來源、日誌分析。<br><br>📌 <strong>出題依據</strong>：114 年郵政第四題（DNS 紀錄類型、反向 DNS 查詢）；國營 MX 等紀錄題 4 個年度、114 年申論。"
+ },
+ {
+  "id": "115C-32",
+  "year": "模擬卷C",
+  "no": 32,
+  "topic": "tcpip",
+  "stem": "DNS 主要伺服器與次要伺服器之間進行「區域轉送（Zone Transfer）」時，通常使用下列哪一種協定與埠號？",
+  "options": [
+   "TCP 80",
+   "UDP 53",
+   "TCP 53",
+   "UDP 67"
+  ],
+  "answer": "C",
+  "explain": "一般 DNS 查詢回應小，使用 <strong>UDP 53</strong>，速度快。<br>區域轉送要傳送整個區域的大量紀錄，需要可靠傳輸，使用 <strong>TCP 53</strong>。回應超過 UDP 大小限制時也會改用 TCP。<br>UDP 67 是 DHCP 伺服器埠。<br><br>📌 <strong>出題依據</strong>：國營埠號題 66 題（近 5 年 20 題）；郵政 114 年 DNS 題。"
+ },
+ {
+  "id": "115C-33",
+  "year": "模擬卷C",
+  "no": 33,
+  "topic": "tcpip",
+  "stem": "IPsec 中，能提供「資料加密（機密性）」的協定為何？",
+  "options": [
+   "GRE",
+   "AH（Authentication Header）",
+   "IKE 只負責加密資料",
+   "ESP（Encapsulating Security Payload）"
+  ],
+  "answer": "D",
+  "explain": "<strong>ESP</strong>：提供加密、完整性與來源驗證。<br><strong>AH</strong>：只提供完整性與來源驗證，<strong>不加密</strong>。<br><strong>IKE</strong>：負責協商安全關聯與交換金鑰，本身不加密使用者資料。<br>GRE 只是封裝協定，沒有安全功能。<br><br>📌 <strong>出題依據</strong>：國營 IPsec 選擇題 8 個年度；113 年郵政第二題（IKEv2／IPsec 運作概念）。"
+ },
+ {
+  "id": "115C-34",
+  "year": "模擬卷C",
+  "no": 34,
+  "topic": "tcpip",
+  "stem": "企業以 IPsec 連接總公司與分公司（站對站 VPN），通常採用哪一種模式？其特點為何？",
+  "options": [
+   "通道模式：整個原始 IP 封包被加密並加上新的 IP 標頭",
+   "傳輸模式：只保護資料內容，原始 IP 標頭不變",
+   "通道模式：只加密 IP 標頭",
+   "傳輸模式：必須搭配 NAT 才能運作"
+  ],
+  "answer": "A",
+  "explain": "<strong>通道模式（Tunnel Mode）</strong>：把整個原始封包（含內部 IP）封裝、加密，再加上兩端閘道的新 IP 標頭，外人看不到內部位址，適用於<strong>站對站 VPN</strong>。<br><strong>傳輸模式</strong>：只保護酬載，保留原 IP 標頭，常用於主機對主機的連線。<br><br>📌 <strong>出題依據</strong>：國營 VPN 選擇題 10 個年度；113 年郵政第二題（VPN 遮罩用戶端 IP 的做法）。"
+ },
+ {
+  "id": "115C-35",
+  "year": "模擬卷C",
+  "no": 35,
+  "topic": "tcpip",
+  "stem": "traceroute（Windows 為 tracert）找出封包經過路徑的原理為何？",
+  "options": [
+   "向每台路由器查詢路由表",
+   "逐次遞增 TTL，並接收沿途路由器回傳的 ICMP Time Exceeded 訊息",
+   "以 ARP 廣播找出所有路由器的 MAC 位址",
+   "透過 DNS 反查每台路由器的名稱"
+  ],
+  "answer": "B",
+  "explain": "先送 TTL = 1 的封包，第一台路由器把 TTL 減到 0 時丟棄，並回傳 <strong>ICMP Time Exceeded</strong>，就知道第一跳是誰；接著 TTL = 2、3 … 依序找出每一跳，直到目的地回應。<br><br>📌 <strong>出題依據</strong>：國營 114 年申論考 traceroute；國營 ICMP 題 31 次；114 年郵政 tracert 診斷。"
+ },
+ {
+  "id": "115C-36",
+  "year": "模擬卷C",
+  "no": 36,
+  "topic": "wire",
+  "stem": "5G 的三大應用情境中，最適合遠端手術、自動駕駛等「要求極低延遲與高可靠度」應用的是哪一項？",
+  "options": [
+   "mMTC（大規模機器型通訊）",
+   "eMBB（增強型行動寬頻）",
+   "URLLC（超高可靠度低延遲通訊）",
+   "VoLTE"
+  ],
+  "answer": "C",
+  "explain": "<strong>eMBB</strong>：高速率，如 4K／VR 串流。<br><strong>URLLC</strong>：延遲約 1 毫秒、可靠度極高，適合遠端手術、自駕車、工業控制。<br><strong>mMTC</strong>：大量低功耗物聯網裝置連線。<br>VoLTE 是 4G 語音技術。<br><br>📌 <strong>出題依據</strong>：國營 5G 選擇題 98、106、114 年，申論 97、104、110 年。"
+ },
+ {
+  "id": "115C-37",
+  "year": "模擬卷C",
+  "no": 37,
+  "topic": "wire",
+  "stem": "近場通訊（NFC）的有效通訊距離大約為何？",
+  "options": [
+   "10 公分以內",
+   "10 公尺左右",
+   "100 公尺左右",
+   "1 公里以上"
+  ],
+  "answer": "A",
+  "explain": "NFC 工作於 13.56 MHz，有效距離約 <strong>4～10 公分</strong>，必須「靠近」才能通訊，因此適合行動支付、門禁、悠遊卡等需要明確意圖的應用。<br>藍牙約 10 公尺、Wi-Fi 約數十公尺。<br><br>📌 <strong>出題依據</strong>：國營 NFC 選擇題 109 年、申論 97、102、104 年。"
+ },
+ {
+  "id": "115C-38",
+  "year": "模擬卷C",
+  "no": 38,
+  "topic": "sec",
+  "stem": "下列哪一種惡意程式「不需寄生在其他檔案」，可自我複製並主動透過網路散播？",
+  "options": [
+   "廣告軟體（Adware）",
+   "電腦病毒（Virus）",
+   "特洛伊木馬（Trojan Horse）",
+   "蠕蟲（Worm）"
+  ],
+  "answer": "D",
+  "explain": "<strong>蠕蟲</strong>：獨立程式，利用網路或系統漏洞自動散播，不需使用者操作。<br><strong>病毒</strong>：寄生在其他檔案或開機磁區，需宿主被執行才會傳染。<br><strong>木馬</strong>：偽裝成正常程式誘騙使用者安裝，通常<strong>不會自我複製</strong>，用於開後門、竊取資料。<br><br>📌 <strong>出題依據</strong>：113 年郵政第一題（特洛伊木馬的行為與運作流程）；國營惡意程式 12 題、110 年申論。"
+ },
+ {
+  "id": "115C-39",
+  "year": "模擬卷C",
+  "no": 39,
+  "topic": "sec",
+  "stem": "攻擊者打電話給員工，自稱是資訊部同仁正在處理帳號異常，要求員工告知密碼以便「協助修復」。這屬於哪一種攻擊？",
+  "options": [
+   "社交工程（假託 Pretexting）",
+   "暴力破解",
+   "SQL 注入",
+   "阻斷服務攻擊"
+  ],
+  "answer": "A",
+  "explain": "利用人性弱點（信任權威、急迫感）而非技術漏洞騙取資訊，稱為<strong>社交工程</strong>；編造一個情境身分取信對方，稱為假託（Pretexting）。<br>防範：資訊人員絕不會索取密碼、以官方管道回撥確認、加強教育訓練。<br><br>📌 <strong>出題依據</strong>：114 年高考資通網路第三題（社交工程與技術性攻擊的差異）；國營社交工程申論 107、109 年。"
+ },
+ {
+  "id": "115C-40",
+  "year": "模擬卷C",
+  "no": 40,
+  "topic": "sec",
+  "stem": "防範 SQL 注入（SQL Injection）攻擊最根本有效的方法為何？",
+  "options": [
+   "將資料庫密碼設得更長",
+   "使用參數化查詢（預備語句 Prepared Statement）",
+   "把資料庫伺服器放在 DMZ",
+   "關閉網站的 HTTPS"
+  ],
+  "answer": "B",
+  "explain": "SQL 注入是把使用者輸入直接串接成 SQL 指令，讓輸入被當成程式碼執行。<br><strong>預備語句</strong>先把 SQL 結構送到資料庫編譯，使用者輸入只會被當作「資料」綁定到參數，無法改變指令結構。<br>其他輔助：輸入驗證、最小權限資料庫帳號、WAF。<br><br>📌 <strong>出題依據</strong>：國營 114 年第 42 題（Prepared Statement，借自地方特考 113 年三等第三題）；114 年郵政第二題。"
+ },
+ {
+  "id": "115C-41",
+  "year": "模擬卷C",
+  "no": 41,
+  "topic": "sec",
+  "stem": "下列何者「不是」密碼學雜湊函數（如 SHA-256）應具備的特性？",
+  "options": [
+   "很難找到兩個不同輸入產生相同雜湊值",
+   "輸入任意長度，輸出固定長度",
+   "可由雜湊值還原出原始訊息",
+   "輸入稍有改變，輸出就大幅不同"
+  ],
+  "answer": "C",
+  "explain": "雜湊函數是<strong>單向</strong>的：由輸出無法反推輸入（抗原像性）。<br>其他特性：固定長度輸出、抗碰撞、雪崩效應。<br>因此雜湊用於完整性檢查、數位簽章、密碼儲存，而不是加密（加密必須能解回原文）。<br><br>📌 <strong>出題依據</strong>：國營雜湊／數位簽章／PKI 28 題；113 年郵政第一題（SHA3）。"
+ },
+ {
+  "id": "115C-42",
+  "year": "模擬卷C",
+  "no": 42,
+  "topic": "sec",
+  "stem": "下列哪一種加密演算法的安全性，建立在「大整數質因數分解的困難度」上？",
+  "options": [
+   "DES",
+   "AES",
+   "SHA-256",
+   "RSA"
+  ],
+  "answer": "D",
+  "explain": "<strong>RSA</strong>：公開金鑰演算法，由兩個大質數相乘產生金鑰，安全性基於因數分解困難。<br>AES、DES：對稱式區塊加密。<br>SHA-256：雜湊函數，不是加密演算法。<br>ECC 則基於橢圓曲線離散對數問題，同樣安全強度下金鑰更短。<br><br>📌 <strong>出題依據</strong>：國營對稱與非對稱加密 36 題（近 5 年 9 題）。"
+ },
+ {
+  "id": "115C-43",
+  "year": "模擬卷C",
+  "no": 43,
+  "topic": "sec",
+  "stem": "TLS 等安全協定採用「混合式加密」：以非對稱加密交換或協商工作階段金鑰，再以對稱加密傳送資料。這樣設計的主要原因為何？",
+  "options": [
+   "對稱加密速度快，非對稱加密能解決金鑰配送問題，兩者截長補短",
+   "非對稱加密速度較快，適合加密大量資料",
+   "對稱加密不需要金鑰",
+   "非對稱加密無法用於數位簽章"
+  ],
+  "answer": "A",
+  "explain": "<strong>對稱加密</strong>：速度快，但雙方要先安全地共享同一把金鑰。<br><strong>非對稱加密</strong>：用公鑰就能安全傳遞秘密，但運算慢，不適合大量資料。<br>因此先用非對稱方式安全取得<strong>工作階段金鑰</strong>，再用對稱加密傳資料，兼顧安全與效能。<br><br>📌 <strong>出題依據</strong>：國營 TLS／HTTPS 題 24 題；113 年郵政第二題（SSL／TLS 運作概念）。"
+ },
+ {
+  "id": "115C-44",
+  "year": "模擬卷C",
+  "no": 44,
+  "topic": "sec",
+  "stem": "瀏覽器要即時查詢某張數位憑證是否已被撤銷，可使用下列哪一種協定？",
+  "options": [
+   "SNMP",
+   "OCSP（線上憑證狀態協定）",
+   "LDAP 匿名登入",
+   "NTP"
+  ],
+  "answer": "B",
+  "explain": "憑證可能因私鑰外洩等原因在到期前被撤銷。查詢方式：<br>① <strong>CRL</strong>（憑證撤銷清單）：定期下載整份清單，即時性較差。<br>② <strong>OCSP</strong>：即時向 CA 的回應伺服器查詢單一憑證狀態。<br><br>📌 <strong>出題依據</strong>：國營 114 年憑證撤銷題；國營 PKI 題 28 題。"
+ },
+ {
+  "id": "115C-45",
+  "year": "模擬卷C",
+  "no": 45,
+  "topic": "sec",
+  "stem": "入侵偵測系統把正常的使用者行為誤判為攻擊並發出警報，這種情形稱為何？",
+  "options": [
+   "真陽性（True Positive）",
+   "漏報（False Negative）",
+   "誤報（False Positive）",
+   "真陰性（True Negative）"
+  ],
+  "answer": "C",
+  "explain": "<strong>誤報（False Positive）</strong>：沒有攻擊卻告警，太多會造成「告警疲勞」。<br><strong>漏報（False Negative）</strong>：真的有攻擊卻沒偵測到，危害更大。<br>異常偵測式 IDS 通常誤報率較高；特徵比對式則容易漏報未知攻擊。<br><br>📌 <strong>出題依據</strong>：國營 IDS／IPS 題 17 題（近 5 年 8 題）；113 年地方特考三等第一題。"
+ },
+ {
+  "id": "115C-46",
+  "year": "模擬卷C",
+  "no": 46,
+  "topic": "sec",
+  "stem": "攻擊者利用軟體廠商「尚未發現或尚未釋出修補程式」的漏洞發動攻擊，稱為何？",
+  "options": [
+   "邏輯炸彈",
+   "重放攻擊",
+   "字典攻擊",
+   "零時差攻擊（Zero-day Attack）"
+  ],
+  "answer": "D",
+  "explain": "漏洞被公開或修補之前的空窗期，廠商準備修補的時間為「零天」，故稱<strong>零時差攻擊</strong>。<br>因為沒有特徵碼，傳統防毒難以偵測，要靠行為分析、縱深防禦、虛擬修補（WAF／IPS）降低風險。<br><br>📌 <strong>出題依據</strong>：國營 APT／零時差題 110 年申論；114 年高考資通網路第三題。"
+ },
+ {
+  "id": "115C-47",
+  "year": "模擬卷C",
+  "no": 47,
+  "topic": "sec",
+  "stem": "由資安人員模擬攻擊者，實際嘗試入侵系統，以驗證弱點是否真的能被利用，稱為何？",
+  "options": [
+   "滲透測試（Penetration Test）",
+   "弱點掃描（Vulnerability Scan）",
+   "源碼檢測",
+   "壓力測試"
+  ],
+  "answer": "A",
+  "explain": "<strong>弱點掃描</strong>：以工具自動比對已知弱點，範圍廣，但可能誤報，不會實際利用。<br><strong>滲透測試</strong>：由專業人員依攻擊手法實際嘗試入侵，可證明弱點能否被利用、影響多大，較深入但成本高。<br><br>📌 <strong>出題依據</strong>：國營 112 年選擇題、107、111 年申論；113 年高考資訊管理第一題（弱點掃描）。"
+ },
+ {
+  "id": "115C-48",
+  "year": "模擬卷C",
+  "no": 48,
+  "topic": "sec",
+  "stem": "下列哪一種登入方式「不屬於」雙因素驗證？",
+  "options": [
+   "密碼＋手機簡訊一次性密碼（OTP）",
+   "密碼＋安全提示問題",
+   "晶片卡＋PIN 碼",
+   "密碼＋指紋辨識"
+  ],
+  "answer": "B",
+  "explain": "雙因素驗證必須結合<strong>不同類型</strong>的因素：<br>① 你知道的（密碼、PIN）② 你擁有的（手機、晶片卡、硬體金鑰）③ 你本身的（指紋、臉部）。<br>密碼與安全提示問題<strong>都是「你知道的」</strong>，只算單一因素。<br><br>📌 <strong>出題依據</strong>：國營 114 年多因素驗證題、110 年申論；郵政 114 年 IAM 題。"
+ },
+ {
+  "id": "115C-49",
+  "year": "模擬卷C",
+  "no": 49,
+  "topic": "misc",
+  "stem": "企業把機敏的核心資料放在自建的私有雲，將流量波動大的官網與行銷活動放在公有雲，兩者整合運作。這種部署方式稱為何？",
+  "options": [
+   "多租戶公有雲",
+   "社群雲（Community Cloud）",
+   "混合雲（Hybrid Cloud）",
+   "邊緣運算"
+  ],
+  "answer": "C",
+  "explain": "<strong>混合雲</strong>：結合私有雲與公有雲，機敏資料留在私有雲以符合資安與法規，彈性需求放到公有雲以節省成本。<br>社群雲：由有共同需求的多個組織共用，例如政府機關共用平台。<br><br>📌 <strong>出題依據</strong>：國營 112 年申論雲端部署模式；地方特考 113 年三等資訊管理第四題（自有機房、公有雲、私有雲）。"
+ },
+ {
+  "id": "115C-50",
+  "year": "模擬卷C",
+  "no": 50,
+  "topic": "misc",
+  "stem": "開發者只要上傳程式碼，作業系統、執行環境與中介軟體都由雲端業者管理。這屬於哪一種雲端服務模式？",
+  "options": [
+   "DaaS（資料即服務）",
+   "IaaS（基礎設施即服務）",
+   "SaaS（軟體即服務）",
+   "PaaS（平台即服務）"
+  ],
+  "answer": "D",
+  "explain": "<strong>IaaS</strong>：租用虛擬機、儲存、網路，作業系統以上自己管。<br><strong>PaaS</strong>：業者提供開發與執行平台，使用者只管程式和資料，例如 Google App Engine、Heroku。<br><strong>SaaS</strong>：直接使用完成的軟體，例如 Gmail、Microsoft 365。<br><br>📌 <strong>出題依據</strong>：國營 IaaS／PaaS／SaaS 選擇題 5 個年度；郵政 114 年系統操作第四題（雲端運算三大架構）。"
+ },
+ {
+  "id": "115D-1",
+  "year": "模擬卷D",
+  "no": 1,
+  "topic": "arch",
+  "stem": "以 8 位元 2 的補數表示整數，可表示的範圍為何？",
+  "options": [
+   "−128 ～ +127",
+   "−127 ～ +127",
+   "−128 ～ +128",
+   "0 ～ 255"
+  ],
+  "answer": "A",
+  "explain": "n 位元 2 的補數範圍為 −2ⁿ⁻¹ ～ 2ⁿ⁻¹ − 1，8 位元即 <strong>−128 ～ +127</strong>。<br>−127 ～ +127 是 1 的補數或符號大小表示法（有 +0 與 −0 兩個零）；0 ～ 255 是無號數。<br><br>📌 <strong>出題依據</strong>：國營補數題每年必考（共 32 題）。"
+ },
+ {
+  "id": "115D-2",
+  "year": "模擬卷D",
+  "no": 2,
+  "topic": "arch",
+  "stem": "十六進位運算 (3F)₁₆ + (2C)₁₆ 的結果為何？",
+  "options": [
+   "(5B)₁₆",
+   "(6B)₁₆",
+   "(6A)₁₆",
+   "(7B)₁₆"
+  ],
+  "answer": "B",
+  "explain": "個位：F + C = 15 + 12 = 27 = 16 + 11 → 寫 B、進位 1。<br>十位：3 + 2 + 1 = 6。<br>結果 <strong>(6B)₁₆</strong>。驗算：63 + 44 = 107 = 6×16 + 11。<br><br>📌 <strong>出題依據</strong>：國營進位轉換與運算題 32 題。"
+ },
+ {
+  "id": "115D-3",
+  "year": "模擬卷D",
+  "no": 3,
+  "topic": "arch",
+  "stem": "布林函數 F = A'B + AB' 等同於下列哪一種邏輯閘？",
+  "options": [
+   "NAND",
+   "XNOR",
+   "XOR",
+   "NOR"
+  ],
+  "answer": "C",
+  "explain": "A'B + AB' 只有在 A 與 B <strong>不相同</strong>時為 1，正是互斥或 <strong>XOR</strong>（A ⊕ B）。<br>XNOR = A'B' + AB，兩者相同時為 1。<br>XOR 也是半加器的「和」輸出。<br><br>📌 <strong>出題依據</strong>：國營布林代數與邏輯閘題 27 題；其他考試計算機概要高頻。"
+ },
+ {
+  "id": "115D-4",
+  "year": "模擬卷D",
+  "no": 4,
+  "topic": "arch",
+  "stem": "下列何者是 RISC（精簡指令集）架構的特色？",
+  "options": [
+   "一道指令就能完成複雜的字串搬移運算",
+   "指令長度不固定、定址模式非常多",
+   "大量使用微程式控制來執行複雜指令",
+   "指令長度固定，只有 Load／Store 指令能存取記憶體，暫存器數量多"
+  ],
+  "answer": "D",
+  "explain": "<strong>RISC</strong>：指令少而簡單、<strong>長度固定</strong>、多數指令一個週期完成、<strong>Load／Store 架構</strong>、暫存器多，適合管線化（如 ARM、RISC-V）。<br>其他三項都是 CISC（如 x86）的特色。<br><br>📌 <strong>出題依據</strong>：國營 RISC 題 97、101、104、111 年；113 年考管線結構危障。"
+ },
+ {
+  "id": "115D-5",
+  "year": "模擬卷D",
+  "no": 5,
+  "topic": "arch",
+  "stem": "管線中，後一道指令需要用到前一道指令尚未寫回的運算結果（資料危障），最常用的硬體解法為何？",
+  "options": [
+   "使用 DMA",
+   "分支預測",
+   "增加快取容量",
+   "資料前饋（Forwarding／Bypassing）"
+  ],
+  "answer": "D",
+  "explain": "<strong>資料前饋</strong>：運算結果一算出來，就直接從 ALU 輸出端送到下一道指令的輸入，不必等寫回暫存器。<br>無法前饋時（如 Load 後立刻使用）才插入停頓（stall）。<br>分支預測是處理<strong>控制危障</strong>的方法。<br><br>📌 <strong>出題依據</strong>：國營 113 年管線危障題；RISC 與管線相關題共 9 題。"
+ },
+ {
+  "id": "115D-6",
+  "year": "模擬卷D",
+  "no": 6,
+  "topic": "arch",
+  "stem": "32 位元整數 0x12345678 以「小端序（Little-Endian）」存放在起始位址 100 的記憶體中，位址 100 存放的位元組為何？",
+  "options": [
+   "0x12",
+   "0x78",
+   "0x34",
+   "0x56"
+  ],
+  "answer": "B",
+  "explain": "<strong>小端序</strong>：最低有效位元組放在最低位址。<br>位址 100：78、101：56、102：34、103：12。<br>大端序則相反，位址 100 放 0x12。x86 為小端序，網路傳輸使用大端序（網路位元組順序）。<br><br>📌 <strong>出題依據</strong>：國營 101 年位元組順序題。"
+ },
+ {
+  "id": "115D-7",
+  "year": "模擬卷D",
+  "no": 7,
+  "topic": "os",
+  "stem": "執行中（Running）的行程發出 I/O 請求後，會進入哪一個狀態？",
+  "options": [
+   "新建（New）",
+   "就緒（Ready）",
+   "等待（Waiting／Blocked）",
+   "終止（Terminated）"
+  ],
+  "answer": "C",
+  "explain": "行程狀態轉換：<br>執行 → <strong>等待</strong>：發出 I/O 請求或等待事件。<br>執行 → 就緒：時間配額用完或被搶先。<br>等待 → 就緒：I/O 完成。<br>就緒 → 執行：被排程器選中。<br><br>📌 <strong>出題依據</strong>：國營行程狀態題 101、104、105、109 年。"
+ },
+ {
+  "id": "115D-8",
+  "year": "模擬卷D",
+  "no": 8,
+  "topic": "os",
+  "stem": "解決臨界區間（Critical Section）問題的方法必須滿足三項條件。下列何者「不是」其中之一？",
+  "options": [
+   "進行（Progress）",
+   "互斥（Mutual Exclusion）",
+   "每個行程的等待時間必須最短",
+   "有限等待（Bounded Waiting）"
+  ],
+  "answer": "C",
+  "explain": "三項條件：<br>① <strong>互斥</strong>：同一時間只能有一個行程在臨界區間。<br>② <strong>進行</strong>：沒有行程在臨界區間時，要能在有限時間內決定誰進入。<br>③ <strong>有限等待</strong>：每個行程等待進入的次數有上限，不會餓死。<br>「等待時間最短」是排程效能目標，不是正確性條件。<br><br>📌 <strong>出題依據</strong>：國營 106、109 年臨界區間題；115 模擬 A 卷考過號誌。"
+ },
+ {
+  "id": "115D-9",
+  "year": "模擬卷D",
+  "no": 9,
+  "topic": "os",
+  "stem": "某系統分頁大小為 1 KB，頁表內容為：頁 0 → 頁框 3、頁 1 → 頁框 7、頁 2 → 頁框 5、頁 3 → 頁框 1。邏輯位址 3000 對應的實體位址為何？",
+  "options": [
+   "3072",
+   "5120",
+   "8120",
+   "6072"
+  ],
+  "answer": "D",
+  "explain": "頁碼 = 3000 ÷ 1024 = 2（商），位移 = 3000 − 2048 = 952。<br>頁 2 對應頁框 5 → 實體位址 = 5 × 1024 + 952 = 5120 + 952 = <strong>6072</strong>。<br><br>📌 <strong>出題依據</strong>：國營邏輯與實體位址轉換題 102、105、108 年；郵政 114 年系統操作「分頁機制」。"
+ },
+ {
+  "id": "115D-10",
+  "year": "模擬卷D",
+  "no": 10,
+  "topic": "os",
+  "stem": "優先權排程可能使低優先權行程長期得不到 CPU（飢餓），常見的解決方法為何？",
+  "options": [
+   "把時間配額設得很小",
+   "老化（Aging）：等待越久，優先權逐漸提高",
+   "改用 FCFS 以外的任何演算法",
+   "增加記憶體"
+  ],
+  "answer": "B",
+  "explain": "<strong>老化</strong>：系統定期提高等待中行程的優先權，等得夠久的低優先權行程終究會被執行。<br>SJF、優先權排程都可能造成飢餓；FCFS 與 Round Robin 不會。<br><br>📌 <strong>出題依據</strong>：國營飢餓與老化題 7 個年度（114 年仍有）。"
+ },
+ {
+  "id": "115D-11",
+  "year": "模擬卷D",
+  "no": 11,
+  "topic": "ds",
+  "stem": "將 1、2、3 依序推入（push）堆疊，期間可在任意時刻彈出（pop）。下列哪一個輸出順序「不可能」產生？",
+  "options": [
+   "1, 2, 3",
+   "3, 1, 2",
+   "2, 1, 3",
+   "3, 2, 1"
+  ],
+  "answer": "B",
+  "explain": "要先輸出 3，必須先把 1、2、3 都推入，此時堆疊由下而上為 1、2、3。彈出 3 之後，頂端是 <strong>2</strong>，不可能接著輸出 1。<br>其他三種都可以：1,2,3 推一個彈一個；2,1,3 推 1、2 後彈 2、1 再推彈 3；3,2,1 全推再全彈。<br><br>📌 <strong>出題依據</strong>：國營堆疊與佇列題 16 題、申論 6 次；113 年高考資料結構第四題。"
+ },
+ {
+  "id": "115D-12",
+  "year": "模擬卷D",
+  "no": 12,
+  "topic": "ds",
+  "stem": "二維陣列 A[1..5][1..4]，每個元素占 4 個位元組，起始位址為 1000，以列為主（row-major）存放。A[3][2] 的位址為何？",
+  "options": [
+   "1036",
+   "1032",
+   "1040",
+   "1044"
+  ],
+  "answer": "A",
+  "explain": "列為主：位址 = 起始 + [(i − 1) × 每列元素數 + (j − 1)] × 元素大小。<br>= 1000 + [(3 − 1) × 4 + (2 − 1)] × 4 = 1000 + 9 × 4 = <strong>1036</strong>。<br>若以行為主：1000 + [(2 − 1) × 5 + (3 − 1)] × 4 = 1028。<br><br>📌 <strong>出題依據</strong>：國營陣列位址計算 8 個年度；114 年高考資料結構第二題（三維陣列位址）。"
+ },
+ {
+  "id": "115D-13",
+  "year": "模擬卷D",
+  "no": 13,
+  "topic": "ds",
+  "stem": "對 100 個已排序的資料進行二元搜尋，最多需要比較幾次？",
+  "options": [
+   "10",
+   "6",
+   "7",
+   "50"
+  ],
+  "answer": "C",
+  "explain": "二元搜尋每比較一次，搜尋範圍減半。最多比較次數 = ⌈log₂(n + 1)⌉ = ⌈log₂101⌉ = <strong>7</strong>。<br>（2⁶ = 64 &lt; 101 ≤ 128 = 2⁷）<br><br>📌 <strong>出題依據</strong>：國營二元搜尋選擇題 105、114 年，申論 98、102、106、108 年；113 年高考資料結構第三題。"
+ },
+ {
+  "id": "115D-14",
+  "year": "模擬卷D",
+  "no": 14,
+  "topic": "ds",
+  "stem": "下列排序法中，何者「不是」穩定排序？",
+  "options": [
+   "合併排序（Merge Sort）",
+   "氣泡排序（Bubble Sort）",
+   "插入排序（Insertion Sort）",
+   "堆積排序（Heap Sort）"
+  ],
+  "answer": "D",
+  "explain": "穩定排序：鍵值相同的元素，排序後維持原本的相對順序。<br>穩定：氣泡、插入、合併、基數排序。<br>不穩定：<strong>堆積</strong>、快速、選擇、謝耳排序。堆積排序把根與最後元素交換，會打亂相同鍵值的順序。<br><br>📌 <strong>出題依據</strong>：國營穩定排序選擇題 4 個年度、申論 6 個年度；國營 100、113 年堆積排序題。"
+ },
+ {
+  "id": "115D-15",
+  "year": "模擬卷D",
+  "no": 15,
+  "topic": "prog",
+  "stem": "下列 C 函式，呼叫 <code>f(1234)</code> 的回傳值為何？<br><code>int f(int n) {<br>&nbsp;&nbsp;if (n == 0) return 0;<br>&nbsp;&nbsp;return n % 10 + f(n / 10);<br>}</code>",
+  "options": [
+   "10",
+   "4321",
+   "1234",
+   "24"
+  ],
+  "answer": "A",
+  "explain": "此函式計算各位數字之和：<br>f(1234) = 4 + f(123) = 4 + 3 + f(12) = 4 + 3 + 2 + f(1) = 4 + 3 + 2 + 1 + f(0) = <strong>10</strong>。<br><br>📌 <strong>出題依據</strong>：國營遞迴題 13 題，申論 103、105 年遞迴追蹤；114 年關務資料結構第四題（遞迴呼叫過程）。"
+ },
+ {
+  "id": "115D-16",
+  "year": "模擬卷D",
+  "no": 16,
+  "topic": "prog",
+  "stem": "執行下列 Python 程式，輸出為何？<br><code>d = {'a': 1}<br>d['b'] = d.get('b', 0) + 2<br>d['a'] += 1<br>print(len(d), d['a'], d['b'])</code>",
+  "options": [
+   "1 2 2",
+   "2 2 2",
+   "2 1 2",
+   "程式發生 KeyError"
+  ],
+  "answer": "B",
+  "explain": "d.get('b', 0)：鍵 'b' 不存在時回傳預設值 0，不會出錯 → d['b'] = 2。<br>d['a'] 由 1 加成 2。<br>字典有 'a'、'b' 兩個鍵 → 輸出 <strong>2 2 2</strong>。<br>若寫成 d['b'] + 2 才會發生 KeyError。<br><br>📌 <strong>出題依據</strong>：國營 Python 字典選擇題 95、96、105 年，申論 96、98、106 年。"
+ },
+ {
+  "id": "115D-17",
+  "year": "模擬卷D",
+  "no": 17,
+  "topic": "prog",
+  "stem": "執行下列 C 程式片段，輸出為何？<br><code>int a[3] = {10, 20, 30};<br>int *p = a;<br>p++;<br>printf(\"%d\", *p + 1);</code>",
+  "options": [
+   "30",
+   "11",
+   "21",
+   "31"
+  ],
+  "answer": "C",
+  "explain": "p 一開始指向 a[0]，p++ 後指向 <strong>a[1] = 20</strong>。<br>*p + 1：先取值 20 再加 1 → <strong>21</strong>。<br>若寫成 *(p + 1) 則是 a[2] = 30。<br><br>📌 <strong>出題依據</strong>：國營指標題 98、114 年。"
+ },
+ {
+  "id": "115D-18",
+  "year": "模擬卷D",
+  "no": 18,
+  "topic": "net",
+  "stem": "路由器主要運作在 OSI 模型的哪一層？",
+  "options": [
+   "傳輸層",
+   "資料鏈結層",
+   "實體層",
+   "網路層"
+  ],
+  "answer": "D",
+  "explain": "<strong>路由器</strong>依 IP 位址選路轉送，屬於第 3 層網路層。<br>交換器、橋接器：第 2 層資料鏈結層（依 MAC）。<br>集線器、中繼器：第 1 層實體層。<br><br>📌 <strong>出題依據</strong>：國營 OSI 分層題 52 題、網路設備題 51 題。"
+ },
+ {
+  "id": "115D-19",
+  "year": "模擬卷D",
+  "no": 19,
+  "topic": "wire",
+  "stem": "下列哪一個 Wi-Fi 標準「只」使用 5 GHz 頻段？",
+  "options": [
+   "IEEE 802.11ac",
+   "IEEE 802.11b",
+   "IEEE 802.11g",
+   "IEEE 802.11n"
+  ],
+  "answer": "A",
+  "explain": "802.11b、802.11g：2.4 GHz。<br>802.11n（Wi-Fi 4）：2.4 與 5 GHz 皆可。<br><strong>802.11ac（Wi-Fi 5）：只用 5 GHz</strong>。<br>802.11ax（Wi-Fi 6）：2.4 與 5 GHz，Wi-Fi 6E 再加上 6 GHz。<br><br>📌 <strong>出題依據</strong>：國營 Wi-Fi 頻段題 98、106、107 年；無線網路題 28 題。"
+ },
+ {
+  "id": "115D-20",
+  "year": "模擬卷D",
+  "no": 20,
+  "topic": "net",
+  "stem": "交換器收到一個訊框，但 MAC 位址表中找不到其目的 MAC 位址，交換器會如何處理？",
+  "options": [
+   "直接丟棄訊框",
+   "從收到訊框的埠以外的所有埠轉送出去（泛洪 Flooding）",
+   "回傳 ICMP 錯誤訊息給來源",
+   "送交預設閘道處理"
+  ],
+  "answer": "B",
+  "explain": "交換器以訊框的<strong>來源 MAC</strong> 學習「哪個 MAC 在哪個埠」。<br>目的 MAC 已知 → 只從對應的埠送出（過濾與轉送）。<br>目的 MAC 未知或為廣播 → <strong>泛洪</strong>到其他所有埠，等對方回應後就學會位置。<br><br>📌 <strong>出題依據</strong>：國營交換器運作題，114 年第 2 層交換器轉送依據。"
+ },
+ {
+  "id": "115D-21",
+  "year": "模擬卷D",
+  "no": 21,
+  "topic": "net",
+  "stem": "下列哪一種設備可以分隔廣播網域（Broadcast Domain）？",
+  "options": [
+   "中繼器",
+   "集線器",
+   "路由器",
+   "未設定 VLAN 的第二層交換器"
+  ],
+  "answer": "C",
+  "explain": "<strong>路由器不轉送廣播</strong>，每個介面各自是一個廣播網域。<br>集線器、中繼器：所有埠同一個碰撞網域與廣播網域。<br>第二層交換器：分隔碰撞網域，但除非切 VLAN，否則不分隔廣播網域。<br><br>📌 <strong>出題依據</strong>：國營碰撞與廣播網域題 100、112 年。"
+ },
+ {
+  "id": "115D-22",
+  "year": "模擬卷D",
+  "no": 22,
+  "topic": "sec",
+  "stem": "分散式阻斷服務攻擊（DDoS）主要破壞資訊安全 CIA 三要素中的哪一項？",
+  "options": [
+   "不可否認性（Non-repudiation）",
+   "機密性（Confidentiality）",
+   "完整性（Integrity）",
+   "可用性（Availability）"
+  ],
+  "answer": "D",
+  "explain": "DDoS 以大量流量或請求耗盡頻寬或系統資源，讓合法使用者無法使用服務，破壞<strong>可用性</strong>。<br>竊聽破壞機密性；竄改破壞完整性。<br><br>📌 <strong>出題依據</strong>：國營 CIA 三要素題 23 題；國營 DoS／DDoS 題 9 題。"
+ },
+ {
+  "id": "115D-23",
+  "year": "模擬卷D",
+  "no": 23,
+  "topic": "net",
+  "stem": "標準乙太網路的最大傳輸單元（MTU）為多少位元組？",
+  "options": [
+   "1500",
+   "1024",
+   "576",
+   "9000"
+  ],
+  "answer": "A",
+  "explain": "標準乙太網路訊框的資料欄位最大為 <strong>1500 位元組</strong>（MTU），封包超過就需分段。<br>9000 是部分設備支援的巨型訊框（Jumbo Frame）；576 是 IPv4 主機必須能接受的最小重組大小。<br><br>📌 <strong>出題依據</strong>：國營 MTU 題 98、106、114 年，114 年申論考過分段。"
+ },
+ {
+  "id": "115D-24",
+  "year": "模擬卷D",
+  "no": 24,
+  "topic": "tcpip",
+  "stem": "主機 IP 為 192.168.100.77/28，其所屬網段的網路位址為何？",
+  "options": [
+   "192.168.100.72",
+   "192.168.100.64",
+   "192.168.100.0",
+   "192.168.100.48"
+  ],
+  "answer": "B",
+  "explain": "/28 的第四個位元組遮罩為 240，區塊大小 = 16。<br>各網段起點：0、16、32、48、64、80 …，77 落在 64～79 → 網路位址 <strong>192.168.100.64</strong>，廣播位址 192.168.100.79。<br><br>📌 <strong>出題依據</strong>：國營子網路計算 36 題；115 年普考資通網路第一題。"
+ },
+ {
+  "id": "115D-25",
+  "year": "模擬卷D",
+  "no": 25,
+  "topic": "tcpip",
+  "stem": "128.10.0.0/16 這個網段最多可分配給幾台主機？",
+  "options": [
+   "65534",
+   "65536",
+   "254",
+   "16382"
+  ],
+  "answer": "A",
+  "explain": "主機位元 32 − 16 = 16 個：2¹⁶ − 2 = <strong>65534</strong>（扣除網路位址與廣播位址）。<br><br>📌 <strong>出題依據</strong>：國營 IP 計算題每年必考。"
+ },
+ {
+  "id": "115D-26",
+  "year": "模擬卷D",
+  "no": 26,
+  "topic": "tcpip",
+  "stem": "下列哪一個應用層協定使用 TCP 傳輸？",
+  "options": [
+   "DHCP",
+   "DNS 一般查詢",
+   "SMTP",
+   "SNMP"
+  ],
+  "answer": "C",
+  "explain": "<strong>SMTP</strong>（TCP 25）傳送電子郵件，需要可靠傳輸。<br>DNS 一般查詢（UDP 53）、DHCP（UDP 67／68）、SNMP（UDP 161）都使用 UDP。<br><br>📌 <strong>出題依據</strong>：國營 TCP／UDP 題 62 題（近 5 年 23 題）。"
+ },
+ {
+  "id": "115D-27",
+  "year": "模擬卷D",
+  "no": 27,
+  "topic": "tcpip",
+  "stem": "SSH（Secure Shell）預設使用的埠號為何？",
+  "options": [
+   "443",
+   "23",
+   "21",
+   "22"
+  ],
+  "answer": "D",
+  "explain": "<strong>SSH：22</strong>；Telnet：23（明文傳輸，應以 SSH 取代）；FTP 控制連線：21；HTTPS：443。<br><br>📌 <strong>出題依據</strong>：國營埠號題 66 題，幾乎每年都有。"
+ },
+ {
+  "id": "115D-28",
+  "year": "模擬卷D",
+  "no": 28,
+  "topic": "tcpip",
+  "stem": "攻擊者大量送出 SYN 封包卻不完成三向交握，使伺服器的半開連線佇列被塞滿。下列何者是針對此攻擊的有效防禦？",
+  "options": [
+   "SYN Cookies",
+   "加大 MTU",
+   "關閉 ARP",
+   "改用 IPv6 位址"
+  ],
+  "answer": "A",
+  "explain": "這是 <strong>SYN Flood</strong> 攻擊。<strong>SYN Cookies</strong> 讓伺服器收到 SYN 時不先配置連線資源，而是把連線資訊編碼在回應的初始序號中，等收到合法 ACK 才建立連線，因此半開連線佇列不會被塞滿。<br>其他做法：縮短半開連線逾時、限制來源速率、使用防 DDoS 服務。<br><br>📌 <strong>出題依據</strong>：國營 SYN 相關題 100、101、110、112、113 年。"
+ },
+ {
+  "id": "115D-29",
+  "year": "模擬卷D",
+  "no": 29,
+  "topic": "tcpip",
+  "stem": "TCP 傳送端以 cwnd = 1 MSS 開始慢啟動，ssthresh = 8 MSS。cwnd 達到 ssthresh 後即改用壅塞避免。若每一輪傳輸都成功收到確認，第 5 輪開始時的 cwnd 為多少 MSS？",
+  "options": [
+   "16",
+   "9",
+   "8",
+   "5"
+  ],
+  "answer": "B",
+  "explain": "慢啟動階段每輪加倍：第 1 輪 1、第 2 輪 2、第 3 輪 4、第 4 輪 8。<br>cwnd 達到 ssthresh 後進入<strong>壅塞避免</strong>，每輪只加 1 → 第 5 輪 <strong>9</strong>。<br><br>📌 <strong>出題依據</strong>：國營壅塞控制選擇題 5 個年度，申論 98、114 年；114 年關務三等第二題（cwnd 與 rwnd）。"
+ },
+ {
+  "id": "115D-30",
+  "year": "模擬卷D",
+  "no": 30,
+  "topic": "tcpip",
+  "stem": "TCP 接收端通告的接收視窗（rwnd）為 0 時，傳送端會如何處理？",
+  "options": [
+   "改用 UDP 傳送",
+   "立即中斷連線",
+   "暫停傳送資料，並以持續計時器定期送出探測區段，詢問視窗是否已打開",
+   "把 cwnd 重設為 1"
+  ],
+  "answer": "C",
+  "explain": "rwnd = 0 表示接收端緩衝區已滿，這是<strong>流量控制</strong>：傳送端暫停傳送，並啟動<strong>持續計時器（Persist Timer）</strong>，定期送出視窗探測，避免接收端的視窗更新訊息遺失而雙方永遠等待。<br>cwnd 重設為 1 是壅塞控制在逾時時的反應。<br><br>📌 <strong>出題依據</strong>：114 年關務三等第二題（rwnd 流量控制）；國營 TCP 題近 5 年 23 題。"
+ },
+ {
+  "id": "115D-31",
+  "year": "模擬卷D",
+  "no": 31,
+  "topic": "tcpip",
+  "stem": "IPv4 標頭中「存活時間（TTL）」欄位的主要作用為何？",
+  "options": [
+   "記錄封包被分段的次數",
+   "記錄封包已經傳送的秒數，用以計算延遲",
+   "表示封包的優先順序",
+   "每經過一台路由器減 1，減到 0 時丟棄，避免封包在網路中無限繞圈"
+  ],
+  "answer": "D",
+  "explain": "TTL 每經過一台路由器減 1，<strong>到 0 就丟棄</strong>並回傳 ICMP Time Exceeded，防止路由迴圈造成封包永遠存在。<br>traceroute 就是利用這個特性。IPv6 中對應欄位稱為 Hop Limit。<br><br>📌 <strong>出題依據</strong>：國營 TTL 題 104、106、107、109、112 年，114 年申論。"
+ },
+ {
+  "id": "115D-32",
+  "year": "模擬卷D",
+  "no": 32,
+  "topic": "tcpip",
+  "stem": "一個 4000 位元組的 IPv4 封包（標頭 20 位元組、資料 3980 位元組）要經過 MTU 為 1500 的鏈路，被分成三個片段。第三個片段的片段位移（Fragment Offset）欄位值為何？",
+  "options": [
+   "370",
+   "2960",
+   "185",
+   "1480"
+  ],
+  "answer": "A",
+  "explain": "每個片段最多帶 1500 − 20 = 1480 位元組資料（1480 是 8 的倍數）。<br>片段 1：資料 0～1479，位移 0。<br>片段 2：資料 1480～2959，位移 1480 ÷ 8 = 185。<br>片段 3：資料 2960～3979（1020 位元組），位移 2960 ÷ 8 = <strong>370</strong>。<br>位移欄位以 8 位元組為單位。<br><br>📌 <strong>出題依據</strong>：國營分段題 11 個年度，申論 6 個年度（114 年仍有）。"
+ },
+ {
+  "id": "115D-33",
+  "year": "模擬卷D",
+  "no": 33,
+  "topic": "tcpip",
+  "stem": "下列哪一種位址類型在 IPv6 中「不存在」？",
+  "options": [
+   "單播（Unicast）",
+   "廣播（Broadcast）",
+   "群播（Multicast）",
+   "任播（Anycast）"
+  ],
+  "answer": "B",
+  "explain": "IPv6 位址類型：單播、群播、任播。<br><strong>IPv6 取消了廣播</strong>，原本需要廣播的功能改用群播，例如 ARP 由鄰居探索協定（NDP）以群播取代。<br><br>📌 <strong>出題依據</strong>：國營 IPv6 選擇題 11 個年度、114 年申論。"
+ },
+ {
+  "id": "115D-34",
+  "year": "模擬卷D",
+  "no": 34,
+  "topic": "tcpip",
+  "stem": "使用者希望在手機、筆電等多台裝置上讀信，郵件保留在伺服器上且各裝置的已讀狀態、資料夾同步，應使用哪一種協定收信？",
+  "options": [
+   "SMTP",
+   "POP3",
+   "IMAP",
+   "SNMP"
+  ],
+  "answer": "C",
+  "explain": "<strong>IMAP</strong>（TCP 143，加密 993）：郵件保留在伺服器，多裝置同步狀態與資料夾。<br><strong>POP3</strong>（TCP 110）：下載到本機，通常會從伺服器刪除，不利多裝置使用。<br>SMTP 是寄信協定。<br><br>📌 <strong>出題依據</strong>：國營電子郵件協定題 15 個年度（95～113 年幾乎每年）。"
+ },
+ {
+  "id": "115D-35",
+  "year": "模擬卷D",
+  "no": 35,
+  "topic": "tcpip",
+  "stem": "關於 SNMP，下列敘述何者正確？",
+  "options": [
+   "使用 TCP 25 建立連線",
+   "用於傳送電子郵件",
+   "用於同步網路設備的時間",
+   "用於監控與管理網路設備，管理站透過 UDP 161 向設備上的代理程式查詢 MIB 資訊"
+  ],
+  "answer": "D",
+  "explain": "<strong>SNMP</strong>（簡易網路管理協定）由管理站向設備上的代理程式（Agent）查詢或設定 <strong>MIB</strong> 中的變數，使用 <strong>UDP 161</strong>；設備主動通報異常的 Trap 則送往管理站的 UDP 162。<br>SNMPv3 加入了認證與加密。時間同步是 NTP。<br><br>📌 <strong>出題依據</strong>：國營 SNMP 選擇題 11 個年度。"
+ },
+ {
+  "id": "115D-36",
+  "year": "模擬卷D",
+  "no": 36,
+  "topic": "wire",
+  "stem": "WEP 無線加密容易被破解，主要原因為何？",
+  "options": [
+   "初始向量（IV）只有 24 位元且以明文傳送，重複使用後可推算出金鑰",
+   "使用 AES 演算法太過複雜",
+   "必須搭配 RADIUS 伺服器",
+   "只能在 5 GHz 頻段運作"
+  ],
+  "answer": "A",
+  "explain": "WEP 使用 RC4 串流加密，<strong>IV 只有 24 位元</strong>且以明文傳送，大量封包後必然重複；攻擊者收集足夠封包即可在短時間內推算出金鑰。<br>之後由 WPA（TKIP）、WPA2（AES-CCMP）、WPA3（SAE）取代。<br><br>📌 <strong>出題依據</strong>：國營 WEP 題 98、100、110、111 年。"
+ },
+ {
+  "id": "115D-37",
+  "year": "模擬卷D",
+  "no": 37,
+  "topic": "wire",
+  "stem": "藍牙（Bluetooth）屬於哪一類無線網路，其對應的 IEEE 標準系列為何？",
+  "options": [
+   "無線區域網路（WLAN），IEEE 802.11",
+   "無線個人區域網路（WPAN），IEEE 802.15",
+   "無線都會網路（WMAN），IEEE 802.16",
+   "無線廣域網路（WWAN），IEEE 802.20"
+  ],
+  "answer": "B",
+  "explain": "<strong>WPAN（802.15）</strong>：藍牙（802.15.1）、ZigBee（802.15.4），距離約 10 公尺。<br>WLAN（802.11）：Wi-Fi。<br>WMAN（802.16）：WiMAX。<br><br>📌 <strong>出題依據</strong>：國營 802.15 題 111、112 年；113、114 年關務三等 Wi-Fi 與藍牙比較。"
+ },
+ {
+  "id": "115D-38",
+  "year": "模擬卷D",
+  "no": 38,
+  "topic": "sec",
+  "stem": "數位簽章「無法」提供下列哪一項安全功能？",
+  "options": [
+   "來源鑑別",
+   "完整性",
+   "機密性（防止內容被他人讀取）",
+   "不可否認性"
+  ],
+  "answer": "C",
+  "explain": "數位簽章 = 以傳送者私鑰對訊息摘要加密，可提供<strong>完整性、來源鑑別、不可否認性</strong>。<br>但原文本身沒有被加密，任何人都能讀取，所以<strong>不提供機密性</strong>。若要保密，須另以接收者公鑰或對稱金鑰加密內容。<br><br>📌 <strong>出題依據</strong>：國營數位簽章選擇題 7 個年度、申論 104、105、114 年；114 年郵政系統操作第一題。"
+ },
+ {
+  "id": "115D-39",
+  "year": "模擬卷D",
+  "no": 39,
+  "topic": "sec",
+  "stem": "50 位使用者之間兩兩都要以「對稱式加密」安全通訊，總共需要幾把不同的金鑰？",
+  "options": [
+   "1225",
+   "50",
+   "100",
+   "2450"
+  ],
+  "answer": "A",
+  "explain": "每一對使用者共用一把金鑰：C(50, 2) = 50 × 49 ÷ 2 = <strong>1225</strong> 把。<br>若改用非對稱加密，每人一對金鑰，只需 50 對（100 把）。這就是對稱加密的金鑰管理難題。<br><br>📌 <strong>出題依據</strong>：國營對稱與非對稱加密題 36 題。"
+ },
+ {
+  "id": "115D-40",
+  "year": "模擬卷D",
+  "no": 40,
+  "topic": "sec",
+  "stem": "大量遭惡意程式感染的電腦，受攻擊者透過「命令與控制（C&C）伺服器」遠端操控，用來發動 DDoS 或寄送垃圾郵件。這些電腦組成的網路稱為何？",
+  "options": [
+   "內容傳遞網路",
+   "蜜網（Honeynet）",
+   "虛擬私人網路",
+   "殭屍網路（Botnet）"
+  ],
+  "answer": "D",
+  "explain": "被感染的電腦稱為殭屍（Bot），聽從 C&C 伺服器的指令集體行動，組成<strong>殭屍網路</strong>，常用於 DDoS、垃圾郵件、撞庫攻擊、挖礦。<br>偵測方式：監控內部主機與可疑外部位址的定期連線。<br><br>📌 <strong>出題依據</strong>：國營殭屍網路題 97、110 年；113 年地方特考三等第一題（DDoS）。"
+ },
+ {
+  "id": "115D-41",
+  "year": "模擬卷D",
+  "no": 41,
+  "topic": "sec",
+  "stem": "依員工的職務指派權限，員工調職時只要變更其職務，就能自動取得新職務的權限。這是哪一種存取控制模式？",
+  "options": [
+   "以角色為基礎的存取控制（RBAC）",
+   "自主式存取控制（DAC）",
+   "強制式存取控制（MAC）",
+   "以規則為基礎的防火牆過濾"
+  ],
+  "answer": "A",
+  "explain": "<strong>RBAC</strong>：權限授予「角色」，使用者被指派角色，管理簡便，符合最小權限與職責分離。<br>DAC：資源擁有者自行決定誰能存取。<br>MAC：依安全等級標籤由系統強制決定。<br><br>📌 <strong>出題依據</strong>：國營 RBAC 選擇題 102、107、114 年，申論 5 個年度。"
+ },
+ {
+  "id": "115D-42",
+  "year": "模擬卷D",
+  "no": 42,
+  "topic": "sec",
+  "stem": "使用者以 HTTPS 連線網站時，伺服器提供的數位憑證主要作用為何？",
+  "options": [
+   "加密整個硬碟",
+   "證明伺服器身分，並提供伺服器的公鑰",
+   "取代使用者的帳號密碼",
+   "加快網頁載入速度"
+  ],
+  "answer": "B",
+  "explain": "憑證由 CA 簽發，內含網域名稱與<strong>伺服器公鑰</strong>。瀏覽器以內建的根憑證驗證 CA 簽章，確認<strong>連到的是真正的網站</strong>，防止中間人攻擊；之後再以金鑰交換建立對稱工作階段金鑰。<br><br>📌 <strong>出題依據</strong>：國營 TLS／HTTPS 題 24 題、PKI 題 28 題。"
+ },
+ {
+  "id": "115D-43",
+  "year": "模擬卷D",
+  "no": 43,
+  "topic": "sec",
+  "stem": "使用者已登入網路銀行，又在同一瀏覽器開啟惡意網頁，該網頁暗中送出轉帳請求，瀏覽器自動夾帶銀行 Cookie 使請求成功。這是哪一種攻擊？其主要防禦為何？",
+  "options": [
+   "SQL 注入；使用預備語句",
+   "XSS；對輸出做 HTML 編碼",
+   "CSRF；在表單加入不可預測的 Anti-CSRF Token",
+   "點擊劫持；關閉 JavaScript"
+  ],
+  "answer": "C",
+  "explain": "<strong>CSRF（跨站請求偽造）</strong>：利用使用者已登入的身分，誘使瀏覽器送出使用者不知情的請求。<br>防禦：<strong>Anti-CSRF Token</strong>、Cookie 設定 SameSite、重要操作要求再次驗證。<br>XSS 則是在受害網站注入惡意腳本。<br><br>📌 <strong>出題依據</strong>：國營 113 年 CSRF 選擇題、114 年申論。"
+ },
+ {
+  "id": "115D-44",
+  "year": "模擬卷D",
+  "no": 44,
+  "topic": "sec",
+  "stem": "下列何者「不是」防範緩衝區溢位（Buffer Overflow）攻擊的有效措施？",
+  "options": [
+   "啟用資料執行防止（DEP／NX）",
+   "以 strncpy、fgets 等限制長度的函式取代 strcpy、gets",
+   "啟用位址空間配置隨機化（ASLR）",
+   "要求使用者設定更長的登入密碼"
+  ],
+  "answer": "D",
+  "explain": "緩衝區溢位是程式沒有檢查輸入長度，覆蓋到返回位址等記憶體。<br>有效措施：<strong>邊界檢查與安全函式</strong>、ASLR（讓攻擊者難以預測位址）、DEP（堆疊不可執行）、堆疊保護（canary）。<br>密碼長度與此類漏洞無關。<br><br>📌 <strong>出題依據</strong>：國營 111、112 年申論考過緩衝區溢位與 ASLR。"
+ },
+ {
+  "id": "115D-45",
+  "year": "模擬卷D",
+  "no": 45,
+  "topic": "sec",
+  "stem": "未經授權的人緊跟在持有門禁卡的員工後面進入機房，這屬於哪一種社交工程手法？",
+  "options": [
+   "尾隨（Tailgating）",
+   "網路釣魚（Phishing）",
+   "垃圾搜尋（Dumpster Diving）",
+   "肩窺（Shoulder Surfing）"
+  ],
+  "answer": "A",
+  "explain": "<strong>尾隨</strong>：利用他人禮貌或疏忽，跟著合法人員通過實體門禁。防範：一人一卡、旋轉門、門禁教育、警衛確認。<br>垃圾搜尋：翻找丟棄的文件；肩窺：偷看他人輸入密碼。<br><br>📌 <strong>出題依據</strong>：國營社交工程選擇題 104 年、申論 107、109 年；114 年高考資通網路第三題。"
+ },
+ {
+  "id": "115D-46",
+  "year": "模擬卷D",
+  "no": 46,
+  "topic": "sec",
+  "stem": "專門鎖定企業執行長、財務長等高階主管，量身打造的網路釣魚稱為何？",
+  "options": [
+   "網址嫁接（Pharming）",
+   "捕鯨攻擊（Whaling）",
+   "簡訊釣魚（Smishing）",
+   "語音釣魚（Vishing）"
+  ],
+  "answer": "B",
+  "explain": "<strong>魚叉式釣魚</strong>：針對特定對象量身打造。<br><strong>捕鯨攻擊</strong>：魚叉式釣魚的一種，目標是高階主管，常配合變臉詐騙（BEC）要求匯款。<br>網址嫁接：竄改 DNS 或 hosts，把使用者導向假網站。<br><br>📌 <strong>出題依據</strong>：國營 109 年申論（魚叉式釣魚）；113 年郵政第二題（防範社交工程）。"
+ },
+ {
+  "id": "115D-47",
+  "year": "模擬卷D",
+  "no": 47,
+  "topic": "sec",
+  "stem": "集中收集各設備、伺服器與資安系統的日誌，並進行關聯分析、即時告警的系統為何？",
+  "options": [
+   "CDN",
+   "DHCP",
+   "SIEM（資安事件管理系統）",
+   "VPN 閘道"
+  ],
+  "answer": "C",
+  "explain": "<strong>SIEM</strong>（Security Information and Event Management）彙整防火牆、IDS、伺服器、AD 等日誌，透過關聯規則找出單一設備看不出的攻擊行為，並提供告警與報表；通常是資安監控中心（SOC）的核心工具。<br><br>📌 <strong>出題依據</strong>：國營 109 年申論 SIEM；國營 IDS／IPS／SIEM／SOC 題 17 題。"
+ },
+ {
+  "id": "115D-48",
+  "year": "模擬卷D",
+  "no": 48,
+  "topic": "sec",
+  "stem": "針對網站登入頁面的「線上」暴力破解與撞庫攻擊，下列何者最直接有效？",
+  "options": [
+   "把密碼以明文儲存以便查核",
+   "加大伺服器硬碟空間",
+   "使用 HTTP 而非 HTTPS",
+   "限制登入失敗次數並暫時鎖定帳號或加入驗證碼"
+  ],
+  "answer": "D",
+  "explain": "線上暴力破解必須透過登入介面一次次嘗試，<strong>限制嘗試次數</strong>、帳號鎖定、延遲回應、CAPTCHA 能直接讓攻擊不可行；搭配多因素驗證效果更好。<br>密碼必須加鹽雜湊後儲存，不能用明文。<br><br>📌 <strong>出題依據</strong>：國營身分驗證／MFA 題 12 題；113 年鹽值題。"
+ },
+ {
+  "id": "115D-49",
+  "year": "模擬卷D",
+  "no": 49,
+  "topic": "misc",
+  "stem": "下列何者「不是」資料倉儲（Data Warehouse）的特性？",
+  "options": [
+   "資料經常即時新增、修改與刪除（揮發性）",
+   "主題導向",
+   "整合性",
+   "隨時間變化（保存歷史資料）"
+  ],
+  "answer": "A",
+  "explain": "Inmon 定義資料倉儲四特性：<strong>主題導向、整合性、隨時間變化、非揮發性</strong>。<br>資料倉儲以批次方式經 ETL 載入，主要用來查詢分析（OLAP），一般不做即時修改；即時交易處理屬於 OLTP 資料庫。<br><br>📌 <strong>出題依據</strong>：國營資料倉儲選擇題 4 個年度、申論 5 個年度；115 年關務三等資料庫第三題（資料倉儲與 ETL）。"
+ },
+ {
+  "id": "115D-50",
+  "year": "模擬卷D",
+  "no": 50,
+  "topic": "misc",
+  "stem": "區塊鏈的資料難以被竄改，主要原因為何？",
+  "options": [
+   "資料都存放在單一中央伺服器並嚴格備份",
+   "每個區塊都包含前一個區塊的雜湊值，且由多個節點共同驗證與保存帳本",
+   "所有交易都以明文公開，無人敢竄改",
+   "區塊鏈使用對稱式加密保護每筆交易"
+  ],
+  "answer": "B",
+  "explain": "區塊以<strong>前一區塊的雜湊值</strong>串成鏈，修改任何一個區塊，其後所有區塊的雜湊都會失效；加上<strong>分散式</strong>帳本由多數節點以共識機制驗證，單一攻擊者難以同時竄改多數節點。<br><br>📌 <strong>出題依據</strong>：國營區塊鏈選擇題 102 年、申論 109 年。"
+ }
+];
+const PAPER_NOTE = {"模擬卷A": "資安與雲端加重", "模擬卷B": "最接近 115 年預測", "模擬卷C": "路由、DNS、VPN 與攻防", "模擬卷D": "國營歷年高頻基本題"};
+
+
+/* === 進度持久化 (localStorage) === */
+const STORAGE_KEY = 'gy_mock115_progress_v1';
+/* 舊版（國營＋關務合併站）使用的 key；若同網域下有舊進度，首次載入時只搬移屬於本站的題目 */
+const LEGACY_STORAGE_KEY = 'gy_mock115_none';
+let progress = loadProgress();
+
+function loadProgress() {
+  try {
+    let raw = localStorage.getItem(STORAGE_KEY);
+    let migrate = false;
+    if (!raw) {
+      raw = localStorage.getItem(LEGACY_STORAGE_KEY);
+      migrate = !!raw;
+    }
+    if (!raw) return { answers: {}, bookmarks: {} };
+    const p = JSON.parse(raw);
+    let answers = p.answers || {};       // { id: "A"|"B"|"C"|"D" }
+    let bookmarks = p.bookmarks || {};   // { id: true }
+    if (migrate) {
+      const ids = new Set(ALL_Q.map(q => q.id));
+      const pick = obj => Object.keys(obj).reduce((o, k) => (ids.has(k) && (o[k] = obj[k]), o), {});
+      answers = pick(answers);
+      bookmarks = pick(bookmarks);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ answers, bookmarks })); } catch (e) {}
+    }
+    return { answers, bookmarks };
+  } catch (e) {
+    return { answers: {}, bookmarks: {} };
+  }
+}
+function saveProgress() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); } catch (e) {}
+}
+
+/* === 狀態 === */
+let state = {
+  mode: 'quiz',       // quiz | review | wrong | bookmark
+  group: 'year',      // year | topic
+  topicFilter: 'all',
+  search: '',
+  terms: [],
+  openGroups: new Set(),   // 目前展開的年度/主題群組（預設全部收合）
+  shuffled: false,
+  shuffleSeed: 0
+};
+
+/* === Markdown 渲染（極簡） === */
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function renderInline(s) {
+  // **粗體**, `code`, <br>
+  let out = escapeHtml(s)
+    .replace(/&lt;br&gt;/g, '<br>')
+    .replace(/&lt;strong&gt;/g, '<strong>').replace(/&lt;\/strong&gt;/g, '</strong>')
+    .replace(/&lt;code&gt;/g, '<code>').replace(/&lt;\/code&gt;/g, '</code>')
+    .replace(/&lt;(\/?)(sub|sup)&gt;/g, '<$1$2>');
+  out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+  return out;
+}
+
+
+/* ============================================================
+   搜尋 / 跳轉 / 換行 共用工具（新增）
+   ============================================================ */
+const BREAK_AT_PERIOD = true;   // 解析遇到「。」自動換行；不想要就改成 false
+
+/* 全形→半形、英文轉小寫；逐字處理，確保處理後長度不變（highlight 才對得準） */
+function normText(s) {
+  let out = '';
+  for (const ch of String(s)) {
+    const n = ch.normalize('NFKC').toLowerCase();
+    out += (n.length === ch.length) ? n : ch;
+  }
+  return out;
+}
+function parseTerms(raw) {
+  return [...new Set(normText(raw).split(/\s+/).filter(Boolean))];
+}
+/* 去掉資料裡用來排版的 HTML 標籤，避免搜 "br"、"code"、"strong" 時誤中 */
+function stripTags(s) {
+  return String(s == null ? '' : s)
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(?:strong|code|sub|sup|u|em|b|i)\s*>/gi, '');
+}
+/* 每個關鍵字都必須出現（AND）；總分 = 各關鍵字命中的最高權重欄位之和 */
+function scoreFields(terms, fields) {
+  let total = 0;
+  for (const term of terms) {
+    let best = 0;
+    for (const f of fields) if (f.w > best && f.t.includes(term)) best = f.w;
+    if (!best) return 0;
+    total += best;
+  }
+  return total;
+}
+/* 在已渲染的 DOM 文字節點上標黃（不動 HTML 結構） */
+function highlightIn(root, terms) {
+  if (!root || !terms.length) return;
+  const nodes = [];
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = walker.nextNode())) {
+    if (!n.nodeValue.trim()) continue;
+    const p = n.parentNode;
+    if (p && p.closest && p.closest('svg, button, mark')) continue;
+    nodes.push(n);
+  }
+  nodes.forEach(node => {
+    const text = node.nodeValue, low = normText(text);
+    const ranges = [];
+    terms.forEach(t => {
+      let i = low.indexOf(t);
+      while (i !== -1) { ranges.push([i, i + t.length]); i = low.indexOf(t, i + t.length); }
+    });
+    if (!ranges.length) return;
+    ranges.sort((a, b) => a[0] - b[0]);
+    const merged = [ranges[0].slice()];
+    for (let k = 1; k < ranges.length; k++) {
+      const last = merged[merged.length - 1];
+      if (ranges[k][0] <= last[1]) last[1] = Math.max(last[1], ranges[k][1]);
+      else merged.push(ranges[k].slice());
+    }
+    const frag = document.createDocumentFragment();
+    let pos = 0;
+    merged.forEach(([s, e]) => {
+      if (s > pos) frag.appendChild(document.createTextNode(text.slice(pos, s)));
+      const m = document.createElement('mark');
+      m.className = 'hl';
+      m.textContent = text.slice(s, e);
+      frag.appendChild(m);
+      pos = e;
+    });
+    if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+/* 解析換行：遇到「。」就換行（已有 <br>、句尾、或後面接」』）” 的不重複換） */
+function breakSentences(s) {
+  if (!BREAK_AT_PERIOD) return s;
+  return String(s).replace(
+    /。(?!(?:<\/[a-z]+>)*(?:\s*<br\s*\/?>|\s*$|[」』）)”"']))/gi,
+    '。<br>'
+  );
+}
+
+/* ---------- 搜尋框綁定（支援中文輸入法，組字中不觸發搜尋） ---------- */
+function applySearch() {
+  const input = document.getElementById('searchInput');
+  state.search = input.value.trim();
+  state.terms = parseTerms(state.search);
+  render();
+}
+function clearSearch() {
+  const input = document.getElementById('searchInput');
+  input.value = '';
+  document.getElementById('searchClear').classList.remove('show');
+  applySearch();
+  input.focus();
+}
+function bindSearch() {
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClear');
+  let timer, composing = false;
+  const schedule = () => { clearTimeout(timer); timer = setTimeout(applySearch, 150); };
+  input.addEventListener('compositionstart', () => { composing = true; });
+  input.addEventListener('compositionend', () => { composing = false; schedule(); });
+  input.addEventListener('input', () => {
+    clearBtn.classList.toggle('show', input.value.length > 0);
+    if (!composing) schedule();
+  });
+  input.addEventListener('keydown', e => { if (e.key === 'Escape') clearSearch(); });
+  clearBtn.addEventListener('click', clearSearch);
+}
+
+/* ---------- 跳轉面板 ---------- */
+let JUMP_ITEMS = [];
+let JUMP_TITLE = '跳到試卷';
+function buildJump() {
+  const fab = document.getElementById('jumpFab');
+  const grid = document.getElementById('jumpGrid');
+  document.getElementById('jumpTitle').textContent = JUMP_TITLE;
+  fab.classList.toggle('show', JUMP_ITEMS.length > 0);
+  grid.innerHTML = JUMP_ITEMS.map(it =>
+    `<button class="jump-item${it.done ? ' done' : ''}${it.open ? ' on' : ''}" onclick="jumpTo('${it.key}')">
+       <b>${it.label}</b><small>${it.sub || ''}</small></button>`
+  ).join('');
+  if (!JUMP_ITEMS.length) toggleJump(false);
+}
+function toggleJump(force) {
+  const p = document.getElementById('jumpPanel');
+  p.hidden = (typeof force === 'boolean') ? !force : !p.hidden;
+}
+function scrollToGroup(key) {
+  const el = document.getElementById('g-' + key);
+  if (!el) return;
+  const ctrl = document.querySelector('.controls');
+  const top = el.getBoundingClientRect().top + window.scrollY - (ctrl ? ctrl.offsetHeight : 0) - 10;
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto';          // 跳轉用瞬間定位，避免長距離捲動動畫
+  window.scrollTo(0, Math.max(0, top));
+  root.style.scrollBehavior = '';
+}
+document.addEventListener('click', e => {
+  const p = document.getElementById('jumpPanel');
+  if (p && !p.hidden && !p.contains(e.target) && !e.target.closest('#jumpFab')) p.hidden = true;
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleJump(false); });
+
+/* === 統計 === */
+function computeStats(list) {
+  let answered = 0, correct = 0, wrong = 0;
+  list.forEach(q => {
+    const u = progress.answers[q.id];
+    if (u) {
+      answered++;
+      if (q.allCorrect || u === q.answer || (q.altAnswer && u === q.altAnswer)) correct++;
+      else wrong++;
+    }
+  });
+  return { answered, correct, wrong };
+}
+
+function updateStatBar() {
+  const scope = ALL_Q;
+  document.getElementById('statTotal').textContent = scope.length;
+  document.getElementById('statYears').textContent = new Set(scope.map(q=>q.year)).size;
+  const s = computeStats(scope);
+  document.getElementById('statAnswered').textContent = s.answered;
+  document.getElementById('statCorrect').textContent = s.correct;
+  document.getElementById('statWrong').textContent = s.wrong;
+  document.getElementById('statRate').textContent =
+    s.answered > 0 ? Math.round(s.correct / s.answered * 100) + '%' : '—';
+}
+
+/* === 搜尋欄位索引 === */
+function searchFields(q, withExplain) {
+  const ix = q._ix || (q._ix = {
+    stem: normText(stripTags(q.stem)),
+    opts: normText(q.options.map(stripTags).join('\n')),
+    exp:  normText(stripTags(q.explain || '')),
+    meta: normText(q.year + ' ' + q.year + '年 第' + q.no + '題 ' +
+                   ((TOPIC_INFO[q.topic] || {}).name || '') + (q.type === 'multi' ? ' 複選題' : ''))
+  });
+  const f = [{ t: ix.stem, w: 10 }, { t: ix.opts, w: 6 }, { t: ix.meta, w: 1 }];
+  if (withExplain) f.push({ t: ix.exp, w: 3 });
+  return f;
+}
+
+/* === 篩選 === */
+function filterQuestions() {
+  let list = ALL_Q.slice();
+
+  // 模式
+  if (state.mode === 'wrong') {
+    list = list.filter(q => progress.answers[q.id] && !q.allCorrect && progress.answers[q.id] !== q.answer && progress.answers[q.id] !== q.altAnswer);
+  } else if (state.mode === 'bookmark') {
+    list = list.filter(q => progress.bookmarks[q.id]);
+  }
+
+  // 主題
+  if (state.topicFilter !== 'all') {
+    list = list.filter(q => q.topic === state.topicFilter);
+  }
+
+  // 搜尋：多關鍵字 AND、全形半形統一、去除 HTML 標籤、依相關度排序
+  if (state.terms.length) {
+    const withExplain = state.mode === 'review' || state.mode === 'wrong';
+    return list
+      .map((q, i) => ({ q, i, s: scoreFields(state.terms, searchFields(q, withExplain)) }))
+      .filter(x => x.s > 0)
+      .sort((a, b) => b.s - a.s || a.i - b.i)
+      .map(x => x.q);
+  }
+
+  // 隨機
+  if (state.shuffled) {
+    list = shuffleArray(list, state.shuffleSeed);
+  }
+
+  return list;
+}
+
+function shuffleArray(arr, seed) {
+  // 簡易確定性洗牌（Fisher-Yates with seeded random）
+  const a = arr.slice();
+  let s = seed || 1;
+  const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* === 渲染題目卡 === */
+function renderQuestion(q) {
+  const t = TOPIC_INFO[q.topic] || { name: '其他', cls: 't-misc' };
+  const userAns = progress.answers[q.id];
+  const isBookmarked = !!progress.bookmarks[q.id];
+  const isAnswered = !!userAns;
+  // 多選題：userAns 為已排序字串如 "ABC"；單選為單一字母
+  const isCorrect = q.allCorrect ? isAnswered : (q.type === 'multi'
+    ? (userAns && [...userAns].sort().join('') === [...(q.answer||'')].sort().join(''))
+    : (userAns === q.answer || (q.altAnswer && userAns === q.altAnswer)));
+  const isViewed = !!(progress.viewed && progress.viewed[q.id]);
+  // 在「閱讀模式」或「錯題複習」中預設揭曉答案
+  const forceReveal = state.mode === 'review' || state.mode === 'wrong';
+  const revealed = forceReveal || isAnswered || isViewed;
+
+  let cls = 'q-card ' + t.cls;
+  if (revealed && isAnswered) cls += ' answered ' + (isCorrect ? 'correct' : 'wrong');
+  if (revealed) cls += ' revealed';
+  if (isBookmarked) cls += ' bookmarked';
+
+  // 選項
+  const letters = 'ABCDE';
+  const isMulti = q.type === 'multi';
+  // 多選題：userAns 為排序後的字串如 "ABC"；單選為單一字母
+  const userSet = new Set((userAns || '').split(''));
+  // 進行中（尚未提交）的多選暫存
+  if (isMulti && !progress.pending) progress.pending = {};
+  const pendingSet = isMulti ? new Set(((progress.pending && progress.pending[q.id]) || '').split('').filter(Boolean)) : null;
+  const correctSet = new Set((q.answer || '').split(''));
+  if (q.altAnswer) correctSet.add(q.altAnswer);
+
+  const optsHtml = q.options.map((opt, idx) => {
+    const letter = letters[idx];
+    let oCls = 'opt';
+    if (isMulti) {
+      // 多選：揭曉前看 pending；揭曉後看 userAns
+      if (!revealed && pendingSet.has(letter)) oCls += ' user-selected';
+      if (revealed && userSet.has(letter)) oCls += ' user-selected';
+    } else {
+      if (userAns === letter) oCls += ' user-selected';
+    }
+    if (revealed) {
+      if (correctSet.has(letter)) oCls += ' correct';
+      if (!q.allCorrect) {
+        if (isMulti) {
+          if (userSet.has(letter) && !correctSet.has(letter)) oCls += ' wrong';
+        } else {
+          if (userAns === letter && !correctSet.has(letter)) oCls += ' wrong';
+        }
+      } else if (userAns === letter && letter !== q.answer) {
+        oCls += ' correct';
+      }
+    }
+    let mark = '';
+    if (revealed && correctSet.has(letter)) mark = '<span class="correct-mark">正解</span>';
+    else if (revealed && q.allCorrect && userAns === letter && letter !== q.answer) mark = '<span class="correct-mark">送分</span>';
+    else if (revealed && !q.allCorrect && !isMulti && userAns === letter && !correctSet.has(letter)) mark = '<span class="wrong-mark">你的選擇</span>';
+    else if (revealed && !q.allCorrect && isMulti && userSet.has(letter) && !correctSet.has(letter)) mark = '<span class="wrong-mark">你的選擇</span>';
+    return `<div class="${oCls}" onclick="selectAnswer('${q.id}','${letter}')">
+      <div class="opt-letter">${letter}</div>
+      <div class="opt-text">${renderInline(opt)}</div>
+      ${mark}
+    </div>`;
+  }).join('');
+
+  // 解析
+  let explainHtml = '';
+  if (revealed && q.explain) {
+    explainHtml = `<div class="explain">
+      <span class="explain-label">解析</span>
+      <div>${renderInline(breakSentences(q.explain))}</div>
+    </div>`;
+  }
+
+  // 動作按鈕
+  let actionsHtml = '<div class="q-actions">';
+  if (!revealed) {
+    if (isMulti) {
+      const hasPending = pendingSet && pendingSet.size > 0;
+      actionsHtml += `<button class="submit-btn" onclick="submitMultiAnswer('${q.id}')" ${hasPending ? '' : 'disabled'}>送出答案（已選 ${pendingSet ? pendingSet.size : 0} 項）</button>`;
+    }
+    actionsHtml += `<button class="reveal-btn" onclick="revealAnswer('${q.id}')">看答案</button>`;
+  } else if (!forceReveal) {
+    actionsHtml += `<button onclick="resetQuestion('${q.id}')">重新作答</button>`;
+  }
+  actionsHtml += '</div>';
+
+  return `<div class="${cls}" id="q-${q.id}">
+    <div class="q-head">
+      <div class="q-no">${q.no}</div>
+      <div class="q-headmain">
+        <div class="q-text">${renderInline(q.stem)}</div>
+        ${q.figure ? `<div class="q-figure" style="margin-top:.6rem">${q.figure}</div>` : ''}
+        <div class="q-tags">
+          <span class="tag tag-topic">${t.name}</span>
+          <span class="tag tag-year">${q.year}</span>
+          <span class="tag tag-no">第 ${q.no} 題</span>
+          ${isMulti ? '<span class="tag tag-multi">複選題</span>' : ''}
+        </div>
+      </div>
+      <button class="q-bookmark ${isBookmarked ? 'on' : ''}"
+              title="${isBookmarked ? '取消收藏' : '加入收藏'}"
+              onclick="toggleBookmark('${q.id}')">${isBookmarked ? '★' : '☆'}</button>
+    </div>
+    <div class="q-body">
+      <div class="options">${optsHtml}</div>
+      ${explainHtml}
+      ${actionsHtml}
+    </div>
+  </div>`;
+}
+
+/* === 主渲染 === */
+let GROUP_QS = {};
+
+function updateSearchInfo(count) {
+  const el = document.getElementById('searchInfo');
+  if (!state.terms.length) { el.classList.remove('show'); el.innerHTML = ''; return; }
+  let h = `找到 <b>${count}</b> 題 ‧ 依相關度排序`;
+  if (state.mode !== 'review' && state.mode !== 'wrong') {
+    h += ' ‧ 目前只搜尋題幹與選項（切到「閱讀模式」可一併搜尋解析）';
+  }
+  el.innerHTML = h;
+  el.classList.add('show');
+}
+
+function groupHtml(key, badge, title, meta, qs, open) {
+  GROUP_QS[key] = qs;
+  return `<div class="group collapsible${open ? ' open' : ''}" id="g-${key}" data-key="${key}">
+    <div class="group-head" onclick="toggleGroup('${key}')" role="button" tabindex="0"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleGroup('${key}')}">
+      <span class="g-chev" aria-hidden="true">▸</span>
+      <span class="g-badge">${badge}</span>
+      <span class="g-title">${title}</span>
+      <span class="g-meta">${meta}</span>
+    </div>
+    ${open ? `<div class="q-list">${qs.map(renderQuestion).join('')}</div>` : ''}
+  </div>`;
+}
+
+function render() {
+  const list = filterQuestions();
+  const wrap = document.getElementById('content');
+  const searching = state.terms.length > 0;
+  GROUP_QS = {};
+  JUMP_ITEMS = [];
+  updateSearchInfo(list.length);
+
+  if (list.length === 0) {
+    let msg = '找不到符合條件的題目';
+    if (searching) msg = `找不到符合「${escapeHtml(state.search)}」的題目。可改用較短的關鍵字；多個關鍵字請用空格分開。`;
+    else if (state.mode === 'wrong') msg = '尚未有答錯的題目，繼續加油 👍';
+    else if (state.mode === 'bookmark') msg = '尚未收藏任何題目（點題目右上角 ☆ 即可收藏）';
+    wrap.innerHTML = `<div class="empty"><div class="big">📭</div><p>${msg}</p></div>`;
+    updateStatBar();
+    buildJump();
+    return;
+  }
+
+  let html = '';
+  if (searching) {
+    // 搜尋結果：不分組、依相關度排序、全部展開
+    html += `<div class="group open">
+      <div class="group-head">
+        <span class="g-badge">搜尋</span>
+        <span class="g-title">依相關度排序</span>
+        <span class="g-meta">共 ${list.length} 題</span>
+      </div>
+      <div class="q-list">${list.map(renderQuestion).join('')}</div>
+    </div>`;
+  } else if (state.shuffled) {
+    // 隨機排序時不分組，全部列出
+    html += `<div class="group">
+      <div class="group-head">
+        <span class="g-badge">隨機</span>
+        <span class="g-title">已隨機打散全部題目</span>
+        <span class="g-meta">共 ${list.length} 題</span>
+      </div>
+      <div class="q-list">${list.map(renderQuestion).join('')}</div>
+    </div>`;
+  } else if (state.group === 'year') {
+    JUMP_TITLE = '跳到試卷';
+    const byYear = {};
+    list.forEach(q => { (byYear[q.year] = byYear[q.year] || []).push(q); });
+    const years = Object.keys(byYear).sort((a, b) => a.localeCompare(b));
+    years.forEach(yr => {
+      const qs = byYear[yr];
+      qs.sort((a, b) => a.no - b.no);
+      const s = computeStats(qs);
+      const key = 'y' + yr;
+      const open = state.openGroups.has(key);
+      JUMP_ITEMS.push({ key, label: yr, sub: `${s.answered}/${qs.length}`,
+                        done: s.answered === qs.length, open });
+      html += groupHtml(key, yr, PAPER_NOTE[yr] || '',
+        `本卷共 ${qs.length} 題<br>已答 ${s.answered} ‧ 對 ${s.correct} ‧ 錯 ${s.wrong}`, qs, open);
+    });
+  } else {
+    JUMP_TITLE = '跳到主題';
+    const byTopic = {};
+    list.forEach(q => { (byTopic[q.topic] = byTopic[q.topic] || []).push(q); });
+    Object.keys(TOPIC_INFO).forEach(tk => {
+      const qs = byTopic[tk];
+      if (!qs || qs.length === 0) return;
+      qs.sort((a, b) => a.year.localeCompare(b.year) || a.no - b.no);
+      const t = TOPIC_INFO[tk];
+      const s = computeStats(qs);
+      const key = 't' + tk;
+      const open = state.openGroups.has(key);
+      JUMP_ITEMS.push({ key, label: t.name, sub: `${s.answered}/${qs.length}`,
+                        done: s.answered === qs.length, open });
+      html += groupHtml(key, t.name, '各卷同類題',
+        `共 ${qs.length} 題 ‧ 跨 ${new Set(qs.map(q => q.year)).size} 卷<br>已答 ${s.answered} ‧ 對 ${s.correct} ‧ 錯 ${s.wrong}`,
+        qs, open);
+    });
+  }
+
+  wrap.innerHTML = html;
+  if (searching) highlightIn(wrap, state.terms);
+  updateStatBar();
+  buildJump();
+}
+
+/* === 群組收合 / 跳轉 === */
+function toggleGroup(key) {
+  const el = document.getElementById('g-' + key);
+  if (!el) return;
+  const open = !el.classList.contains('open');
+  if (open) state.openGroups.add(key); else state.openGroups.delete(key);
+  el.classList.toggle('open', open);
+  const old = el.querySelector(':scope > .q-list');
+  if (open && !old) {
+    el.insertAdjacentHTML('beforeend',
+      `<div class="q-list">${(GROUP_QS[key] || []).map(renderQuestion).join('')}</div>`);
+  } else if (!open && old) {
+    old.remove();                              // 收合時移除 DOM，保持頁面輕量
+  }
+  const it = JUMP_ITEMS.find(x => x.key === key);
+  if (it) { it.open = open; buildJump(); }
+}
+function jumpTo(key) {
+  toggleJump(false);
+  state.openGroups = new Set([key]);           // 只展開目標，其餘收合，位置才好預測
+  render();
+  scrollToGroup(key);
+}
+function expandAllGroups(open) {
+  state.openGroups = open ? new Set(JUMP_ITEMS.map(i => i.key)) : new Set();
+  render();
+}
+/* 錯題複習 / 已收藏：清單本來就是篩過的，直接全部展開 */
+function autoOpenFiltered() {
+  if (state.mode !== 'wrong' && state.mode !== 'bookmark') return;
+  state.openGroups = new Set(filterQuestions().map(q => state.group === 'topic' ? 't' + q.topic : 'y' + q.year));
+}
+
+/* === 互動 === */
+function selectAnswer(qid, letter) {
+  const q = ALL_Q.find(x => x.id === qid);
+  if (!q) return;
+  // 閱讀模式不允許作答
+  if (state.mode === 'review') return;
+  // 已作答則忽略點擊（除非按重新作答）
+  if (progress.answers[qid]) return;
+
+  if (q.type === 'multi') {
+    // 多選：切換選取狀態，暫存在 progress.pending
+    if (!progress.pending) progress.pending = {};
+    const cur = new Set((progress.pending[qid] || '').split('').filter(Boolean));
+    if (cur.has(letter)) cur.delete(letter);
+    else cur.add(letter);
+    progress.pending[qid] = [...cur].sort().join('');
+    saveProgress();
+    render();
+    const el = document.getElementById('q-' + qid);
+    if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    return;
+  }
+
+  progress.answers[qid] = letter;
+  saveProgress();
+  render();
+  // 滾動到該題保持視野
+  const el = document.getElementById('q-' + qid);
+  if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function submitMultiAnswer(qid) {
+  const q = ALL_Q.find(x => x.id === qid);
+  if (!q || q.type !== 'multi') return;
+  if (!progress.pending) progress.pending = {};
+  const ans = progress.pending[qid] || '';
+  if (!ans) { alert('請先至少選擇一個選項'); return; }
+  progress.answers[qid] = ans;
+  delete progress.pending[qid];
+  saveProgress();
+  render();
+}
+
+function revealAnswer(qid) {
+  if (!progress.viewed) progress.viewed = {};
+  progress.viewed[qid] = true;
+  saveProgress();
+  render();
+}
+
+function resetQuestion(qid) {
+  delete progress.answers[qid];
+  if (progress.viewed) delete progress.viewed[qid];
+  if (progress.pending) delete progress.pending[qid];
+  saveProgress();
+  render();
+}
+
+function toggleBookmark(qid) {
+  if (progress.bookmarks[qid]) delete progress.bookmarks[qid];
+  else progress.bookmarks[qid] = true;
+  saveProgress();
+  render();
+}
+
+function setMode(mode) {
+  state.mode = mode;
+  state.shuffled = false;
+  document.querySelectorAll('.mode-switch button').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  autoOpenFiltered();
+  render();
+}
+function setGroup(g) {
+  state.group = g;
+  state.shuffled = false;
+  document.querySelectorAll('.group-switch button').forEach(b => {
+    b.classList.toggle('active', b.dataset.group === g);
+  });
+  autoOpenFiltered();
+  render();
+}
+function setTopicFilter(topic) {
+  state.topicFilter = topic;
+  document.querySelectorAll('.chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.topic === topic);
+  });
+  render();
+}
+function shuffleQuestions() {
+  state.shuffled = !state.shuffled;
+  state.shuffleSeed = Date.now() % 100000;
+  render();
+}
+function resetProgress() {
+  if (!confirm('確定要清除所有作答進度（包含答題紀錄與收藏）？此動作無法復原。')) return;
+  progress = { answers: {}, bookmarks: {} };
+  saveProgress();
+  render();
+}
+
+/* 重建主題篩選晶片（計算各主題題數） */
+function rebuildTopicChips() {
+  const filterRow = document.getElementById('filterRow');
+  const scope = ALL_Q;
+  const topicCount = {};
+  scope.forEach(q => topicCount[q.topic] = (topicCount[q.topic] || 0) + 1);
+  let chips = `<button class="chip ${state.topicFilter === 'all' ? 'active' : ''}" data-topic="all"
+    onclick="setTopicFilter('all')">全部<span class="c-count">${scope.length}</span></button>`;
+  Object.keys(TOPIC_INFO).forEach(tk => {
+    const cnt = topicCount[tk] || 0;
+    if (cnt === 0) return;
+    chips += `<button class="chip ${state.topicFilter === tk ? 'active' : ''}" data-topic="${tk}"
+      onclick="setTopicFilter('${tk}')">${TOPIC_INFO[tk].name}<span class="c-count">${cnt}</span></button>`;
+  });
+  filterRow.innerHTML = chips;
+}
+
+/* === 初始化 === */
+function init() {
+  rebuildTopicChips();
+
+  bindSearch();
+
+  // 回頂部
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('show', window.scrollY > 600);
+  });
+
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
