@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>經濟部新進職員甄試｜115 年模擬卷 D｜資訊管理・程式設計</title>
+<style>/* ===== 經濟部考古題複習系統 — 樣式 ===== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink:        #1a1f2c;
+  --ink-soft:   #3d4456;
+  --paper:      #f4f1ea;
+  --paper-warm: #ece6d8;
+  --card:       #fffdf8;
+  --line:       #d8d0bf;
+  --accent:     #8a3324;   /* 朱紅 — 印章色 */
+  --accent-2:   #1f5673;   /* 靛藍 */
+  --gold:       #a07e2c;
+  --shadow:     rgba(40,32,20,0.13);
+
+  /* 主題分類色 */
+  --t-db:   #1f5673;
+  --t-ds:   #6a4c93;
+  --t-prog: #2d6a4f;
+  --t-sec:  #8a3324;
+  --t-net:  --t-net;
+  --t-net-c:#b5651d;
+  --t-mis:  #4a5859;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(138,51,36,0.025) 31px, rgba(138,51,36,0.025) 32px);
+}
+
+/* ===== 頁首 ===== */
+.site-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2.4rem 1.5rem 2rem;
+  text-align: center;
+  border-bottom: 4px solid var(--accent);
+  position: relative;
+}
+.site-header .kicker {
+  font-size: .78rem; letter-spacing: .55em; text-indent: .55em;
+  color: var(--gold); font-weight: 700; margin-bottom: .7rem;
+}
+.site-header h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 900; font-size: clamp(1.6rem, 4.4vw, 2.7rem);
+  letter-spacing: .06em; line-height: 1.3;
+}
+.site-header h1 .stamp {
+  display: inline-block; border: 2.5px solid var(--accent);
+  color: var(--accent); padding: .05em .3em; border-radius: 6px;
+  transform: rotate(-4deg); margin: 0 .15em;
+  font-size: .82em; background: rgba(244,241,234,0.06);
+}
+.site-header .sub {
+  margin-top: .8rem; font-size: .9rem; color: #b8bcca; font-weight: 400;
+  letter-spacing: .04em;
+}
+
+/* ===== 統計列 ===== */
+.stat-bar {
+  display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+  background: var(--paper-warm); padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.stat-bar .stat { text-align: center; }
+.stat-bar .num {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: 1.7rem; color: var(--accent); line-height: 1;
+}
+.stat-bar .lbl {
+  font-size: .72rem; color: var(--ink-soft); letter-spacing: .15em;
+  margin-top: .25rem;
+}
+
+/* ===== 控制列 ===== */
+.controls {
+  position: sticky; top: 0; z-index: 50;
+  background: rgb(244,241,234);
+  border-bottom: 1.5px solid var(--line);
+  padding: .9rem 1.5rem;
+  box-shadow: 0 3px 14px var(--shadow);
+}
+.controls-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.mode-switch {
+  display: flex; border: 2px solid var(--ink); border-radius: 8px;
+  overflow: hidden;
+}
+.mode-switch button {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: none; background: transparent; cursor: pointer;
+  padding: .5rem 1.1rem; font-size: .88rem; font-weight: 700;
+  color: var(--ink); transition: all .18s;
+}
+.mode-switch button.active { background: var(--ink); color: var(--paper); }
+
+.search-box {
+  flex: 1; min-width: 180px; position: relative;
+}
+.search-box input {
+  width: 100%; font-family: 'Noto Sans TC', sans-serif;
+  padding: .55rem .9rem .55rem 2.2rem; font-size: .9rem;
+  border: 1.5px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink);
+}
+.search-box input:focus { outline: 2px solid var(--accent-2); border-color: transparent; }
+.search-box::before {
+  content: '🔍'; position: absolute; left: .7rem; top: 50%;
+  transform: translateY(-50%); font-size: .85rem; opacity: .5;
+}
+.btn-expand {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--ink-soft); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 8px;
+  padding: .5rem .9rem; font-size: .82rem; font-weight: 500;
+  white-space: nowrap; transition: all .15s;
+}
+.btn-expand:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ===== 篩選晶片 ===== */
+.filter-row {
+  max-width: 1080px; margin: .7rem auto 0;
+  display: flex; gap: .45rem; flex-wrap: wrap;
+}
+.chip {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--line); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 20px;
+  padding: .3rem .85rem; font-size: .8rem; font-weight: 500;
+  transition: all .15s;
+}
+.chip:hover { border-color: var(--ink-soft); }
+.chip.active {
+  background: var(--ink); color: var(--paper); border-color: var(--ink);
+}
+.chip .c-count { opacity: .6; font-size: .92em; margin-left: .2em; }
+
+/* ===== 主內容 ===== */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+/* 群組標題（年度 / 主題） */
+.group {
+  margin-bottom: 2.6rem;
+}
+.group-head {
+  display: flex; align-items: center; gap: .9rem;
+  margin-bottom: 1.1rem; padding-bottom: .6rem;
+  border-bottom: 2.5px solid var(--ink);
+}
+.group-head .g-badge {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  background: var(--ink); color: var(--paper);
+  padding: .35rem .8rem; border-radius: 6px; font-size: 1.05rem;
+  white-space: nowrap;
+}
+.group-head .g-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: 1.15rem; color: var(--ink);
+}
+.group-head .g-meta {
+  margin-left: auto; font-size: .76rem; color: var(--ink-soft);
+  text-align: right; line-height: 1.5;
+}
+.group-note {
+  font-size: .8rem; color: var(--accent-2); font-style: italic;
+  margin: -.5rem 0 1rem; padding-left: .2rem;
+}
+
+/* ===== 題目卡 ===== */
+.q-card {
+  background: var(--card); border: 1.5px solid var(--line);
+  border-radius: 10px; margin-bottom: .9rem;
+  box-shadow: 0 2px 8px var(--shadow);
+  overflow: hidden; transition: box-shadow .2s;
+}
+.q-card:hover { box-shadow: 0 4px 16px var(--shadow); }
+
+.q-header {
+  display: flex; align-items: flex-start; gap: .8rem;
+  padding: 1rem 1.2rem; cursor: pointer;
+  border-left: 5px solid var(--line);
+  transition: background .15s;
+}
+.q-card.t-db   .q-header { border-left-color: var(--t-db); }
+.q-card.t-ds   .q-header { border-left-color: var(--t-ds); }
+.q-card.t-prog .q-header { border-left-color: var(--t-prog); }
+.q-card.t-sec  .q-header { border-left-color: var(--t-sec); }
+.q-card.t-net  .q-header { border-left-color: var(--t-net-c); }
+.q-card.t-mis  .q-header { border-left-color: var(--t-mis); }
+.q-header:hover { background: var(--paper-warm); }
+
+.q-no {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: 1rem; color: var(--paper); background: var(--ink-soft);
+  min-width: 2.4rem; height: 2.4rem; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.q-headmain { flex: 1; min-width: 0; }
+.q-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: 1.02rem; color: var(--ink); line-height: 1.5;
+}
+.q-tags {
+  display: flex; gap: .45rem; flex-wrap: wrap; margin-top: .4rem;
+  align-items: center;
+}
+.tag {
+  font-size: .7rem; font-weight: 700; padding: .12rem .55rem;
+  border-radius: 4px; letter-spacing: .03em;
+}
+.tag-topic { color: #fff; }
+.t-db   .tag-topic, .tag.topic-db   { background: var(--t-db); }
+.t-ds   .tag-topic, .tag.topic-ds   { background: var(--t-ds); }
+.t-prog .tag-topic, .tag.topic-prog { background: var(--t-prog); }
+.t-sec  .tag-topic, .tag.topic-sec  { background: var(--t-sec); }
+.t-net  .tag-topic, .tag.topic-net  { background: var(--t-net-c); }
+.t-mis  .tag-topic, .tag.topic-mis  { background: var(--t-mis); }
+.tag-year {
+  background: var(--paper-warm); color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+.tag-score {
+  background: transparent; color: var(--gold);
+  border: 1px solid var(--gold);
+}
+.tag-part {
+  background: var(--accent-2); color: #fff;
+  font-weight: 500;
+}
+.q-toggle {
+  flex-shrink: 0; font-size: 1.3rem; color: var(--ink-soft);
+  transition: transform .25s; line-height: 1; margin-top: .4rem;
+}
+.q-card.open .q-toggle { transform: rotate(45deg); }
+
+/* ===== 題目展開內容 ===== */
+.q-body { display: none; padding: 0 1.2rem 1.4rem; }
+.q-card.open .q-body { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+.section-label {
+  display: inline-block; font-family: 'Noto Serif TC', serif;
+  font-weight: 700; font-size: .82rem; letter-spacing: .1em;
+  padding: .25rem .8rem; border-radius: 4px; margin: 1.1rem 0 .6rem;
+}
+.section-label.q { background: var(--ink); color: var(--paper); }
+.section-label.a { background: var(--accent); color: var(--paper); }
+
+.q-question {
+  background: var(--paper-warm); border-left: 3px solid var(--ink-soft);
+  padding: .9rem 1.1rem; border-radius: 0 6px 6px 0;
+  font-size: .93rem; white-space: pre-wrap; color: var(--ink-soft);
+  font-feature-settings: "tnum";
+}
+.q-answer {
+  font-size: .95rem; color: var(--ink);
+}
+.q-answer h4 {
+  font-family: 'Noto Serif TC', serif; color: var(--accent);
+  font-size: 1rem; margin: 1.1rem 0 .4rem;
+  border-bottom: 1px dashed var(--line); padding-bottom: .2rem;
+}
+.q-answer p { margin: .55rem 0; }
+.q-answer ul, .q-answer ol { margin: .5rem 0 .5rem 1.4rem; }
+.q-answer li { margin: .3rem 0; }
+.q-answer strong { color: var(--accent-2); font-weight: 700; }
+.q-answer code {
+  font-family: 'JetBrains Mono', monospace; font-size: .86em;
+  background: var(--paper-warm); padding: .1em .35em;
+  border-radius: 3px; color: var(--accent);
+}
+.q-answer table {
+  border-collapse: collapse; width: 100%; margin: .8rem 0;
+  font-size: .86rem;
+  display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;  /* MOBILE_TABLE：手機寬度下表格可左右捲動 */
+}
+.q-figure { max-width: 100%; overflow-x: auto; }
+.q-answer th, .q-answer td {
+  border: 1px solid var(--line); padding: .4rem .6rem;
+  text-align: left;
+}
+.q-answer th {
+  background: var(--ink); color: var(--paper); font-weight: 700;
+}
+.q-answer tr:nth-child(even) td { background: var(--paper-warm); }
+
+/* 程式碼/ASCII 區塊 */
+.q-answer pre {
+  background: #2b303b; color: #f2f0e9;
+  font-family: 'JetBrains Mono', monospace; font-size: .85rem;
+  line-height: 1.7; padding: 1rem 1.2rem; border-radius: 8px;
+  overflow-x: auto; margin: .8rem 0;
+  border-left: 3px solid var(--gold);
+}
+.q-answer pre code { background: none; color: inherit; padding: 0; }
+
+/* 獨立程式碼區（code 欄位） */
+.code-block {
+  margin: 1rem 0; border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--ink);
+}
+.code-head {
+  background: var(--ink); color: var(--gold);
+  font-family: 'JetBrains Mono', monospace; font-size: .76rem;
+  padding: .4rem .9rem; font-weight: 500;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.code-head .dots { display: flex; gap: .3rem; }
+.code-head .dots span {
+  width: .6rem; height: .6rem; border-radius: 50%; display: block;
+}
+.code-head .dots span:nth-child(1) { background: #d4554a; }
+.code-head .dots span:nth-child(2) { background: #d9a441; }
+.code-head .dots span:nth-child(3) { background: #5a9e6f; }
+.code-block pre {
+  margin: 0; border-radius: 0; border-left: none;
+  background: #2b303b;            /* 提亮背景，降低與文字的明度落差刺眼感 */
+  color: #f2f0e9;                 /* 預設文字（變數、標點）改為近白，清楚可見 */
+  font-size: .86rem; line-height: 1.7;
+  padding: 1.1rem 1.3rem 1.1rem 1.7rem;   /* 左側多留白，程式碼不貼邊、不壓迫 */
+}
+/* 語法highlight — 高對比配色，深背景下皆清晰 */
+.tok-kw  { color: #ff9d6f; font-weight: 700; }   /* 關鍵字：亮橘，最醒目 */
+.tok-str { color: #b8e986; }                      /* 字串：亮綠 */
+.tok-com { color: #9aa6b8; font-style: italic; }  /* 註解：提亮的灰藍，不再灰到看不見 */
+.tok-num { color: #f7d56e; }                      /* 數字：亮黃 */
+.tok-fn  { color: #82c8ff; }                      /* 函式：亮藍 */
+.tok-typ { color: #ffd166; }                      /* 型別：金黃 */
+
+/* ===== HTML 圖表（取代易跑版的 ASCII 圖）===== */
+.html-diagram {
+  margin: 1.1rem 0; padding: 1.3rem 1rem;
+  background: var(--paper-warm);
+  border: 1.5px solid var(--line); border-radius: 10px;
+  overflow-x: auto;
+}
+/* 通用方框節點 */
+.dg-box {
+  display: inline-flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center;
+  border: 2px solid var(--ink); border-radius: 8px;
+  background: var(--card); padding: .55rem .9rem;
+  font-size: .86rem; line-height: 1.5; font-weight: 500;
+  min-width: 5.5rem;
+}
+.dg-box .dg-sub { font-size: .73rem; color: var(--ink-soft); font-weight: 400; }
+.dg-box.accent { border-color: var(--accent); background: #fbf3f0; }
+.dg-box.blue   { border-color: var(--accent-2); background: #eef4f7; }
+.dg-box.gold   { border-color: var(--gold); background: #faf5e6; }
+.dg-box.ink    { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.dg-box.ink .dg-sub { color: #b8bcca; }
+
+/* 排列容器 */
+.dg-row { display: flex; align-items: center; justify-content: center;
+  gap: .5rem; flex-wrap: wrap; }
+.dg-col { display: flex; flex-direction: column; align-items: center;
+  gap: .5rem; }
+.dg-center { justify-content: center; }
+
+/* 箭頭 */
+.dg-arrow { font-size: 1.3rem; color: var(--accent); font-weight: 700;
+  line-height: 1; padding: 0 .15rem; }
+.dg-arrow.v { transform: rotate(90deg); margin: .1rem 0; }
+.dg-arrow.bi::before { content: '◀▶'; }
+.dg-arrow.down::before { content: '▼'; }
+.dg-arrow.right::before { content: '▶'; }
+
+/* 流程圖專用 */
+.flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.flow-node {
+  border: 2px solid var(--ink); background: var(--card);
+  padding: .55rem 1.1rem; font-size: .86rem; text-align: center;
+  font-weight: 500; max-width: 32rem; line-height: 1.55;
+}
+.flow-node.start, .flow-node.end {
+  border-radius: 22px; background: var(--ink); color: var(--paper);
+  font-weight: 700;
+}
+.flow-node.process { border-radius: 6px; }
+.flow-node.io {
+  border-radius: 6px; background: var(--paper-warm);
+  border-style: dashed;
+}
+.flow-node.decision {
+  background: #faf5e6; border-color: var(--gold);
+  border-radius: 6px; font-weight: 700;
+}
+/* 連接線（直線 + 箭頭） */
+.flow-conn { width: 2px; height: 1.6rem; background: var(--ink-soft);
+  position: relative; }
+.flow-conn::after {
+  content: '▼'; position: absolute; bottom: -.3rem; left: 50%;
+  transform: translateX(-50%); color: var(--ink-soft); font-size: .68rem;
+}
+/* 連接線旁的小標籤（如「否」「未出貨訂單」） */
+.flow-edge {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.flow-edge .lbl {
+  font-size: .74rem; font-weight: 700; padding: .08rem .55rem;
+  border-radius: 4px; position: relative; z-index: 1;
+}
+.flow-edge .lbl.yes { background: #2d6a4f; color: #fff; }
+.flow-edge .lbl.no  { background: var(--accent); color: #fff; }
+.flow-edge .lbl.plain {
+  background: var(--card); color: var(--accent-2);
+  border: 1px solid var(--line);
+}
+.flow-conn.short { height: .7rem; }
+.flow-conn.short::after { display: none; }
+
+/* 迴圈返回標記 —— 掛在決策節點下方，明確標示「往回」 */
+.flow-loop {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .76rem; font-weight: 700;
+  background: #eef4f7; color: var(--accent-2);
+  border: 1.5px dashed var(--accent-2); border-radius: 20px;
+  padding: .25rem .8rem; margin: .35rem 0;
+}
+.flow-loop::before { content: '⟲'; font-size: 1.05rem; }
+
+.flow-label {
+  font-size: .73rem; color: var(--accent-2); font-weight: 600;
+  background: var(--card); padding: 0 .4rem; margin: .15rem 0;
+}
+/* 舊版分支樣式（保留相容，僅用於少數真正左右並排的場景） */
+.flow-branch { display: flex; align-items: flex-start; gap: 2.5rem;
+  justify-content: center; }
+.flow-branch-arm { display: flex; flex-direction: column;
+  align-items: center; gap: 0; }
+.flow-yes, .flow-no {
+  font-size: .76rem; font-weight: 700; padding: .1rem .5rem;
+  border-radius: 4px; margin: .2rem 0;
+}
+.flow-yes { background: #2d6a4f; color: #fff; }
+.flow-no  { background: var(--accent); color: #fff; }
+
+/* ERD 專用形狀 */
+.erd-entity {
+  border: 2px solid var(--ink); background: var(--card);
+  padding: .5rem 1.1rem; font-weight: 700; font-size: .9rem;
+  border-radius: 4px; text-align: center;
+}
+.erd-rel {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 7rem; height: 4rem; background: #faf5e6;
+  border: 2px solid var(--gold);
+  transform: rotate(45deg); margin: 1rem;
+}
+.erd-rel > span {
+  transform: rotate(-45deg); font-size: .8rem; font-weight: 700;
+  text-align: center; line-height: 1.3;
+}
+.erd-attr {
+  display: inline-block; border: 1.5px solid var(--accent-2);
+  background: #eef4f7; border-radius: 50%;
+  padding: .35rem .8rem; font-size: .76rem; text-align: center;
+  color: var(--accent-2);
+}
+.empty .big { font-size: 2.5rem; margin-bottom: .5rem; }
+
+/* 回頂部 */
+.to-top {
+  position: fixed; right: 1.5rem; bottom: 1.5rem;
+  width: 3rem; height: 3rem; border-radius: 50%;
+  background: var(--accent); color: #fff; border: none;
+  font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 14px var(--shadow);
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+  z-index: 60;
+}
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+/* 頁尾 */
+.site-footer {
+  background: var(--ink); color: #9aa0b0;
+  text-align: center; padding: 2rem 1.5rem;
+  font-size: .8rem; line-height: 1.8;
+}
+.site-footer strong { color: var(--gold); }
+
+/* 手機 */
+@media (max-width: 640px) {
+  .stat-bar { gap: 1.4rem; }
+  .controls-inner { gap: .6rem; }
+  .search-box { order: 3; flex-basis: 100%; }
+  .group-head { flex-wrap: wrap; }
+  .group-head .g-meta { margin-left: 0; flex-basis: 100%; text-align: left; }
+  .q-answer table { font-size: .78rem; }
+  .q-answer pre, .code-block pre { font-size: .74rem; }
+}
+
+/* ===== 搜尋強化 / 跳轉面板（新增） ===== */
+.search-box input { padding-right: 2.2rem; }
+.search-clear {
+  position: absolute; right: .35rem; top: 50%; transform: translateY(-50%);
+  border: none; background: transparent; color: var(--ink-soft);
+  font-size: 1.05rem; line-height: 1; cursor: pointer;
+  padding: .25rem .45rem; border-radius: 50%; display: none;
+}
+.search-clear.show { display: block; }
+.search-clear:hover { background: var(--paper-warm); }
+.search-info {
+  max-width: 1100px; margin: .55rem auto 0;
+  font-size: .8rem; color: var(--ink-soft); display: none;
+}
+.search-info.show { display: block; }
+.search-info b { color: var(--accent); }
+mark.hl {
+  background: rgba(255, 208, 70, .6); color: inherit;
+  padding: 0 .06em; border-radius: 2px;
+}
+
+.jump-fab {
+  position: fixed; right: 1.5rem; bottom: 5.3rem; z-index: 90;
+  height: 2.6rem; padding: 0 1rem; border: none; border-radius: 999px;
+  background: var(--accent-2); color: #fff; cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-size: .88rem; font-weight: 700;
+  box-shadow: 0 4px 12px var(--shadow); display: none;
+}
+.jump-fab.show { display: block; }
+.jump-fab:hover { background: var(--ink); }
+.jump-panel {
+  position: fixed; right: 1.5rem; bottom: calc(5.3rem + 3.2rem); z-index: 95;
+  width: min(360px, calc(100vw - 2.4rem)); max-height: 60vh; overflow: auto;
+  background: var(--card); border: 1.5px solid var(--line); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(40,32,20,.25);
+}
+.jump-panel[hidden] { display: none; }
+.jump-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .7rem .9rem; border-bottom: 1px solid var(--line);
+  font-family: 'Noto Serif TC', serif; font-weight: 700; color: var(--ink);
+  position: sticky; top: 0; background: var(--card);
+}
+.jump-head button {
+  border: none; background: transparent; cursor: pointer;
+  font-size: 1rem; color: var(--ink-soft);
+}
+.jump-grid {
+  display: grid; gap: .45rem; padding: .8rem;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+}
+.jump-item {
+  display: flex; flex-direction: column; align-items: center; gap: .1rem;
+  padding: .45rem .3rem; border: 1.5px solid var(--line); border-radius: 8px;
+  background: var(--paper); color: var(--ink); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; line-height: 1.25;
+}
+.jump-item b { font-size: .95rem; }
+.jump-item small { font-size: .68rem; color: var(--ink-soft); }
+.jump-item:hover { border-color: var(--accent-2); background: #fff; }
+.jump-item.on { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2) inset; }
+.jump-item.done small { color: #2d6a4f; font-weight: 700; }
+.jump-foot {
+  display: flex; gap: .5rem; padding: 0 .8rem .8rem;
+}
+.jump-foot button {
+  flex: 1; padding: .45rem; border: 1.5px solid var(--ink-soft); border-radius: 8px;
+  background: var(--card); color: var(--ink-soft); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-size: .8rem;
+}
+.jump-foot button:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="kicker">經濟部所屬事業機構 新進職員甄試</div>
+  <h1>資訊管理・程式設計<br>115 年模擬卷 D 詳解</h1>
+  <div class="sub">國營歷年高頻觀念 ‧ 逐題解析 ‧ 完整程式碼 ‧ 附出題依據</div>
+</header>
+
+<div class="stat-bar">
+  <div class="stat"><div class="num" id="statYear">—</div><div class="lbl">考試年度</div></div>
+  <div class="stat"><div class="num" id="statQ">—</div><div class="lbl">題目總數</div></div>
+  <div class="stat"><div class="num" id="statTopic">—</div><div class="lbl">主題分類</div></div>
+  <div class="stat"><div class="num">100%</div><div class="lbl">附詳解</div></div>
+</div>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="mode-switch">
+      <button class="active" data-mode="year" onclick="setMode('year')">依年度</button>
+      <button data-mode="topic" onclick="setMode('topic')">依主題分類</button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" autocomplete="off" placeholder="搜尋（多個關鍵字用空格分開）">
+      <button class="search-clear" id="searchClear" aria-label="清除搜尋">✕</button>
+    </div>
+    <button class="btn-expand" id="btnExpand" onclick="toggleExpandAll()">全部展開</button>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="search-info" id="searchInfo"></div>
+</div>
+
+<main class="wrap">
+  <div id="content"></div>
+</main>
+
+<button class="jump-fab" id="jumpFab" onclick="toggleJump()" aria-label="跳轉">📍 跳轉</button>
+<div class="jump-panel" id="jumpPanel" hidden>
+  <div class="jump-head"><span id="jumpTitle">跳到年度</span><button onclick="toggleJump(false)" aria-label="關閉">✕</button></div>
+  <div class="jump-grid" id="jumpGrid"></div>
+</div>
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer class="site-footer">
+  <p><strong>經濟部所屬事業機構新進職員甄試</strong>　資訊管理・程式設計　考古題複習系統</p>
+  <p>本卷為參考國營及其他資訊類考試近年考題編寫之模擬題，非官方試題；詳解為參考解答。</p>
+  <p style="margin-top:.6rem;opacity:.7;">點擊任一題目卡可展開／收合詳解　‧　可切換「依年度」或「依主題分類」檢視</p>
+</footer>
+
+<script>
+const EXAM_DATA_PART1 = [
+ {
+  "year": "115",
+  "subject": "1.資訊管理 2.程式設計（模擬卷 D）",
+  "totalScore": 100,
+  "timeLimit": "120分鐘",
+  "note": "以國營 95～114 年重複出現 3 次以上的高頻觀念為主，搭配郵政系統操作、關務、高普考近年題",
+  "questions": [
+   {
+    "id": "115D-1",
+    "no": "一",
+    "topic": "db",
+    "topicName": "資料庫",
+    "title": "加油站會員系統的 ER 模型、關聯綱要與交易隔離",
+    "score": 20,
+    "question": "某油品公司要建立加油站會員系統，需求如下：\n  • 會員有會員編號、姓名、生日，每位會員可登記多支電話；會員可登記多輛車（車牌號碼、車型），每輛車只屬於一位會員。\n  • 加油站有站代號、站名、地址；每位員工（員工編號、姓名）只隸屬一個加油站，每個加油站由一位員工擔任站長。\n  • 會員可在任何加油站加油，每次需記錄交易時間、油品、公升數與金額。\n請回答下列問題：（3題，共20分）\n(一) 請列出此系統的實體、屬性、關係與基數（cardinality），並說明多值屬性的處理方式。（8分）\n(二) 請將 ER 模型轉換為關聯式綱要，標示主鍵與外來鍵。（6分）\n(三) 兩位櫃檯人員同時替同一位會員累加點數，可能發生何種問題？請說明交易的 ACID 特性，以及 Read Committed 與 Repeatable Read 隔離層級各能避免哪些異常。（6分）",
+    "answer": "**(一) 實體、屬性、關係與基數（8分）**\n\n**實體與屬性**（主鍵以粗體標示）：\n\n| 實體 | 屬性 |\n|---|---|\n| 會員 | **會員編號**、姓名、生日、電話（多值屬性） |\n| 車輛 | **車牌號碼**、車型 |\n| 加油站 | **站代號**、站名、地址 |\n| 員工 | **員工編號**、姓名 |\n\n**關係與基數**：\n\n| 關係 | 參與實體 | 基數 | 關係屬性 |\n|---|---|---|---|\n| 擁有 | 會員－車輛 | 1 : N（一位會員多輛車，一輛車只屬於一位會員） | 無 |\n| 隸屬 | 員工－加油站 | N : 1（多位員工屬於一站） | 無 |\n| 管理 | 員工－加油站 | 1 : 1（一站一位站長） | 無 |\n| 加油 | 會員－加油站 | M : N（會員可到多站，一站服務多位會員） | 交易時間、油品、公升數、金額 |\n\n**多值屬性「電話」**：關聯式資料表的欄位必須是單一值（第一正規化），因此要另外建立一張「會員電話」資料表，以（會員編號, 電話）為主鍵，不能把多支電話塞在同一欄。\n\n**(二) 關聯式綱要（6分）**\n\n轉換原則：\n- 每個實體一張表。\n- 1 : N 關係 → 在「N」方加入「1」方的主鍵當外來鍵。\n- 1 : 1 關係 → 在其中一方加外來鍵，通常放在全參與的一方（每個加油站都有站長）。\n- M : N 關係 → 另建一張關係表，主鍵包含兩方主鍵（必要時加上時間以區分多次交易）。\n- 多值屬性 → 另建一張表。\n\n| 資料表 | 屬性 | 主鍵 | 外來鍵 |\n|---|---|---|---|\n| 會員 | 會員編號, 姓名, 生日 | 會員編號 | |\n| 會員電話 | 會員編號, 電話 | (會員編號, 電話) | 會員編號 → 會員 |\n| 車輛 | 車牌號碼, 車型, 會員編號 | 車牌號碼 | 會員編號 → 會員 |\n| 加油站 | 站代號, 站名, 地址, 站長編號 | 站代號 | 站長編號 → 員工 |\n| 員工 | 員工編號, 姓名, 站代號 | 員工編號 | 站代號 → 加油站 |\n| 加油交易 | 會員編號, 站代號, 交易時間, 油品, 公升數, 金額 | (會員編號, 站代號, 交易時間) | 會員編號 → 會員；站代號 → 加油站 |\n\n實務上也可以為加油交易另設流水號「交易編號」當主鍵，較為簡單。\n\n**(三) 並行交易與隔離層級（6分）**\n\n**可能的問題：遺失更新（Lost Update）**\n\n會員原有 100 點，櫃檯 A 要加 30 點，櫃檯 B 要加 50 點：\n\n| 時間 | 交易 A | 交易 B |\n|---|---|---|\n| t1 | 讀取點數 = 100 | |\n| t2 | | 讀取點數 = 100 |\n| t3 | 寫入 100 + 30 = 130 | |\n| t4 | | 寫入 100 + 50 = 150 |\n\n最後點數是 150，A 加的 30 點消失了，正確應為 180。解法：以鎖定（SELECT … FOR UPDATE）、直接寫成 `UPDATE 會員 SET 點數 = 點數 + 30`，或提高隔離層級。\n\n**ACID 特性**：\n\n| 特性 | 意義 |\n|---|---|\n| 原子性（Atomicity） | 交易中的操作要嘛全部完成，要嘛全部不做 |\n| 一致性（Consistency） | 交易前後資料都必須符合所有限制條件 |\n| 隔離性（Isolation） | 並行的交易互不干擾，結果如同依序執行 |\n| 持久性（Durability） | 交易一旦提交，結果永久保存，即使系統當機 |\n\n**隔離層級**：\n\n| 隔離層級 | 髒讀 | 不可重複讀 | 幻讀 |\n|---|---|---|---|\n| Read Uncommitted | 可能 | 可能 | 可能 |\n| **Read Committed** | **避免** | 可能 | 可能 |\n| **Repeatable Read** | **避免** | **避免** | 可能 |\n| Serializable | 避免 | 避免 | 避免 |\n\n- **髒讀**：讀到其他交易尚未提交、之後可能被回復的資料。\n- **不可重複讀**：同一交易中兩次讀同一筆資料，中間被其他交易修改並提交，結果不同。\n- **幻讀**：同一交易中兩次以相同條件查詢，中間被其他交易新增或刪除資料，筆數不同。\n\n隔離層級越高，一致性越好，但鎖定越多、並行效能越差，因此許多資料庫預設使用 Read Committed。\n\n> 📌 **出題依據**：114 年高考資料庫應用第一題（EER 模型構成要素）與第二題（Read Committed 與 Repeatable Read 的差異及不一致情境）；114 年地方特考三等資料庫第二題（由需求建立資料模型）。國營 ER 模型申論 9 個年度（96～112 年），114 年選擇題考過交易隔離。",
+    "code": null
+   },
+   {
+    "id": "115D-2",
+    "no": "二",
+    "topic": "net",
+    "topicName": "網路與系統",
+    "title": "TCP 連線管理、流量控制與壅塞控制",
+    "score": 20,
+    "question": "請回答下列有關 TCP 的問題：（3題，共20分）\n(一) 請說明 TCP 建立連線的三向交握與結束連線的四向揮手過程，並說明主動關閉的一方為何要進入 TIME_WAIT 狀態。（6分）\n(二) 某 TCP Reno 連線以 cwnd = 1 MSS 開始傳送，初始 ssthresh = 8 MSS。第 8 輪傳送期間收到 3 個重複 ACK，第 11 輪傳送期間發生逾時，其餘各輪都順利收到確認。請列出第 1～16 輪的 cwnd，並標示每一輪屬於慢啟動或壅塞避免。（假設收到 3 個重複 ACK 時，將 ssthresh 設為 cwnd 的一半，下一輪 cwnd 等於新的 ssthresh。）（10分）\n(三) 請說明流量控制（rwnd）與壅塞控制（cwnd）的差異，以及傳送端實際能送出的資料量如何決定。（4分）",
+    "answer": "**(一) 三向交握與四向揮手（6分）**\n\n**三向交握（建立連線）**：\n\n| 步驟 | 方向 | 區段 | 說明 |\n|---|---|---|---|\n| 1 | 用戶端 → 伺服器 | SYN，seq = x | 要求連線，告知自己的初始序號 |\n| 2 | 伺服器 → 用戶端 | SYN + ACK，seq = y，ack = x + 1 | 同意連線並確認，告知自己的初始序號 |\n| 3 | 用戶端 → 伺服器 | ACK，ack = y + 1 | 確認，連線建立 |\n\n三次的目的：雙方都確認對方能收也能送，並同步彼此的初始序號；也能避免舊的重複連線請求被誤認為新連線。\n\n**四向揮手（結束連線）**：\n\n| 步驟 | 方向 | 區段 | 說明 |\n|---|---|---|---|\n| 1 | 主動方 → 被動方 | FIN | 我沒有資料要送了 |\n| 2 | 被動方 → 主動方 | ACK | 收到；被動方可能還有資料要送（半關閉） |\n| 3 | 被動方 → 主動方 | FIN | 被動方也送完了 |\n| 4 | 主動方 → 被動方 | ACK | 確認，主動方進入 **TIME_WAIT** |\n\nTCP 是全雙工，兩個方向要各自關閉，所以需要四個步驟。\n\n**TIME_WAIT 的原因**（等待 2 倍最大區段存活時間，2MSL）：\n1. 最後一個 ACK 若遺失，被動方會重送 FIN，主動方仍能回應 ACK，確保對方正常關閉。\n2. 讓這條連線在網路中殘留的舊封包全部消失，避免干擾之後使用相同埠號的新連線。\n\n**(二) cwnd 變化（10分）**\n\n| 輪次 | cwnd（MSS） | ssthresh | 階段 | 說明 |\n|---|---|---|---|---|\n| 1 | 1 | 8 | 慢啟動 | 起始值 |\n| 2 | 2 | 8 | 慢啟動 | 每輪加倍 |\n| 3 | 4 | 8 | 慢啟動 | |\n| 4 | 8 | 8 | 慢啟動 | 達到 ssthresh |\n| 5 | 9 | 8 | 壅塞避免 | 每輪加 1 |\n| 6 | 10 | 8 | 壅塞避免 | |\n| 7 | 11 | 8 | 壅塞避免 | |\n| 8 | 12 | 8 | 壅塞避免 | **收到 3 個重複 ACK**，ssthresh = 12 ÷ 2 = 6 |\n| 9 | 6 | 6 | 壅塞避免 | 快速恢復後從 ssthresh 開始線性增加 |\n| 10 | 7 | 6 | 壅塞避免 | |\n| 11 | 8 | 6 | 壅塞避免 | **逾時**，ssthresh = 8 ÷ 2 = 4，cwnd 重設為 1 |\n| 12 | 1 | 4 | 慢啟動 | 重新慢啟動 |\n| 13 | 2 | 4 | 慢啟動 | |\n| 14 | 4 | 4 | 慢啟動 | 達到 ssthresh |\n| 15 | 5 | 4 | 壅塞避免 | |\n| 16 | 6 | 4 | 壅塞避免 | |\n\n**慢啟動**：第 1～4 輪、第 12～14 輪。\n**壅塞避免**：第 5～11 輪、第 15～16 輪。\n\n**兩種壅塞訊號的反應不同**：\n- **3 個重複 ACK**：表示後續封包還能送達，只是中間掉了一個，壅塞較輕微 → 快速重傳該區段，cwnd 減半後線性增加（快速恢復）。\n- **逾時**：表示可能連後續封包都送不到，壅塞嚴重 → cwnd 重設為 1，重新慢啟動。\n\n**(三) 流量控制與壅塞控制（4分）**\n\n| 比較 | 流量控制 | 壅塞控制 |\n|---|---|---|\n| 保護對象 | **接收端**，避免其緩衝區溢位 | **網路**，避免路由器佇列塞滿 |\n| 視窗 | rwnd（接收視窗） | cwnd（壅塞視窗） |\n| 由誰決定 | 接收端在 TCP 標頭的 Window 欄位通告 | 傳送端依 ACK、重複 ACK、逾時自行推估 |\n| 調整方式 | 依接收端剩餘緩衝區大小 | 慢啟動、壅塞避免、快速重傳與恢復 |\n\n傳送端在途中（已送出、未確認）的資料量上限為：\n\n**有效視窗 = min(cwnd, rwnd)**\n\n只要接收端或網路其中一方容納不下，就必須降低傳送量。\n\n> 📌 **出題依據**：114 年關務三等資通網路第二題（TCP 收到 400 位元組後的回應、cwnd 與 rwnd 的動態調整機制）。國營 114 年第 31 題考 cwnd 與 rwnd（借自關務），壅塞控制選擇題 5 個年度、申論 98、114 年；TCP 題近 5 年 23 題。",
+    "code": null
+   },
+   {
+    "id": "115D-3",
+    "no": "三",
+    "topic": "sec",
+    "topicName": "資訊安全",
+    "title": "惡意程式（木馬、蠕蟲、病毒、勒索軟體）與社交工程防護",
+    "score": 15,
+    "question": "近年網路攻擊手法多樣，請回答下列問題：（3題，共15分）\n(一) 請比較電腦病毒、蠕蟲、特洛伊木馬與勒索軟體的傳播方式與主要危害。（5分）\n(二) 請說明特洛伊木馬的運作流程，以及發現主機感染木馬後的清除步驟。（5分）\n(三) 社交工程攻擊與技術性攻擊在手法與防禦上有何不同？請列舉使用者收到電子郵件時應有的防護意識，以及郵件系統可進行的防護設定。（5分）",
+    "answer": "**(一) 四種惡意程式比較（5分）**\n\n| 類型 | 是否需要宿主 | 傳播方式 | 自我複製 | 主要危害 |\n|---|---|---|---|---|\n| 電腦病毒 | 需要，寄生在檔案或開機磁區 | 使用者執行被感染的檔案、開啟附件、插入隨身碟 | 會 | 破壞或竄改檔案、拖慢系統 |\n| 蠕蟲 | 不需要，獨立程式 | **利用網路與系統漏洞自動散播**，不需使用者操作 | 會 | 短時間大量擴散、耗盡頻寬、植入其他惡意程式 |\n| 特洛伊木馬 | 偽裝成正常程式 | 誘騙使用者下載安裝（破解軟體、假更新、釣魚附件） | **通常不會** | 開後門、竊取帳密與資料、讓電腦成為殭屍 |\n| 勒索軟體 | 依附在其他攻擊手法 | 釣魚郵件、遠端桌面弱密碼、漏洞 | 視種類 | **加密檔案勒索贖金**，近年加上竊取資料並威脅公開（雙重勒索） |\n\n**(二) 木馬的運作流程與清除（5分）**\n\n**運作流程**：\n1. **偽裝與散布**：包裝成實用軟體、文件或更新程式，透過網頁、電子郵件、下載站散布。\n2. **誘騙執行**：使用者自行開啟後，木馬在背景安裝，前景可能真的顯示正常程式以免被懷疑。\n3. **常駐與隱藏**：寫入開機啟動項、排程或服務，並隱藏行程與檔案。\n4. **連回控制端**：主動連線到攻擊者的 C&C 伺服器，由內往外連線較容易穿過防火牆。\n5. **執行惡意行為**：竊取帳號密碼、側錄鍵盤、截圖、下載其他惡意程式，或把電腦變成殭屍網路的一員。\n\n**清除步驟**：\n1. **隔離**：立即中斷該主機的網路連線，防止資料持續外洩及擴散。\n2. **保存證據**：保留記憶體、日誌與可疑檔案，以利調查與通報。\n3. **偵測與移除**：以更新後的防毒或 EDR 工具全機掃描，移除惡意檔案、啟動項、排程與服務。\n4. **修補與變更**：修補被利用的漏洞，**從乾淨的電腦變更所有可能外洩的帳號密碼**。\n5. **嚴重時重灌**：無法確認完全清除時，格式化並重新安裝系統，再從乾淨備份還原資料。\n6. **追蹤與預防**：檢查其他主機是否有相同跡象，並加強教育訓練與存取控管。\n\n**(三) 社交工程與郵件防護（5分）**\n\n| 比較 | 社交工程攻擊 | 技術性攻擊 |\n|---|---|---|\n| 攻擊目標 | **人**的信任、好奇、恐懼、急迫感 | **系統與軟體**的漏洞 |\n| 手法 | 釣魚郵件、假冒主管或資訊人員、尾隨、假客服電話 | 惡意程式、SQL 注入、漏洞利用、暴力破解 |\n| 防禦重點 | 教育訓練、作業程序（如匯款雙重確認）、社交工程演練 | 修補更新、防火牆、WAF、EDR、安全程式設計 |\n\n只依賴技術防禦的風險：再好的系統，只要員工自己交出密碼或執行附件，攻擊者就能以合法身分進入，技術防護完全被繞過。\n\n**使用者收到郵件時應有的防護意識**：\n1. 檢查寄件者的**完整郵件地址**，不只看顯示名稱。\n2. 不隨意點擊郵件中的連結，先將游標移到連結上確認實際網址。\n3. 不開啟來路不明或非預期的附件，特別是 .exe、.js、含巨集的 Office 檔與壓縮檔。\n4. 對「緊急匯款」、「帳號即將停用」等催促性內容提高警覺，**改用電話等其他管道確認**。\n\n**郵件系統（如 Outlook）可做的設定**：\n1. 預設以**純文字**顯示郵件，並關閉自動下載外部圖片。\n2. 停用「預覽窗格自動開啟附件」及 Office 巨集自動執行。\n3. 啟用垃圾郵件過濾，並在郵件伺服器設定 SPF、DKIM、DMARC 驗證寄件網域。\n4. 對外部寄件者加上「外部郵件」警示標籤，並以沙箱掃描附件與連結。\n\n> 📌 **出題依據**：113 年郵政第一題（特洛伊木馬的行為、運作流程與清除步驟）與第二題（收到電子郵件的防護意識及郵件軟體設定）；114 年高考資通網路第三題（社交工程與技術性攻擊的差異）；114 年郵政第二題（勒索軟體）。國營惡意程式選擇題 12 題、木馬申論 110 年、社交工程申論 107、109 年。",
+    "code": null
+   },
+   {
+    "id": "115D-4",
+    "no": "四",
+    "topic": "mis",
+    "topicName": "資管理論與名詞",
+    "title": "營運持續：BIA、RPO、RTO、MTPD 與備份備援",
+    "score": 15,
+    "question": "某國營事業的客服計費系統若中斷，將直接影響民眾繳費與公司營收。請回答下列問題：（3題，共15分）\n(一) 何謂業務衝擊分析（BIA）？請說明最大容忍中斷時間（MTPD）、復原時間目標（RTO）與復原點目標（RPO）的意義及彼此的關係。（6分）\n(二) 該系統每週日晚上進行完整備份。若週三中午資料庫損毀，請分別說明採用「增量備份」與「差異備份」時，週一至週二每晚的備份內容，以及還原時需要哪些備份。（5分）\n(三) 熱備援、溫備援與冷備援站點有何差異？若該系統的 RTO 為 2 小時，應選擇哪一種？（4分）",
+    "answer": "**(一) BIA 與三個指標（6分）**\n\n**業務衝擊分析（BIA）**：找出組織的關鍵業務與其依賴的資訊系統，評估這些業務一旦中斷，隨著時間經過會造成多大的財務、營運、法規與商譽損失，並據以決定各業務的復原優先順序與指標。BIA 是擬定營運持續計畫（BCP）與災害復原計畫（DRP）的基礎。\n\n| 指標 | 意義 | 決定什麼 |\n|---|---|---|\n| **MTPD** 最大容忍中斷時間 | 業務中斷超過這段時間，組織將受到無法接受的損害 | 復原時間的上限 |\n| **RTO** 復原時間目標 | 災害發生後，系統或業務必須恢復運作的時間 | 備援架構（熱、溫、冷站點）與復原程序 |\n| **RPO** 復原點目標 | 可容忍遺失多久以內的資料，也就是要能還原到「災害前多久」的時間點 | 備份頻率與資料複寫方式 |\n\n**時序與邏輯關係**：\n- 先做 **BIA**，才能定出 MTPD、RTO、RPO。\n- **RTO 必須小於 MTPD**，並保留緩衝時間給驗證與切換。\n- RPO 往災害發生前看（資料），RTO 往災害發生後看（時間）。例如 RPO = 1 小時表示最多遺失 1 小時的資料，至少每小時要備份或複寫一次。\n- RTO、RPO 越短，所需的備援設備與成本越高。\n\n**(二) 增量備份與差異備份（5分）**\n\n| 備份方式 | 週日晚 | 週一晚 | 週二晚 | 週三中午還原需要 |\n|---|---|---|---|---|\n| **增量備份** | 完整備份 | 週一的變動 | **週二的變動**（自週一備份後） | 完整 + 週一增量 + 週二增量，**共 3 份**，依序還原 |\n| **差異備份** | 完整備份 | 週一的變動 | **週一＋週二的變動**（自完整備份後累積） | 完整 + 週二差異，**共 2 份** |\n\n比較：\n- **增量備份**：每次只備份上次備份後的變動，備份快、空間小；但還原需要每一份增量，任何一份損壞都無法完整還原，還原較慢。\n- **差異備份**：備份量逐日變大，但還原只要兩份，速度快。\n- 無論哪一種，週三凌晨到中午的資料都會遺失，所以此系統的實際 RPO 約為半天。若要縮短，需增加備份頻率或採用交易日誌備份、即時複寫。\n\n**(三) 備援站點（4分）**\n\n| 類型 | 設備與資料狀態 | 啟用時間 | 成本 |\n|---|---|---|---|\n| **熱備援** | 設備完整、資料即時或近即時同步，可直接切換 | 數分鐘至數小時 | 最高 |\n| **溫備援** | 有部分設備與網路，資料需從備份還原 | 數小時至數天 | 中等 |\n| **冷備援** | 只有機房空間、電力與空調，設備需另行運入安裝 | 數天至數週 | 最低 |\n\nRTO 為 2 小時，只有**熱備援**能在時限內恢復服務，應選擇熱備援，並定期進行切換演練以確認真的做得到。\n\n> 📌 **出題依據**：115 年高考資訊管理第三題（BIA 及 MTPD、RPO、RTO 的意涵與時序關係）；113 年高考資訊管理第四題（營運衝擊分析步驟）；113 年高考資通網路第四題（系統備份與備援）。國營申論 103、107、112 年考過營運持續與備份。",
+    "code": null
+   },
+   {
+    "id": "115D-5",
+    "no": "五",
+    "topic": "prog",
+    "topicName": "程式設計實作",
+    "title": "Java 抽象類別、繼承與多型（圖形面積計算）",
+    "score": 15,
+    "question": "請以 Java 撰寫程式，符合下列需求：（3題，共15分）\n  1. 抽象類別 Shape：有受保護的字串欄位 name；抽象方法 area() 與 perimeter()；覆寫 toString()，回傳「名稱 面積=… 周長=…」（取到小數第二位）。\n  2. Circle 繼承 Shape，以半徑建立，名稱為「圓形」。\n  3. Rectangle 繼承 Shape，以長、寬建立，名稱為「矩形」。\n  4. Square 繼承 Rectangle，以邊長建立，名稱為「正方形」。\n  5. 主程式類別中撰寫兩個同名的 total 方法：一個傳入 Shape 陣列並回傳所有圖形的面積總和，另一個傳入兩個 Shape 並回傳兩者面積和。\n  main 方法如下：\n    Shape[] shapes = { new Circle(1), new Rectangle(2, 3), new Square(2) };\n    for (Shape s : shapes) System.out.println(s);\n    System.out.printf(\"總面積=%.2f%n\", total(shapes));\n    System.out.printf(\"前兩個=%.2f%n\", total(shapes[0], shapes[1]));\n(一) 請寫出完整程式。（10分）\n(二) 請寫出執行結果。（2分）\n(三) 請指出程式中哪裡用到覆寫（Override）、多載（Overload）與多型（Polymorphism），並說明抽象類別的用途。（3分）",
+    "answer": "**(二) 執行結果（2分）**\n\n```\n圓形 面積=3.14 周長=6.28\n矩形 面積=6.00 周長=10.00\n正方形 面積=4.00 周長=8.00\n總面積=13.14\n前兩個=9.14\n```\n\n計算：圓面積 π × 1² ≈ 3.14、周長 2π ≈ 6.28；矩形 2 × 3 = 6、周長 2 × (2 + 3) = 10；正方形 2 × 2 = 4、周長 8；總和 3.14 + 6 + 4 = 13.14；前兩個 3.14 + 6 = 9.14。\n\n**(三) 物件導向觀念（3分）**\n\n| 觀念 | 程式中的位置 | 說明 |\n|---|---|---|\n| **覆寫（Override）** | Circle、Rectangle 的 area()、perimeter()；Shape 的 toString() 覆寫 Object 的版本 | 子類別重新定義父類別的方法，**方法名稱與參數完全相同** |\n| **多載（Overload）** | 兩個 total 方法 | **同名但參數不同**，在**編譯時期**依參數決定呼叫哪一個 |\n| **多型（Polymorphism）** | `for (Shape s : shapes)` 印出每個 s；toString() 中呼叫 area() | 以父類別參考指向不同子類別物件，**執行時期**依實際物件型態呼叫對應的 area()，稱為動態繫結 |\n| **繼承** | Square 繼承 Rectangle | Square 沒有自己寫 area()，直接沿用 Rectangle 的版本 |\n\n**抽象類別的用途**：\n- 定義子類別的**共同介面**（每種圖形都要能算面積與周長），並提供共用的實作（name 欄位、toString）。\n- 抽象類別**不能被實例化**（不能 new Shape()），子類別必須實作所有抽象方法，否則自己也必須是抽象類別。\n- 新增圖形（如三角形）時，只要新增一個子類別，main 與 total 都不必修改，符合**開放封閉原則**。\n\n> 📌 **出題依據**：115 年普考程式設計概要第一題（以 Java 完成 Circle、Rectangle 類別繼承，並以多形方式宣告物件印出面積與周長）。國營物件導向申論 96、100、101、104、108、109、114 年，選擇題 31 題。",
+    "code": {
+     "lang": "java",
+     "text": "// 程式語言：Java\n\nabstract class Shape {\n    protected String name;\n    Shape(String name) { this.name = name; }\n\n    abstract double area();          // 抽象方法：由子類別實作\n    abstract double perimeter();\n\n    @Override\n    public String toString() {       // 覆寫 Object.toString()\n        return String.format(\"%s 面積=%.2f 周長=%.2f\", name, area(), perimeter());\n    }\n}\n\nclass Circle extends Shape {\n    private double r;\n    Circle(double r) { super(\"圓形\"); this.r = r; }\n    @Override double area() { return Math.PI * r * r; }\n    @Override double perimeter() { return 2 * Math.PI * r; }\n}\n\nclass Rectangle extends Shape {\n    protected double w, h;\n    Rectangle(double w, double h) { super(\"矩形\"); this.w = w; this.h = h; }\n    @Override double area() { return w * h; }\n    @Override double perimeter() { return 2 * (w + h); }\n}\n\nclass Square extends Rectangle {\n    Square(double s) { super(s, s); name = \"正方形\"; }   // 沿用 Rectangle 的計算\n}\n\npublic class Main {\n    static double total(Shape[] list) {           // 多載版本 1\n        double sum = 0;\n        for (Shape s : list) sum += s.area();\n        return sum;\n    }\n\n    static double total(Shape a, Shape b) {       // 多載版本 2\n        return a.area() + b.area();\n    }\n\n    public static void main(String[] args) {\n        Shape[] shapes = { new Circle(1), new Rectangle(2, 3), new Square(2) };\n        for (Shape s : shapes)\n            System.out.println(s);                // 多型：依實際物件呼叫 area()\n        System.out.printf(\"總面積=%.2f%n\", total(shapes));\n        System.out.printf(\"前兩個=%.2f%n\", total(shapes[0], shapes[1]));\n    }\n}"
+    }
+   },
+   {
+    "id": "115D-6",
+    "no": "六",
+    "topic": "ds",
+    "topicName": "資料結構與演算法",
+    "title": "Dijkstra 最短路徑與最小生成樹（Prim、Kruskal）",
+    "score": 15,
+    "question": "某無向加權圖有 A～F 六個節點，邊與權重如下：\n  A–B：4　A–C：2　B–C：1　B–D：5　C–D：8\n  C–E：10　D–E：2　D–F：6　E–F：3\n請回答下列問題：（3題，共15分）\n(一) 以 Dijkstra 演算法求 A 到其他各點的最短距離與路徑，並列出每一步選取的節點與距離表的變化。（7分）\n(二) 以 Prim 演算法從 A 開始求最小生成樹，列出加入邊的順序與總成本；並說明若改用 Kruskal 演算法，邊的加入順序為何。（6分）\n(三) Dijkstra 演算法能否處理負權重的邊？請說明。（2分）",
+    "answer": "**(一) Dijkstra 最短路徑（7分）**\n\n每一步從「尚未確定」的節點中選距離最小者，確定它的最短距離，再用它更新鄰居。表中 ∞ 表示目前還到不了，粗體為該步確定的節點。\n\n| 步驟 | 選取 | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|---|\n| 初始 | | 0 | ∞ | ∞ | ∞ | ∞ | ∞ |\n| 1 | A | **0** | 4 | 2 | ∞ | ∞ | ∞ |\n| 2 | C（2） | | 3 | **2** | 10 | 12 | ∞ |\n| 3 | B（3） | | **3** | | 8 | 12 | ∞ |\n| 4 | D（8） | | | | **8** | 10 | 14 |\n| 5 | E（10） | | | | | **10** | 13 |\n| 6 | F（13） | | | | | | **13** |\n\n更新說明：\n- 選 C 後：B 經由 C 為 2 + 1 = 3 < 4，更新；D = 2 + 8 = 10；E = 2 + 10 = 12。\n- 選 B 後：D 經由 B 為 3 + 5 = 8 < 10，更新。\n- 選 D 後：E 經由 D 為 8 + 2 = 10 < 12，更新；F = 8 + 6 = 14。\n- 選 E 後：F 經由 E 為 10 + 3 = 13 < 14，更新。\n\n**結果**：\n\n| 目的地 | 最短距離 | 路徑 |\n|---|---|---|\n| B | 3 | A → C → B |\n| C | 2 | A → C |\n| D | 8 | A → C → B → D |\n| E | 10 | A → C → B → D → E |\n| F | 13 | A → C → B → D → E → F |\n\n**(二) 最小生成樹（6分）**\n\n**Prim（從 A 開始）**：每次從「已在樹中的節點」連出去的邊中，選權重最小且不會形成迴圈的邊。\n\n| 順序 | 樹中節點 | 加入的邊 | 權重 |\n|---|---|---|---|\n| 1 | A | A–C | 2 |\n| 2 | A, C | C–B | 1 |\n| 3 | A, B, C | B–D | 5 |\n| 4 | A, B, C, D | D–E | 2 |\n| 5 | A, B, C, D, E | E–F | 3 |\n\n**總成本 = 2 + 1 + 5 + 2 + 3 = 13**\n\n**Kruskal**：把所有邊依權重由小到大排序，依序加入，會形成迴圈就跳過。\n\n| 邊（權重） | 結果 |\n|---|---|\n| B–C（1） | 加入 |\n| A–C（2） | 加入 |\n| D–E（2） | 加入 |\n| E–F（3） | 加入 |\n| A–B（4） | 跳過（A、B 已經連通，會形成迴圈） |\n| B–D（5） | 加入，六個節點已全部連通（5 條邊） |\n\n兩種方法得到同一棵樹，總成本都是 13。最小生成樹的總成本一定相同；只有在權重相同的邊可互換時，樹的形狀才可能不同。\n\n**比較**：Prim 從一個點逐步長大，適合稠密圖；Kruskal 以邊為主，搭配聯集-尋找（Union-Find）判斷迴圈，適合稀疏圖。\n\n**(三) 負權重（2分）**\n\n**不能**。Dijkstra 假設「一旦某節點被選出，它的距離就是最短的」，因為之後再繞其他路只會更遠。若有負權重的邊，繞遠路反而可能更短，已確定的節點無法再被更新，結果就會錯誤。\n\n有負權重時應改用 **Bellman-Ford** 演算法，它還能偵測負權重迴圈。\n\n> 📌 **出題依據**：114 年高考資料結構第三題（五節點無向加權圖的最小生成樹與最短路徑）；114 年地方特考三等資料結構第一題（哪些演算法可求最小生成樹）。國營 114 年申論考過 Dijkstra 與最小生成樹，選擇題 Dijkstra 4 個年度、MST 4 個年度。",
+    "code": null
+   }
+  ]
+ }
+];
+const EXAM_DATA_PART2 = [];
+const EXAM_DATA_PART3 = [];
+const EXAM_DATA_PART4 = [];
+</script>
+<script>/* ===== 經濟部考古題複習系統 — 應用邏輯 ===== */
+
+// 合併所有資料（依年度由新到舊）
+const ALL_YEARS = [
+  ...EXAM_DATA_PART1, ...EXAM_DATA_PART2,
+  ...EXAM_DATA_PART3, ...EXAM_DATA_PART4
+];
+
+const TOPIC_INFO = {
+  db:   { name: '資料庫',          cls: 't-db'   },
+  ds:   { name: '資料結構與演算法', cls: 't-ds'   },
+  prog: { name: '程式設計實作',     cls: 't-prog' },
+  sec:  { name: '資訊安全',         cls: 't-sec'  },
+  net:  { name: '網路與系統',       cls: 't-net'  },
+  mis:  { name: '資管理論與名詞',   cls: 't-mis'  },
+};
+
+// 攤平成題目陣列
+const ALL_Q = [];
+ALL_YEARS.forEach(y => {
+  y.questions.forEach(q => {
+    ALL_Q.push({ ...q, year: y.year, subject: y.subject,
+                 yearNote: y.note || '', timeLimit: y.timeLimit });
+  });
+});
+
+let state = { mode: 'year', topic: 'all', search: '', terms: [] };
+const openIds = new Set();   // 使用者展開的題目卡（重新渲染後仍保留）
+
+
+/* ============================================================
+   搜尋 / 跳轉 / 換行 共用工具（新增）
+   ============================================================ */
+const BREAK_AT_PERIOD = true;   // 解析遇到「。」自動換行；不想要就改成 false
+
+/* 全形→半形、英文轉小寫；逐字處理，確保處理後長度不變（highlight 才對得準） */
+function normText(s) {
+  let out = '';
+  for (const ch of String(s)) {
+    const n = ch.normalize('NFKC').toLowerCase();
+    out += (n.length === ch.length) ? n : ch;
+  }
+  return out;
+}
+function parseTerms(raw) {
+  return [...new Set(normText(raw).split(/\s+/).filter(Boolean))];
+}
+/* 去掉資料裡用來排版的 HTML 標籤，避免搜 "br"、"code"、"strong" 時誤中 */
+function stripTags(s) {
+  return String(s == null ? '' : s)
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(?:strong|code|sub|sup|u|em|b|i)\s*>/gi, '');
+}
+/* 每個關鍵字都必須出現（AND）；總分 = 各關鍵字命中的最高權重欄位之和 */
+function scoreFields(terms, fields) {
+  let total = 0;
+  for (const term of terms) {
+    let best = 0;
+    for (const f of fields) if (f.w > best && f.t.includes(term)) best = f.w;
+    if (!best) return 0;
+    total += best;
+  }
+  return total;
+}
+/* 在已渲染的 DOM 文字節點上標黃（不動 HTML 結構） */
+function highlightIn(root, terms) {
+  if (!root || !terms.length) return;
+  const nodes = [];
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = walker.nextNode())) {
+    if (!n.nodeValue.trim()) continue;
+    const p = n.parentNode;
+    if (p && p.closest && p.closest('svg, button, mark')) continue;
+    nodes.push(n);
+  }
+  nodes.forEach(node => {
+    const text = node.nodeValue, low = normText(text);
+    const ranges = [];
+    terms.forEach(t => {
+      let i = low.indexOf(t);
+      while (i !== -1) { ranges.push([i, i + t.length]); i = low.indexOf(t, i + t.length); }
+    });
+    if (!ranges.length) return;
+    ranges.sort((a, b) => a[0] - b[0]);
+    const merged = [ranges[0].slice()];
+    for (let k = 1; k < ranges.length; k++) {
+      const last = merged[merged.length - 1];
+      if (ranges[k][0] <= last[1]) last[1] = Math.max(last[1], ranges[k][1]);
+      else merged.push(ranges[k].slice());
+    }
+    const frag = document.createDocumentFragment();
+    let pos = 0;
+    merged.forEach(([s, e]) => {
+      if (s > pos) frag.appendChild(document.createTextNode(text.slice(pos, s)));
+      const m = document.createElement('mark');
+      m.className = 'hl';
+      m.textContent = text.slice(s, e);
+      frag.appendChild(m);
+      pos = e;
+    });
+    if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+/* 解析換行：遇到「。」就換行（已有 <br>、句尾、或後面接」』）” 的不重複換） */
+function breakSentences(s) {
+  if (!BREAK_AT_PERIOD) return s;
+  return String(s).replace(
+    /。(?!(?:<\/[a-z]+>)*(?:\s*<br\s*\/?>|\s*$|[」』）)”"']))/gi,
+    '。<br>'
+  );
+}
+
+/* ---------- 搜尋框綁定（支援中文輸入法，組字中不觸發搜尋） ---------- */
+function applySearch() {
+  const input = document.getElementById('searchInput');
+  state.search = input.value.trim();
+  state.terms = parseTerms(state.search);
+  render();
+}
+function clearSearch() {
+  const input = document.getElementById('searchInput');
+  input.value = '';
+  document.getElementById('searchClear').classList.remove('show');
+  applySearch();
+  input.focus();
+}
+function bindSearch() {
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClear');
+  let timer, composing = false;
+  const schedule = () => { clearTimeout(timer); timer = setTimeout(applySearch, 150); };
+  input.addEventListener('compositionstart', () => { composing = true; });
+  input.addEventListener('compositionend', () => { composing = false; schedule(); });
+  input.addEventListener('input', () => {
+    clearBtn.classList.toggle('show', input.value.length > 0);
+    if (!composing) schedule();
+  });
+  input.addEventListener('keydown', e => { if (e.key === 'Escape') clearSearch(); });
+  clearBtn.addEventListener('click', clearSearch);
+}
+
+/* ---------- 跳轉面板 ---------- */
+let JUMP_ITEMS = [];
+let JUMP_TITLE = '跳到年度';
+function buildJump() {
+  const fab = document.getElementById('jumpFab');
+  const grid = document.getElementById('jumpGrid');
+  document.getElementById('jumpTitle').textContent = JUMP_TITLE;
+  fab.classList.toggle('show', JUMP_ITEMS.length > 0);
+  grid.innerHTML = JUMP_ITEMS.map(it =>
+    `<button class="jump-item${it.done ? ' done' : ''}${it.open ? ' on' : ''}" onclick="jumpTo('${it.key}')">
+       <b>${it.label}</b><small>${it.sub || ''}</small></button>`
+  ).join('');
+  if (!JUMP_ITEMS.length) toggleJump(false);
+}
+function toggleJump(force) {
+  const p = document.getElementById('jumpPanel');
+  p.hidden = (typeof force === 'boolean') ? !force : !p.hidden;
+}
+function scrollToGroup(key) {
+  const el = document.getElementById('g-' + key);
+  if (!el) return;
+  const ctrl = document.querySelector('.controls');
+  const top = el.getBoundingClientRect().top + window.scrollY - (ctrl ? ctrl.offsetHeight : 0) - 10;
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto';          // 跳轉用瞬間定位，避免長距離捲動動畫
+  window.scrollTo(0, Math.max(0, top));
+  root.style.scrollBehavior = '';
+}
+document.addEventListener('click', e => {
+  const p = document.getElementById('jumpPanel');
+  if (p && !p.hidden && !p.contains(e.target) && !e.target.closest('#jumpFab')) p.hidden = true;
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleJump(false); });
+
+/* ---------- 搜尋欄位索引 ---------- */
+function plainAnswer(md) {
+  return String(md || '')
+    .replace(/```(?:htmldiagram|tree)\n[\s\S]*?```/g, ' ')   // 圖表/樹狀圖的 HTML、JSON 不列入搜尋
+    .replace(/^#{1,4}\s+/gm, '')
+    .replace(/\*\*|`/g, '')
+    .replace(/\|/g, ' ')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(?:strong|code|sub|sup|u|em|b|i)\s*>/gi, '');
+}
+function searchIndex(q) {
+  return q._ix || (q._ix = {
+    title: normText(stripTags(q.title)),
+    ques:  normText(stripTags(q.question)),
+    ans:   normText(plainAnswer(q.answer)),
+    code:  normText(q.code ? q.code.text : ''),
+    meta:  normText(q.year + ' ' + q.year + '年 第' + q.no + '題 ' +
+                    ((TOPIC_INFO[q.topic] || {}).name || '') + ' ' + (q.part || ''))
+  });
+}
+function searchFields(q) {
+  const ix = searchIndex(q);
+  return [{ t: ix.title, w: 10 }, { t: ix.ques, w: 6 }, { t: ix.ans, w: 3 },
+          { t: ix.code, w: 2 }, { t: ix.meta, w: 1 }];
+}
+function bodyHit(q) {
+  const ix = searchIndex(q);
+  return state.terms.some(t => ix.ques.includes(t) || ix.ans.includes(t) || ix.code.includes(t));
+}
+
+/* ---------- 輕量 Markdown 渲染 ---------- */
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderMarkdown(md) {
+  // 先抽出 ``` 程式碼/ASCII 區塊
+  const blocks = [];
+  md = md.replace(/```(\w*)\n([\s\S]*?)```/g, (m, lang, code) => {
+    blocks.push({ lang, code });
+    return `\u0000BLOCK${blocks.length - 1}\u0000`;
+  });
+
+  const lines = md.split('\n');
+  let html = '', i = 0;
+
+  while (i < lines.length) {
+    let line = lines[i];
+
+    // 區塊佔位
+    if (/^\u0000BLOCK\d+\u0000$/.test(line.trim())) {
+      const idx = parseInt(line.trim().match(/\d+/)[0]);
+      const b = blocks[idx];
+      // html-diagram 圍欄：直接輸出 HTML（用於圖表），不做跳脫
+      if (b.lang === 'htmldiagram') {
+        html += `<div class="html-diagram">${b.code}</div>`;
+      } else if (b.lang === 'tree') {
+        // tree 圍欄：JSON 樹資料 → 自動產生對齊的 SVG 樹狀圖
+        html += `<div class="html-diagram">${renderTreeSVG(b.code)}</div>`;
+      } else {
+        const text = b.code.replace(/\n$/, '');
+        const lang = resolveLang(b.lang, text);
+        html += lang
+          ? codeBlockHtml({ lang, text })
+          : `<pre><code>${escapeHtml(text)}</code></pre>`;
+      }
+      i++; continue;
+    }
+
+    // 表格
+    if (line.includes('|') && i + 1 < lines.length &&
+        /^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i+1])) {
+      const headers = line.split('|').map(c => c.trim()).filter(c => c !== '');
+      i += 2;
+      let rows = [];
+      while (i < lines.length && lines[i].includes('|')) {
+        const cells = lines[i].split('|').map(c => c.trim());
+        // 去除頭尾空白格
+        if (cells[0] === '') cells.shift();
+        if (cells[cells.length-1] === '') cells.pop();
+        rows.push(cells);
+        i++;
+      }
+      html += '<table><thead><tr>' +
+        headers.map(h => `<th>${inline(h)}</th>`).join('') +
+        '</tr></thead><tbody>' +
+        rows.map(r => '<tr>' +
+          r.map(c => `<td>${inline(c)}</td>`).join('') + '</tr>').join('') +
+        '</tbody></table>';
+      continue;
+    }
+
+    // 標題
+    let m;
+    if ((m = line.match(/^####\s+(.*)/))) { html += `<h4>${inline(m[1])}</h4>`; i++; continue; }
+    if ((m = line.match(/^###\s+(.*)/)))  { html += `<h4>${inline(m[1])}</h4>`; i++; continue; }
+
+    // 無序清單
+    if (/^\s*[-*]\s+/.test(line)) {
+      let items = [];
+      while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) {
+        items.push(lines[i].replace(/^\s*[-*]\s+/, ''));
+        i++;
+      }
+      html += '<ul>' + items.map(it => `<li>${breakSentences(inline(it))}</li>`).join('') + '</ul>';
+      continue;
+    }
+    // 有序清單
+    if (/^\s*\d+\.\s+/.test(line)) {
+      let items = [];
+      while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) {
+        items.push(lines[i].replace(/^\s*\d+\.\s+/, ''));
+        i++;
+      }
+      html += '<ol>' + items.map(it => `<li>${breakSentences(inline(it))}</li>`).join('') + '</ol>';
+      continue;
+    }
+
+    // 空行
+    if (line.trim() === '') { i++; continue; }
+
+    // 一般段落（合併連續非空行）
+    let para = [line];
+    i++;
+    while (i < lines.length && lines[i].trim() !== '' &&
+           !/^\s*[-*]\s+/.test(lines[i]) && !/^\s*\d+\.\s+/.test(lines[i]) &&
+           !/^#{3,4}\s/.test(lines[i]) &&
+           !/^\u0000BLOCK\d+\u0000$/.test(lines[i].trim()) &&
+           !(lines[i].includes('|') && i+1 < lines.length &&
+             /^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i+1]))) {
+      para.push(lines[i]); i++;
+    }
+    html += `<p>${para.map(l => breakSentences(inline(l))).join('<br>')}</p>`;
+  }
+  return html;
+}
+
+// 行內語法：**粗體**、`code`、<u>底線</u>
+function inline(s) {
+  // 先抽出 `code` 片段保護起來，其餘文字才做標籤還原與粗體
+  const codes = [];
+  s = s.replace(/`([^`]+)`/g, (m, c) => { codes.push(c); return '\u0001' + (codes.length - 1) + '\u0001'; });
+  s = escapeHtml(s);
+  // 還原資料中直接寫的白名單標籤（<u> 用於標示主鍵）
+  s = s.replace(/&lt;(\/?)(strong|code|sub|sup|u)&gt;/g, '<$1$2>');
+  s = s.replace(/&lt;br\s*\/?&gt;/g, '<br>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/\u0001(\d+)\u0001/g, (m, i) => '<code>' + escapeHtml(codes[+i]) + '</code>');
+  return s;
+}
+
+/* ---------- 二元樹 SVG 產生器 ---------- */
+// 輸入 JSON：{ "v":"根值", "l":{子樹}, "r":{子樹} }
+// l/r 可省略；空子樹可用 null。採對稱佈局：節點置於左右子樹正中央，
+// 單子節點向左/右偏移固定距離，使左右視覺平衡。
+function renderTreeSVG(json) {
+  let root;
+  try { root = JSON.parse(json.trim()); }
+  catch (e) { return `<pre><code>樹資料格式錯誤</code></pre>`; }
+
+  const NODE_R  = 21;       // 節點圓半徑
+  const H_UNIT  = 32;       // 水平基本單位
+  const V_GAP   = 76;       // 層與層垂直間距
+  const PAD     = 30;       // 邊界留白
+
+  // ── 遞迴佈局：回傳該子樹的 {width, rootX}（皆以 H_UNIT 為單位）──
+  // 做法：左子樹先排好佔據 [0, lw)，右子樹排在 [lw+gap, ...)，
+  //       父節點 x = 左右子根的中點；單子節點則讓父在子的對側偏移一格，
+  //       使整棵子樹仍保有對稱的視覺重心。
+  function layout(node, depth) {
+    node._d = depth;
+    const L = node.l, R = node.r;
+
+    // 葉節點：寬度 1，根在 0
+    if (!L && !R) {
+      node._w = 1;
+      node._x = 0;
+      return;
+    }
+
+    // 雙子：左右子樹各自佈局，並排放置
+    if (L && R) {
+      layout(L, depth + 1);
+      layout(R, depth + 1);
+      const gap = 1;                         // 左右子樹之間留 1 單位
+      // 左子樹佔 [0, L._w)，右子樹整體右移 L._w + gap
+      const shift = L._w + gap;
+      offset(R, shift);
+      node._w = L._w + gap + R._w;
+      node._x = (L._x + R._x) / 2;           // 父 = 左右子根中點
+      return;
+    }
+
+    // 單左子：左子樹佈局後，父放在「左子根右側一格」
+    if (L) {
+      layout(L, depth + 1);
+      node._x = L._x + 1;                    // 父在左子根右邊一格
+      // 整棵子樹寬度 = 左子樹寬度，但要確保涵蓋父節點 x
+      node._w = Math.max(L._w, node._x + 1);
+      return;
+    }
+
+    // 單右子：右子樹佈局後，父放在「右子根左側一格」
+    {
+      layout(R, depth + 1);
+      // 父在右子根左邊一格；若會 < 0 則整體右移
+      let px = R._x - 1;
+      if (px < 0) { offset(R, -px); px = 0; }
+      node._x = px;
+      node._w = Math.max(R._w + (px < 0 ? -px : 0), node._x + 1,
+                         R._x + 1);
+      return;
+    }
+  }
+  // 把以 node 為根的整棵子樹所有 _x 平移 dx
+  function offset(node, dx) {
+    if (!node) return;
+    node._x += dx;
+    offset(node.l, dx);
+    offset(node.r, dx);
+  }
+  layout(root, 0);
+
+  // 收集座標範圍
+  let minX = Infinity, maxX = -Infinity, maxDepth = 0;
+  (function scan(node) {
+    if (!node) return;
+    minX = Math.min(minX, node._x);
+    maxX = Math.max(maxX, node._x);
+    maxDepth = Math.max(maxDepth, node._d);
+    scan(node.l); scan(node.r);
+  })(root);
+
+  const width  = (maxX - minX) * H_UNIT + PAD * 2 + NODE_R * 2;
+  const height = maxDepth * V_GAP + PAD * 2 + NODE_R * 2;
+
+  function cx(node) { return PAD + NODE_R + (node._x - minX) * H_UNIT; }
+  function cy(node) { return PAD + NODE_R + node._d * V_GAP; }
+
+  // 第三遍：產生連線與節點
+  let edges = '', nodes = '';
+  function draw(node) {
+    if (!node) return;
+    const x = cx(node), y = cy(node);
+    ['l', 'r'].forEach(side => {
+      const child = node[side];
+      if (child) {
+        edges += `<line x1="${x}" y1="${y}" x2="${cx(child)}" y2="${cy(child)}" `
+               + `stroke="#3d4456" stroke-width="2"/>`;
+        draw(child);
+      }
+    });
+    const palette = {
+      accent: ['#fbf3f0', '#8a3324', '#8a3324'],
+      blue:   ['#eef4f7', '#1f5673', '#1f5673'],
+      gold:   ['#faf5e6', '#a07e2c', '#7a5d1e'],
+      dim:    ['#e8e3d6', '#b3a98f', '#8a8266'],
+      ink:    ['#1a1f2c', '#1a1f2c', '#ffffff'],
+    };
+    const [fill, stroke, txt] = palette[node.t] || palette.ink;
+    nodes += `<circle cx="${x}" cy="${y}" r="${NODE_R}" `
+           + `fill="${fill}" stroke="${stroke}" stroke-width="2.5"/>`
+           + `<text x="${x}" y="${y + 5}" text-anchor="middle" `
+           + `font-size="15" font-weight="700" fill="${txt}">`
+           + escapeHtml(String(node.v)) + `</text>`;
+  }
+  draw(root);
+
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" `
+       + `style="max-width:${width}px;width:100%;font-family:'Noto Sans TC',sans-serif;">`
+       + edges + nodes + `</svg>`;
+}
+
+/* ---------- 語言判斷 ---------- */
+const LANG_ALIAS = {
+  sql:'sql', mysql:'sql', tsql:'sql', plsql:'sql', pgsql:'sql',
+  c:'c', cpp:'c', 'c++':'c',
+  java:'java', python:'python', py:'python',
+  javascript:'javascript', js:'javascript', php:'php',
+  pseudo:'pseudo', pseudocode:'pseudo',
+  text:'', txt:'', plain:''          // 明確指定純文字 → 不上色
+};
+function detectLang(code) {
+  const t = code.trim();
+  if (/[│─┌└├┐┘▶▼◀▲╱╲]/.test(t)) return '';                       // ASCII 圖
+  if (/^\s*(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|WITH)\b/i.test(t)) return 'sql';
+  if (/#include|\bint\s+main\s*\(/.test(t)) return 'c';
+  if (/\b(public|private)\s+(class|static|void)|System\.out/.test(t)) return 'java';
+  if (/^\s*(def\s|import\s+\w+|from\s+\w+\s+import)/m.test(t)) return 'python';
+  if (/^\s*(Algorithm|Function|Procedure)\b|\bthen\b|\bend\s+(if|while|for)\b|←/i.test(t)) return 'pseudo';
+  return '';
+}
+function resolveLang(lang, code) {
+  const k = (lang || '').toLowerCase();
+  if (k && Object.prototype.hasOwnProperty.call(LANG_ALIAS, k)) return LANG_ALIAS[k];
+  return detectLang(code);
+}
+
+const SQL_KW = new Set(('SELECT FROM WHERE GROUP BY ORDER HAVING ASC DESC JOIN INNER LEFT RIGHT FULL OUTER ON AS ' +
+  'AND OR NOT IN IS NULL LIKE BETWEEN EXISTS UNION ALL DISTINCT TOP LIMIT OFFSET FETCH FIRST ROWS ROW ONLY ' +
+  'CASE WHEN THEN ELSE END INSERT INTO VALUES UPDATE SET DELETE REPLACE CREATE TABLE INDEX VIEW TRIGGER DROP ' +
+  'ALTER ADD PRIMARY KEY FOREIGN REFERENCES CONSTRAINT UNIQUE DEFAULT CLUSTER BEFORE AFTER FOR EACH BEGIN ' +
+  'DECLARE IF SIGNAL SQLSTATE MESSAGE_TEXT WITH USING NEW OLD').split(' '));
+const SQL_TYPE = new Set('INT INTEGER CHAR VARCHAR DATETIME DATE TIMESTAMP DECIMAL FLOAT DOUBLE TEXT BOOLEAN'.split(' '));
+const PSEUDO_KW = new Set(('ALGORITHM FUNCTION PROCEDURE INPUT OUTPUT IF THEN ELSE FOR TO DO WHILE END RETURN ' +
+  'AND OR NOT NULL IS EMPTY').split(' '));
+
+/* ---------- 程式碼語法 highlight（逐字元 tokenizer）---------- */
+function highlightCode(code, lang) {
+  lang = LANG_ALIAS[(lang || '').toLowerCase()] || (lang || '').toLowerCase();
+  const kw = {
+    c: ['int','char','void','return','if','else','for','while','do','struct','typedef','bool','long','double','float','define','include','sizeof','static','const','unsigned','break','continue','switch','case','NULL','true','false'],
+    java: ['public','private','protected','class','int','void','return','if','else','for','while','do','new','static','final','abstract','extends','implements','import','package','this','super','boolean','double','String','char','long','float','try','catch','throw','throws','interface','null','true','false','break','continue'],
+    python: ['def','return','if','elif','else','for','while','import','from','as','with','try','except','finally','class','None','True','False','and','or','not','in','is','lambda','break','continue','global','print'],
+    javascript: ['function','return','if','else','for','while','let','const','var','new','class','this','try','catch','import','export','from','null','true','false','typeof','break','continue','console'],
+    php: ['function','return','if','else','elseif','for','while','foreach','as','class','new','public','private','echo','true','false','null','require','include']
+  };
+  const isSql = lang === 'sql', isPseudo = lang === 'pseudo';
+  const list = new Set(kw[lang] || kw.c);
+
+  let out = '', i = 0;
+  const n = code.length;
+  const wrap = (cls, text) => `<span class="${cls}">${escapeHtml(text)}</span>`;
+  const isWordChar = c => /[A-Za-z0-9_@]/.test(c);
+  const isDigit = c => c >= '0' && c <= '9';
+
+  while (i < n) {
+    const c = code[i];
+    const two = code.substr(i, 2);
+
+    if (two === '/*') {
+      let j = code.indexOf('*/', i + 2);
+      j = (j === -1) ? n : j + 2;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
+    if (two === '//' && !isSql) {
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
+    if (two === '--' && isSql) {
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
+    if (c === '#' && (lang === 'python' || lang === 'php')) {
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
+    if (lang === 'python' && (code.startsWith('"""', i) || code.startsWith("'''", i))) {
+      const q = code.substr(i, 3);
+      let j = code.indexOf(q, i + 3); j = (j === -1) ? n : j + 3;
+      out += wrap('tok-str', code.slice(i, j)); i = j; continue;
+    }
+    if (c === '"' || c === "'") {
+      let j = i + 1;
+      while (j < n && code[j] !== c) { if (code[j] === '\\') j++; j++; }
+      j = Math.min(j + 1, n);
+      out += wrap('tok-str', code.slice(i, j)); i = j; continue;
+    }
+    if (isDigit(c)) {
+      let j = i;
+      while (j < n && /[0-9.]/.test(code[j])) j++;
+      out += wrap('tok-num', code.slice(i, j)); i = j; continue;
+    }
+    if (isWordChar(c) && !isDigit(c)) {
+      let j = i;
+      while (j < n && isWordChar(code[j])) j++;
+      const word = code.slice(i, j), up = word.toUpperCase();
+      if (isSql) {
+        if (SQL_TYPE.has(up))      out += wrap('tok-typ', word);
+        else if (SQL_KW.has(up))   out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      } else if (isPseudo) {
+        if (PSEUDO_KW.has(up))     out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      } else {
+        if (list.has(word))        out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      }
+      i = j; continue;
+    }
+    out += escapeHtml(c);
+    i++;
+  }
+  return out;
+}
+
+function codeBlockHtml(codeObj) {
+  if (!codeObj) return '';
+  const langLabel = {
+    c: 'C', java: 'Java', python: 'Python', javascript: 'JavaScript',
+    php: 'PHP', sql: 'SQL', pseudo: '虛擬碼'
+  }[codeObj.lang] || codeObj.lang;
+  return `<div class="code-block">
+    <div class="code-head">
+      <span class="dots"><span></span><span></span><span></span></span>
+      <span>${langLabel}</span>
+    </div>
+    <pre><code>${highlightCode(codeObj.text, codeObj.lang)}</code></pre>
+  </div>`;
+}
+
+/* ---------- 渲染題目卡 ---------- */
+/* QFENCE：考題中的程式碼圍欄 ``` 轉成程式碼區塊（避免原樣顯示、長行撐破版面） */
+function qFences(h) {
+  return h.replace(/```[a-z]*\n([\s\S]*?)\n```/g, (m, c) =>
+    '<pre style="background:#2b303b;color:#eee;padding:.7rem 1rem;border-radius:6px;overflow-x:auto;margin:.5rem 0;font-size:.85rem;white-space:pre">' + c + '</pre>');
+}
+
+function bodyHtml(q) {
+  return `      <span class="section-label q">考題</span>
+      <div class="q-question">${qFences(escapeHtml(q.question)).replace(/&lt;u&gt;([\s\S]*?)&lt;\/u&gt;/g, '<u>$1</u>')}</div>
+      <span class="section-label a">詳解</span>
+      <div class="q-answer">${renderMarkdown(q.answer)}</div>
+      ${q.code ? codeBlockHtml(q.code) : ''}`;
+}
+
+function fillBody(card) {
+  if (card.dataset.filled) return;
+  const q = ALL_Q.find(x => x.id === card.dataset.id);
+  if (!q) return;
+  const box = card.querySelector('.q-body');
+  box.innerHTML = bodyHtml(q);
+  card.dataset.filled = '1';
+  if (state.terms.length) highlightIn(box, state.terms);
+}
+
+function questionCard(q, forceOpen) {
+  const t = TOPIC_INFO[q.topic] || { name: q.topicName, cls: '' };
+  const isOpen = openIds.has(q.id) || !!forceOpen;
+  return `<div class="q-card ${t.cls}${isOpen ? ' open' : ''}" data-id="${q.id}"${isOpen ? ' data-filled="1"' : ''}>
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-no">${q.no}</div>
+      <div class="q-headmain">
+        <div class="q-title">${escapeHtml(q.title)}</div>
+        <div class="q-tags">
+          <span class="tag tag-topic">${t.name}</span>
+          <span class="tag tag-year">${q.year}年</span>
+          ${q.part ? `<span class="tag tag-part">${escapeHtml(q.part)}　第${q.no}題</span>` : ''}
+          <span class="tag tag-score">${q.score}分</span>
+        </div>
+      </div>
+      <div class="q-toggle">+</div>
+    </div>
+    <div class="q-body">${isOpen ? bodyHtml(q) : ''}</div>
+  </div>`;
+}
+
+/* ---------- 篩選 ---------- */
+function filterQuestions() {
+  let list = ALL_Q.filter(q => state.topic === 'all' || q.topic === state.topic);
+  if (state.terms.length) {
+    // 多關鍵字 AND、全形半形統一、依相關度排序（標題 > 考題 > 詳解 > 程式碼）
+    list = list
+      .map((q, i) => ({ q, i, s: scoreFields(state.terms, searchFields(q)) }))
+      .filter(x => x.s > 0)
+      .sort((a, b) => b.s - a.s || a.i - b.i)
+      .map(x => x.q);
+  }
+  return list;
+}
+
+/* ---------- 渲染主內容 ---------- */
+function updateSearchInfo(count, autoOpen) {
+  const el = document.getElementById('searchInfo');
+  if (!state.terms.length) { el.classList.remove('show'); el.innerHTML = ''; return; }
+  let h = `找到 <b>${count}</b> 題 ‧ 依相關度排序`;
+  if (count > 30) h += ' ‧ 結果較多，已不自動展開詳解，可再加關鍵字縮小範圍';
+  else h += ' ‧ 詳解中有符合的題目已自動展開並標黃';
+  el.innerHTML = h;
+  el.classList.add('show');
+}
+
+function render() {
+  const list = filterQuestions();
+  const wrap = document.getElementById('content');
+  const searching = state.terms.length > 0;
+  const autoOpen = searching && list.length <= 30;
+  JUMP_ITEMS = [];
+  updateSearchInfo(list.length, autoOpen);
+
+  if (list.length === 0) {
+    const msg = searching
+      ? `找不到符合「${escapeHtml(state.search)}」的題目。可改用較短的關鍵字；多個關鍵字請用空格分開。`
+      : '找不到符合條件的題目';
+    wrap.innerHTML = `<div class="empty">
+      <div class="big">📭</div>
+      <p>${msg}</p>
+    </div>`;
+    buildJump();
+    syncExpandBtn();
+    return;
+  }
+
+  let html = '';
+
+  if (searching) {
+    html += `<div class="group">
+      <div class="group-head">
+        <span class="g-badge">搜尋</span>
+        <span class="g-title">依相關度排序</span>
+        <span class="g-meta">共 ${list.length} 題</span>
+      </div>
+      ${list.map(q => questionCard(q, autoOpen && bodyHit(q))).join('')}
+    </div>`;
+  } else if (state.mode === 'year') {
+    JUMP_TITLE = '跳到年度';
+    // 依年度分組
+    const byYear = {};
+    list.forEach(q => { (byYear[q.year] = byYear[q.year] || []).push(q); });
+    const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
+    years.forEach(yr => {
+      const qs = byYear[yr];
+      const yObj = ALL_YEARS.find(y => y.year === yr);
+      const totalScore = qs.reduce((s, q) => s + q.score, 0);
+      JUMP_ITEMS.push({ key: 'y' + yr, label: yr, sub: `${qs.length} 題` });
+      html += `<div class="group" id="g-y${yr}">
+        <div class="group-head">
+          <span class="g-badge">${yr} 年</span>
+          <span class="g-title">${escapeHtml(yObj.subject)}</span>
+          <span class="g-meta">
+            ${yObj.timeLimit ? '考試時間 ' + yObj.timeLimit + '<br>' : ''}
+            本頁 ${qs.length} 題 / ${totalScore} 分
+          </span>
+        </div>
+        ${yObj.note ? `<div class="group-note">※ ${escapeHtml(yObj.note)}</div>` : ''}
+        ${qs.map(q => questionCard(q)).join('')}
+      </div>`;
+    });
+  } else {
+    JUMP_TITLE = '跳到主題';
+    // 依主題分組
+    const byTopic = {};
+    list.forEach(q => { (byTopic[q.topic] = byTopic[q.topic] || []).push(q); });
+    Object.keys(TOPIC_INFO).forEach(tk => {
+      const qs = byTopic[tk];
+      if (!qs || qs.length === 0) return;
+      // 同主題內依年度新到舊、再依題號
+      qs.sort((a, b) => Number(b.year) - Number(a.year));
+      const t = TOPIC_INFO[tk];
+      JUMP_ITEMS.push({ key: 't' + tk, label: t.name, sub: `${qs.length} 題` });
+      html += `<div class="group" id="g-t${tk}">
+        <div class="group-head">
+          <span class="g-badge">${t.name}</span>
+          <span class="g-title">歷年同類考題彙整</span>
+          <span class="g-meta">共 ${qs.length} 題<br>跨 ${new Set(qs.map(q=>q.year)).size} 個年度</span>
+        </div>
+        ${qs.map(q => questionCard(q)).join('')}
+      </div>`;
+    });
+  }
+
+  wrap.innerHTML = html;
+  if (searching) highlightIn(wrap, state.terms);
+  buildJump();
+  syncExpandBtn();
+}
+
+function jumpTo(key) {
+  toggleJump(false);
+  scrollToGroup(key);
+}
+
+/* ---------- 互動 ---------- */
+function toggleCard(headerEl) {
+  const card = headerEl.parentElement;
+  const open = card.classList.toggle('open');
+  if (open) fillBody(card);
+  if (open) openIds.add(card.dataset.id); else openIds.delete(card.dataset.id);
+  syncExpandBtn();
+}
+
+function setMode(mode) {
+  state.mode = mode;
+  document.querySelectorAll('.mode-switch button').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  render();
+}
+
+function updateStatBar() {
+  const scope = ALL_Q;
+  const yearSet = new Set(scope.map(q => q.year));
+  document.getElementById('statYear').textContent = yearSet.size;
+  document.getElementById('statQ').textContent = scope.length;
+  document.getElementById('statTopic').textContent = new Set(scope.map(q => q.topic)).size;
+}
+
+function rebuildTopicChips() {
+  const scope = ALL_Q;
+  const topicCount = {};
+  scope.forEach(q => topicCount[q.topic] = (topicCount[q.topic]||0)+1);
+  const filterRow = document.getElementById('filterRow');
+  let chips = `<button class="chip ${state.topic === 'all' ? 'active' : ''}" data-topic="all"
+    onclick="setTopic('all')">全部<span class="c-count">${scope.length}</span></button>`;
+  Object.keys(TOPIC_INFO).forEach(tk => {
+    const cnt = topicCount[tk] || 0;
+    if (cnt === 0) return;
+    chips += `<button class="chip ${state.topic === tk ? 'active' : ''}" data-topic="${tk}"
+      onclick="setTopic('${tk}')">${TOPIC_INFO[tk].name}<span class="c-count">${cnt}</span></button>`;
+  });
+  filterRow.innerHTML = chips;
+}
+
+function setTopic(topic) {
+  state.topic = topic;
+  document.querySelectorAll('.chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.topic === topic);
+  });
+  render();
+}
+
+/* 按鈕文字依「目前畫面上的卡片是否都已展開」決定，不再用獨立旗標 */
+function syncExpandBtn() {
+  const cards = [...document.querySelectorAll('.q-card')];
+  const allOpen = cards.length > 0 && cards.every(c => c.classList.contains('open'));
+  document.getElementById('btnExpand').textContent = allOpen ? '全部收合' : '全部展開';
+}
+function toggleExpandAll() {
+  const cards = [...document.querySelectorAll('.q-card')];
+  const allOpen = cards.length > 0 && cards.every(c => c.classList.contains('open'));
+  cards.forEach(c => {
+    c.classList.toggle('open', !allOpen);
+    if (!allOpen) fillBody(c);
+    if (allOpen) openIds.delete(c.dataset.id); else openIds.add(c.dataset.id);
+  });
+  syncExpandBtn();
+}
+
+/* ---------- 初始化 ---------- */
+function init() {
+  updateStatBar();
+  rebuildTopicChips();
+
+  bindSearch();
+
+  // 回頂部
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('show', window.scrollY > 600);
+  });
+
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

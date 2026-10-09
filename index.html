@@ -65,6 +65,22 @@
             font-size: 12px; font-weight: 500; border-radius: 999px;
             background: #fff3cd; color: #8a6d1d; vertical-align: middle;
         }
+        /* 115 模擬卷 */
+        .btn-mock-quiz { background-color: #0056b3; }
+        .btn-mock-sol  { background-color: #1e7e34; }
+        .paper { border-top: 1px solid #eef0f4; padding-top: 14px; margin-top: 14px; }
+        .paper:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+        .paper h3 { margin: 0 0 4px; font-size: 16px; }
+        .paper h3 .pill {
+            display: inline-block; margin-left: 6px; padding: 1px 8px; font-size: 12px; font-weight: 500;
+            border-radius: 999px; background: #e8f0fe; color: #1a4fa0; vertical-align: middle;
+        }
+        .paper p { margin: 0 0 10px; color: #5a6275; font-size: 13px; line-height: 1.6; }
+        .guide {
+            margin: 0 0 18px; padding: 12px 14px; background: #f8f9fb; border-radius: 8px;
+            font-size: 13px; line-height: 1.7; color: #3d4455;
+        }
+        .guide ol { margin: 4px 0 0; padding-left: 20px; }
     </style>
 </head>
 <body>
@@ -86,6 +102,76 @@
                 <b>📝 程式設計</b>
                 <small>96～114 年 ‧ 117 題詳解</small>
             </a>
+        </div>
+    </section>
+
+    <section class="level">
+        <h2>115 年模擬卷</h2>
+        <p class="desc">依國營考古題規律，並參考地方特考、中華郵政、高普考、關務近年題目編寫，非官方試題。每卷都有選擇題 50 題與申論 6 題，答題紀錄與正式題庫分開保存。</p>
+        <div class="guide">
+            <b>建議練習順序</b>
+            <ol>
+                <li>先做 <b>D 卷</b>打底，確認歷年高頻觀念都熟。</li>
+                <li>再做 <b>C 卷</b>、<b>B 卷</b>。B 卷最接近 115 年可能的出題方向。</li>
+                <li>最後做 <b>A 卷</b>，補強資安與雲端。</li>
+            </ol>
+            選擇題答錯時，看解析下方的「出題依據」，回去讀對應的原題。
+        </div>
+        <div class="paper">
+            <h3>模擬卷 D｜國營歷年高頻基本題<span class="pill">建議先做</span></h3>
+            <p>從國營 95～114 年重複出現 3 次以上的觀念出題：補數、分頁、排序、埠號、TCP、加密等。申論：ER 模型與交易隔離、TCP 壅塞控制、惡意程式、BCP 與備份、Java 多型、Dijkstra 與最小生成樹。</p>
+            <div class="btn-row">
+                <a href="mock-quiz-115D.html" class="btn btn-mock-quiz">
+                    <b>🎯 選擇題 50 題</b>
+                    <small>計算機原理・網路概論 ‧ 附解析與出題依據</small>
+                </a>
+                <a href="mock-solutions-115D.html" class="btn btn-mock-sol">
+                    <b>📝 申論 6 題詳解</b>
+                    <small>資訊管理・程式設計 ‧ 100 分 ‧ 完整程式碼</small>
+                </a>
+            </div>
+        </div>
+        <div class="paper">
+            <h3>模擬卷 C｜路由、DNS、VPN 與攻防</h3>
+            <p>參考關務 113、郵政 113、地方特考 113 與高考近年題。申論：電費資料庫 SQL 與 BCNF、RIP／OSPF／BGP、DNS 下毒與 DNSSEC、IPsec 與 SSL VPN、中序轉後序程式、快速排序過程。</p>
+            <div class="btn-row">
+                <a href="mock-quiz-115C.html" class="btn btn-mock-quiz">
+                    <b>🎯 選擇題 50 題</b>
+                    <small>計算機原理・網路概論 ‧ 附解析與出題依據</small>
+                </a>
+                <a href="mock-solutions-115C.html" class="btn btn-mock-sol">
+                    <b>📝 申論 6 題詳解</b>
+                    <small>資訊管理・程式設計 ‧ 100 分 ‧ 完整程式碼</small>
+                </a>
+            </div>
+        </div>
+        <div class="paper">
+            <h3>模擬卷 B｜最接近 115 年預測<span class="pill">重點</span></h3>
+            <p>國營常借用前一年地方特考與郵政的考點，本卷以地方特考 114、郵政 114 為主，只收國營考過的觀念。申論：SQL 限制條件與 View、VLSM 與排錯、防火牆與 DMZ、上雲與 SSDLC、影像模糊化程式、紅黑樹。</p>
+            <div class="btn-row">
+                <a href="mock-quiz-115B.html" class="btn btn-mock-quiz">
+                    <b>🎯 選擇題 50 題</b>
+                    <small>計算機原理・網路概論 ‧ 附解析與出題依據</small>
+                </a>
+                <a href="mock-solutions-115B.html" class="btn btn-mock-sol">
+                    <b>📝 申論 6 題詳解</b>
+                    <small>資訊管理・程式設計 ‧ 100 分 ‧ 完整程式碼</small>
+                </a>
+            </div>
+        </div>
+        <div class="paper">
+            <h3>模擬卷 A｜資安與雲端加重</h3>
+            <p>依國營歷年規律預測，資安與雲端比重較高。申論：雲端計費 SQL、零信任、共同責任模型、勒索軟體應變、質數篩法、Max-Heap。第四題「通報時限」國營從未考過，看過即可。</p>
+            <div class="btn-row">
+                <a href="mock-quiz-115A.html" class="btn btn-mock-quiz">
+                    <b>🎯 選擇題 50 題</b>
+                    <small>計算機原理・網路概論 ‧ 附解析與出題依據</small>
+                </a>
+                <a href="mock-solutions-115A.html" class="btn btn-mock-sol">
+                    <b>📝 申論 6 題詳解</b>
+                    <small>資訊管理・程式設計 ‧ 100 分 ‧ 完整程式碼</small>
+                </a>
+            </div>
         </div>
     </section>
 

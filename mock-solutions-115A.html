@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>經濟部新進職員甄試｜115 年模擬卷 A｜資訊管理・程式設計</title>
+<style>/* ===== 經濟部考古題複習系統 — 樣式 ===== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink:        #1a1f2c;
+  --ink-soft:   #3d4456;
+  --paper:      #f4f1ea;
+  --paper-warm: #ece6d8;
+  --card:       #fffdf8;
+  --line:       #d8d0bf;
+  --accent:     #8a3324;   /* 朱紅 — 印章色 */
+  --accent-2:   #1f5673;   /* 靛藍 */
+  --gold:       #a07e2c;
+  --shadow:     rgba(40,32,20,0.13);
+
+  /* 主題分類色 */
+  --t-db:   #1f5673;
+  --t-ds:   #6a4c93;
+  --t-prog: #2d6a4f;
+  --t-sec:  #8a3324;
+  --t-net:  --t-net;
+  --t-net-c:#b5651d;
+  --t-mis:  #4a5859;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(138,51,36,0.025) 31px, rgba(138,51,36,0.025) 32px);
+}
+
+/* ===== 頁首 ===== */
+.site-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2.4rem 1.5rem 2rem;
+  text-align: center;
+  border-bottom: 4px solid var(--accent);
+  position: relative;
+}
+.site-header .kicker {
+  font-size: .78rem; letter-spacing: .55em; text-indent: .55em;
+  color: var(--gold); font-weight: 700; margin-bottom: .7rem;
+}
+.site-header h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 900; font-size: clamp(1.6rem, 4.4vw, 2.7rem);
+  letter-spacing: .06em; line-height: 1.3;
+}
+.site-header h1 .stamp {
+  display: inline-block; border: 2.5px solid var(--accent);
+  color: var(--accent); padding: .05em .3em; border-radius: 6px;
+  transform: rotate(-4deg); margin: 0 .15em;
+  font-size: .82em; background: rgba(244,241,234,0.06);
+}
+.site-header .sub {
+  margin-top: .8rem; font-size: .9rem; color: #b8bcca; font-weight: 400;
+  letter-spacing: .04em;
+}
+
+/* ===== 統計列 ===== */
+.stat-bar {
+  display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+  background: var(--paper-warm); padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.stat-bar .stat { text-align: center; }
+.stat-bar .num {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: 1.7rem; color: var(--accent); line-height: 1;
+}
+.stat-bar .lbl {
+  font-size: .72rem; color: var(--ink-soft); letter-spacing: .15em;
+  margin-top: .25rem;
+}
+
+/* ===== 控制列 ===== */
+.controls {
+  position: sticky; top: 0; z-index: 50;
+  background: rgb(244,241,234);
+  border-bottom: 1.5px solid var(--line);
+  padding: .9rem 1.5rem;
+  box-shadow: 0 3px 14px var(--shadow);
+}
+.controls-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.mode-switch {
+  display: flex; border: 2px solid var(--ink); border-radius: 8px;
+  overflow: hidden;
+}
+.mode-switch button {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: none; background: transparent; cursor: pointer;
+  padding: .5rem 1.1rem; font-size: .88rem; font-weight: 700;
+  color: var(--ink); transition: all .18s;
+}
+.mode-switch button.active { background: var(--ink); color: var(--paper); }
+
+.search-box {
+  flex: 1; min-width: 180px; position: relative;
+}
+.search-box input {
+  width: 100%; font-family: 'Noto Sans TC', sans-serif;
+  padding: .55rem .9rem .55rem 2.2rem; font-size: .9rem;
+  border: 1.5px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink);
+}
+.search-box input:focus { outline: 2px solid var(--accent-2); border-color: transparent; }
+.search-box::before {
+  content: '🔍'; position: absolute; left: .7rem; top: 50%;
+  transform: translateY(-50%); font-size: .85rem; opacity: .5;
+}
+.btn-expand {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--ink-soft); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 8px;
+  padding: .5rem .9rem; font-size: .82rem; font-weight: 500;
+  white-space: nowrap; transition: all .15s;
+}
+.btn-expand:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ===== 篩選晶片 ===== */
+.filter-row {
+  max-width: 1080px; margin: .7rem auto 0;
+  display: flex; gap: .45rem; flex-wrap: wrap;
+}
+.chip {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--line); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 20px;
+  padding: .3rem .85rem; font-size: .8rem; font-weight: 500;
+  transition: all .15s;
+}
+.chip:hover { border-color: var(--ink-soft); }
+.chip.active {
+  background: var(--ink); color: var(--paper); border-color: var(--ink);
+}
+.chip .c-count { opacity: .6; font-size: .92em; margin-left: .2em; }
+
+/* ===== 主內容 ===== */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+/* 群組標題（年度 / 主題） */
+.group {
+  margin-bottom: 2.6rem;
+}
+.group-head {
+  display: flex; align-items: center; gap: .9rem;
+  margin-bottom: 1.1rem; padding-bottom: .6rem;
+  border-bottom: 2.5px solid var(--ink);
+}
+.group-head .g-badge {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  background: var(--ink); color: var(--paper);
+  padding: .35rem .8rem; border-radius: 6px; font-size: 1.05rem;
+  white-space: nowrap;
+}
+.group-head .g-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: 1.15rem; color: var(--ink);
+}
+.group-head .g-meta {
+  margin-left: auto; font-size: .76rem; color: var(--ink-soft);
+  text-align: right; line-height: 1.5;
+}
+.group-note {
+  font-size: .8rem; color: var(--accent-2); font-style: italic;
+  margin: -.5rem 0 1rem; padding-left: .2rem;
+}
+
+/* ===== 題目卡 ===== */
+.q-card {
+  background: var(--card); border: 1.5px solid var(--line);
+  border-radius: 10px; margin-bottom: .9rem;
+  box-shadow: 0 2px 8px var(--shadow);
+  overflow: hidden; transition: box-shadow .2s;
+}
+.q-card:hover { box-shadow: 0 4px 16px var(--shadow); }
+
+.q-header {
+  display: flex; align-items: flex-start; gap: .8rem;
+  padding: 1rem 1.2rem; cursor: pointer;
+  border-left: 5px solid var(--line);
+  transition: background .15s;
+}
+.q-card.t-db   .q-header { border-left-color: var(--t-db); }
+.q-card.t-ds   .q-header { border-left-color: var(--t-ds); }
+.q-card.t-prog .q-header { border-left-color: var(--t-prog); }
+.q-card.t-sec  .q-header { border-left-color: var(--t-sec); }
+.q-card.t-net  .q-header { border-left-color: var(--t-net-c); }
+.q-card.t-mis  .q-header { border-left-color: var(--t-mis); }
+.q-header:hover { background: var(--paper-warm); }
+
+.q-no {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: 1rem; color: var(--paper); background: var(--ink-soft);
+  min-width: 2.4rem; height: 2.4rem; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.q-headmain { flex: 1; min-width: 0; }
+.q-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: 1.02rem; color: var(--ink); line-height: 1.5;
+}
+.q-tags {
+  display: flex; gap: .45rem; flex-wrap: wrap; margin-top: .4rem;
+  align-items: center;
+}
+.tag {
+  font-size: .7rem; font-weight: 700; padding: .12rem .55rem;
+  border-radius: 4px; letter-spacing: .03em;
+}
+.tag-topic { color: #fff; }
+.t-db   .tag-topic, .tag.topic-db   { background: var(--t-db); }
+.t-ds   .tag-topic, .tag.topic-ds   { background: var(--t-ds); }
+.t-prog .tag-topic, .tag.topic-prog { background: var(--t-prog); }
+.t-sec  .tag-topic, .tag.topic-sec  { background: var(--t-sec); }
+.t-net  .tag-topic, .tag.topic-net  { background: var(--t-net-c); }
+.t-mis  .tag-topic, .tag.topic-mis  { background: var(--t-mis); }
+.tag-year {
+  background: var(--paper-warm); color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+.tag-score {
+  background: transparent; color: var(--gold);
+  border: 1px solid var(--gold);
+}
+.tag-part {
+  background: var(--accent-2); color: #fff;
+  font-weight: 500;
+}
+.q-toggle {
+  flex-shrink: 0; font-size: 1.3rem; color: var(--ink-soft);
+  transition: transform .25s; line-height: 1; margin-top: .4rem;
+}
+.q-card.open .q-toggle { transform: rotate(45deg); }
+
+/* ===== 題目展開內容 ===== */
+.q-body { display: none; padding: 0 1.2rem 1.4rem; }
+.q-card.open .q-body { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+.section-label {
+  display: inline-block; font-family: 'Noto Serif TC', serif;
+  font-weight: 700; font-size: .82rem; letter-spacing: .1em;
+  padding: .25rem .8rem; border-radius: 4px; margin: 1.1rem 0 .6rem;
+}
+.section-label.q { background: var(--ink); color: var(--paper); }
+.section-label.a { background: var(--accent); color: var(--paper); }
+
+.q-question {
+  background: var(--paper-warm); border-left: 3px solid var(--ink-soft);
+  padding: .9rem 1.1rem; border-radius: 0 6px 6px 0;
+  font-size: .93rem; white-space: pre-wrap; color: var(--ink-soft);
+  font-feature-settings: "tnum";
+}
+.q-answer {
+  font-size: .95rem; color: var(--ink);
+}
+.q-answer h4 {
+  font-family: 'Noto Serif TC', serif; color: var(--accent);
+  font-size: 1rem; margin: 1.1rem 0 .4rem;
+  border-bottom: 1px dashed var(--line); padding-bottom: .2rem;
+}
+.q-answer p { margin: .55rem 0; }
+.q-answer ul, .q-answer ol { margin: .5rem 0 .5rem 1.4rem; }
+.q-answer li { margin: .3rem 0; }
+.q-answer strong { color: var(--accent-2); font-weight: 700; }
+.q-answer code {
+  font-family: 'JetBrains Mono', monospace; font-size: .86em;
+  background: var(--paper-warm); padding: .1em .35em;
+  border-radius: 3px; color: var(--accent);
+}
+.q-answer table {
+  border-collapse: collapse; width: 100%; margin: .8rem 0;
+  font-size: .86rem;
+  display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;  /* MOBILE_TABLE：手機寬度下表格可左右捲動 */
+}
+.q-figure { max-width: 100%; overflow-x: auto; }
+.q-answer th, .q-answer td {
+  border: 1px solid var(--line); padding: .4rem .6rem;
+  text-align: left;
+}
+.q-answer th {
+  background: var(--ink); color: var(--paper); font-weight: 700;
+}
+.q-answer tr:nth-child(even) td { background: var(--paper-warm); }
+
+/* 程式碼/ASCII 區塊 */
+.q-answer pre {
+  background: #2b303b; color: #f2f0e9;
+  font-family: 'JetBrains Mono', monospace; font-size: .85rem;
+  line-height: 1.7; padding: 1rem 1.2rem; border-radius: 8px;
+  overflow-x: auto; margin: .8rem 0;
+  border-left: 3px solid var(--gold);
+}
+.q-answer pre code { background: none; color: inherit; padding: 0; }
+
+/* 獨立程式碼區（code 欄位） */
+.code-block {
+  margin: 1rem 0; border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--ink);
+}
+.code-head {
+  background: var(--ink); color: var(--gold);
+  font-family: 'JetBrains Mono', monospace; font-size: .76rem;
+  padding: .4rem .9rem; font-weight: 500;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.code-head .dots { display: flex; gap: .3rem; }
+.code-head .dots span {
+  width: .6rem; height: .6rem; border-radius: 50%; display: block;
+}
+.code-head .dots span:nth-child(1) { background: #d4554a; }
+.code-head .dots span:nth-child(2) { background: #d9a441; }
+.code-head .dots span:nth-child(3) { background: #5a9e6f; }
+.code-block pre {
+  margin: 0; border-radius: 0; border-left: none;
+  background: #2b303b;            /* 提亮背景，降低與文字的明度落差刺眼感 */
+  color: #f2f0e9;                 /* 預設文字（變數、標點）改為近白，清楚可見 */
+  font-size: .86rem; line-height: 1.7;
+  padding: 1.1rem 1.3rem 1.1rem 1.7rem;   /* 左側多留白，程式碼不貼邊、不壓迫 */
+}
+/* 語法highlight — 高對比配色，深背景下皆清晰 */
+.tok-kw  { color: #ff9d6f; font-weight: 700; }   /* 關鍵字：亮橘，最醒目 */
+.tok-str { color: #b8e986; }                      /* 字串：亮綠 */
+.tok-com { color: #9aa6b8; font-style: italic; }  /* 註解：提亮的灰藍，不再灰到看不見 */
+.tok-num { color: #f7d56e; }                      /* 數字：亮黃 */
+.tok-fn  { color: #82c8ff; }                      /* 函式：亮藍 */
+.tok-typ { color: #ffd166; }                      /* 型別：金黃 */
+
+/* ===== HTML 圖表（取代易跑版的 ASCII 圖）===== */
+.html-diagram {
+  margin: 1.1rem 0; padding: 1.3rem 1rem;
+  background: var(--paper-warm);
+  border: 1.5px solid var(--line); border-radius: 10px;
+  overflow-x: auto;
+}
+/* 通用方框節點 */
+.dg-box {
+  display: inline-flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center;
+  border: 2px solid var(--ink); border-radius: 8px;
+  background: var(--card); padding: .55rem .9rem;
+  font-size: .86rem; line-height: 1.5; font-weight: 500;
+  min-width: 5.5rem;
+}
+.dg-box .dg-sub { font-size: .73rem; color: var(--ink-soft); font-weight: 400; }
+.dg-box.accent { border-color: var(--accent); background: #fbf3f0; }
+.dg-box.blue   { border-color: var(--accent-2); background: #eef4f7; }
+.dg-box.gold   { border-color: var(--gold); background: #faf5e6; }
+.dg-box.ink    { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.dg-box.ink .dg-sub { color: #b8bcca; }
+
+/* 排列容器 */
+.dg-row { display: flex; align-items: center; justify-content: center;
+  gap: .5rem; flex-wrap: wrap; }
+.dg-col { display: flex; flex-direction: column; align-items: center;
+  gap: .5rem; }
+.dg-center { justify-content: center; }
+
+/* 箭頭 */
+.dg-arrow { font-size: 1.3rem; color: var(--accent); font-weight: 700;
+  line-height: 1; padding: 0 .15rem; }
+.dg-arrow.v { transform: rotate(90deg); margin: .1rem 0; }
+.dg-arrow.bi::before { content: '◀▶'; }
+.dg-arrow.down::before { content: '▼'; }
+.dg-arrow.right::before { content: '▶'; }
+
+/* 流程圖專用 */
+.flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.flow-node {
+  border: 2px solid var(--ink); background: var(--card);
+  padding: .55rem 1.1rem; font-size: .86rem; text-align: center;
+  font-weight: 500; max-width: 32rem; line-height: 1.55;
+}
+.flow-node.start, .flow-node.end {
+  border-radius: 22px; background: var(--ink); color: var(--paper);
+  font-weight: 700;
+}
+.flow-node.process { border-radius: 6px; }
+.flow-node.io {
+  border-radius: 6px; background: var(--paper-warm);
+  border-style: dashed;
+}
+.flow-node.decision {
+  background: #faf5e6; border-color: var(--gold);
+  border-radius: 6px; font-weight: 700;
+}
+/* 連接線（直線 + 箭頭） */
+.flow-conn { width: 2px; height: 1.6rem; background: var(--ink-soft);
+  position: relative; }
+.flow-conn::after {
+  content: '▼'; position: absolute; bottom: -.3rem; left: 50%;
+  transform: translateX(-50%); color: var(--ink-soft); font-size: .68rem;
+}
+/* 連接線旁的小標籤（如「否」「未出貨訂單」） */
+.flow-edge {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.flow-edge .lbl {
+  font-size: .74rem; font-weight: 700; padding: .08rem .55rem;
+  border-radius: 4px; position: relative; z-index: 1;
+}
+.flow-edge .lbl.yes { background: #2d6a4f; color: #fff; }
+.flow-edge .lbl.no  { background: var(--accent); color: #fff; }
+.flow-edge .lbl.plain {
+  background: var(--card); color: var(--accent-2);
+  border: 1px solid var(--line);
+}
+.flow-conn.short { height: .7rem; }
+.flow-conn.short::after { display: none; }
+
+/* 迴圈返回標記 —— 掛在決策節點下方，明確標示「往回」 */
+.flow-loop {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .76rem; font-weight: 700;
+  background: #eef4f7; color: var(--accent-2);
+  border: 1.5px dashed var(--accent-2); border-radius: 20px;
+  padding: .25rem .8rem; margin: .35rem 0;
+}
+.flow-loop::before { content: '⟲'; font-size: 1.05rem; }
+
+.flow-label {
+  font-size: .73rem; color: var(--accent-2); font-weight: 600;
+  background: var(--card); padding: 0 .4rem; margin: .15rem 0;
+}
+/* 舊版分支樣式（保留相容，僅用於少數真正左右並排的場景） */
+.flow-branch { display: flex; align-items: flex-start; gap: 2.5rem;
+  justify-content: center; }
+.flow-branch-arm { display: flex; flex-direction: column;
+  align-items: center; gap: 0; }
+.flow-yes, .flow-no {
+  font-size: .76rem; font-weight: 700; padding: .1rem .5rem;
+  border-radius: 4px; margin: .2rem 0;
+}
+.flow-yes { background: #2d6a4f; color: #fff; }
+.flow-no  { background: var(--accent); color: #fff; }
+
+/* ERD 專用形狀 */
+.erd-entity {
+  border: 2px solid var(--ink); background: var(--card);
+  padding: .5rem 1.1rem; font-weight: 700; font-size: .9rem;
+  border-radius: 4px; text-align: center;
+}
+.erd-rel {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 7rem; height: 4rem; background: #faf5e6;
+  border: 2px solid var(--gold);
+  transform: rotate(45deg); margin: 1rem;
+}
+.erd-rel > span {
+  transform: rotate(-45deg); font-size: .8rem; font-weight: 700;
+  text-align: center; line-height: 1.3;
+}
+.erd-attr {
+  display: inline-block; border: 1.5px solid var(--accent-2);
+  background: #eef4f7; border-radius: 50%;
+  padding: .35rem .8rem; font-size: .76rem; text-align: center;
+  color: var(--accent-2);
+}
+.empty .big { font-size: 2.5rem; margin-bottom: .5rem; }
+
+/* 回頂部 */
+.to-top {
+  position: fixed; right: 1.5rem; bottom: 1.5rem;
+  width: 3rem; height: 3rem; border-radius: 50%;
+  background: var(--accent); color: #fff; border: none;
+  font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 14px var(--shadow);
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+  z-index: 60;
+}
+.to-top.show { opacity: 1; pointer-events: auto; }
+
+/* 頁尾 */
+.site-footer {
+  background: var(--ink); color: #9aa0b0;
+  text-align: center; padding: 2rem 1.5rem;
+  font-size: .8rem; line-height: 1.8;
+}
+.site-footer strong { color: var(--gold); }
+
+/* 手機 */
+@media (max-width: 640px) {
+  .stat-bar { gap: 1.4rem; }
+  .controls-inner { gap: .6rem; }
+  .search-box { order: 3; flex-basis: 100%; }
+  .group-head { flex-wrap: wrap; }
+  .group-head .g-meta { margin-left: 0; flex-basis: 100%; text-align: left; }
+  .q-answer table { font-size: .78rem; }
+  .q-answer pre, .code-block pre { font-size: .74rem; }
+}
+
+/* ===== 搜尋強化 / 跳轉面板（新增） ===== */
+.search-box input { padding-right: 2.2rem; }
+.search-clear {
+  position: absolute; right: .35rem; top: 50%; transform: translateY(-50%);
+  border: none; background: transparent; color: var(--ink-soft);
+  font-size: 1.05rem; line-height: 1; cursor: pointer;
+  padding: .25rem .45rem; border-radius: 50%; display: none;
+}
+.search-clear.show { display: block; }
+.search-clear:hover { background: var(--paper-warm); }
+.search-info {
+  max-width: 1100px; margin: .55rem auto 0;
+  font-size: .8rem; color: var(--ink-soft); display: none;
+}
+.search-info.show { display: block; }
+.search-info b { color: var(--accent); }
+mark.hl {
+  background: rgba(255, 208, 70, .6); color: inherit;
+  padding: 0 .06em; border-radius: 2px;
+}
+
+.jump-fab {
+  position: fixed; right: 1.5rem; bottom: 5.3rem; z-index: 90;
+  height: 2.6rem; padding: 0 1rem; border: none; border-radius: 999px;
+  background: var(--accent-2); color: #fff; cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-size: .88rem; font-weight: 700;
+  box-shadow: 0 4px 12px var(--shadow); display: none;
+}
+.jump-fab.show { display: block; }
+.jump-fab:hover { background: var(--ink); }
+.jump-panel {
+  position: fixed; right: 1.5rem; bottom: calc(5.3rem + 3.2rem); z-index: 95;
+  width: min(360px, calc(100vw - 2.4rem)); max-height: 60vh; overflow: auto;
+  background: var(--card); border: 1.5px solid var(--line); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(40,32,20,.25);
+}
+.jump-panel[hidden] { display: none; }
+.jump-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .7rem .9rem; border-bottom: 1px solid var(--line);
+  font-family: 'Noto Serif TC', serif; font-weight: 700; color: var(--ink);
+  position: sticky; top: 0; background: var(--card);
+}
+.jump-head button {
+  border: none; background: transparent; cursor: pointer;
+  font-size: 1rem; color: var(--ink-soft);
+}
+.jump-grid {
+  display: grid; gap: .45rem; padding: .8rem;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+}
+.jump-item {
+  display: flex; flex-direction: column; align-items: center; gap: .1rem;
+  padding: .45rem .3rem; border: 1.5px solid var(--line); border-radius: 8px;
+  background: var(--paper); color: var(--ink); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; line-height: 1.25;
+}
+.jump-item b { font-size: .95rem; }
+.jump-item small { font-size: .68rem; color: var(--ink-soft); }
+.jump-item:hover { border-color: var(--accent-2); background: #fff; }
+.jump-item.on { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2) inset; }
+.jump-item.done small { color: #2d6a4f; font-weight: 700; }
+.jump-foot {
+  display: flex; gap: .5rem; padding: 0 .8rem .8rem;
+}
+.jump-foot button {
+  flex: 1; padding: .45rem; border: 1.5px solid var(--ink-soft); border-radius: 8px;
+  background: var(--card); color: var(--ink-soft); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-size: .8rem;
+}
+.jump-foot button:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="kicker">經濟部所屬事業機構 新進職員甄試</div>
+  <h1>資訊管理・程式設計<br>115 年模擬卷 A 詳解</h1>
+  <div class="sub">依歷年出題規律預測 ‧ 資安與雲端加重 ‧ 逐題解析 ‧ 完整程式碼</div>
+</header>
+
+<div class="stat-bar">
+  <div class="stat"><div class="num" id="statYear">—</div><div class="lbl">考試年度</div></div>
+  <div class="stat"><div class="num" id="statQ">—</div><div class="lbl">題目總數</div></div>
+  <div class="stat"><div class="num" id="statTopic">—</div><div class="lbl">主題分類</div></div>
+  <div class="stat"><div class="num">100%</div><div class="lbl">附詳解</div></div>
+</div>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="mode-switch">
+      <button class="active" data-mode="year" onclick="setMode('year')">依年度</button>
+      <button data-mode="topic" onclick="setMode('topic')">依主題分類</button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" autocomplete="off" placeholder="搜尋（多個關鍵字用空格分開）">
+      <button class="search-clear" id="searchClear" aria-label="清除搜尋">✕</button>
+    </div>
+    <button class="btn-expand" id="btnExpand" onclick="toggleExpandAll()">全部展開</button>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="search-info" id="searchInfo"></div>
+</div>
+
+<main class="wrap">
+  <div id="content"></div>
+</main>
+
+<button class="jump-fab" id="jumpFab" onclick="toggleJump()" aria-label="跳轉">📍 跳轉</button>
+<div class="jump-panel" id="jumpPanel" hidden>
+  <div class="jump-head"><span id="jumpTitle">跳到年度</span><button onclick="toggleJump(false)" aria-label="關閉">✕</button></div>
+  <div class="jump-grid" id="jumpGrid"></div>
+</div>
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer class="site-footer">
+  <p><strong>經濟部所屬事業機構新進職員甄試</strong>　資訊管理・程式設計　考古題複習系統</p>
+  <p>本卷為依 96～114 年考古題規律編寫之模擬題，非官方試題；詳解為參考解答。</p>
+  <p style="margin-top:.6rem;opacity:.7;">點擊任一題目卡可展開／收合詳解　‧　可切換「依年度」或「依主題分類」檢視</p>
+</footer>
+
+<script>
+const EXAM_DATA_PART1 = [
+ {
+  "year": "115",
+  "subject": "1.資訊管理 2.程式設計（模擬卷 A）",
+  "totalScore": 100,
+  "timeLimit": "120分鐘",
+  "note": "依歷年出題規律編寫之模擬卷，資安與雲端比重加重",
+  "questions": [
+   {
+    "id": "115A-1",
+    "no": "一",
+    "topic": "db",
+    "topicName": "資料庫",
+    "title": "雲端用量計費資料庫 SQL（群組、閒置資源、關聯除法）",
+    "score": 20,
+    "question": "某雲端服務商的關聯式資料庫包含 3 個資料表，有底線者為主鍵：\n客戶 Customer(<u>CustID</u>, CustName, Plan)\n資源 Resource(<u>ResID</u>, CustID, ResType, Region)　-- CustID 參照 Customer；ResType 如 'VM'、'DB'、'Storage'\n用量 Usage(<u>ResID, UseDate</u>, Hours, UnitPrice)　-- ResID 參照 Resource\n請以 SQL 撰寫下列查詢：（3題，共20分）\n(一) 列出 2026 年 9 月每位客戶的總費用（費用 = Hours × UnitPrice），只列總費用超過 10,000 元者，依總費用由高到低排序。（6分）\n(二) 列出從未產生任何用量紀錄的資源編號、資源類型及所屬客戶名稱（可能是閒置浪費或遭盜用的資源）。（6分）\n(三) 列出擁有「資源表中出現過的所有資源類型」的客戶名稱。（8分）",
+    "answer": "**(一) 9 月總費用超過 10,000 元的客戶（6分）**\n\n費用在 Usage，客戶名稱在 Customer，兩者要透過 Resource 串接。日期條件寫在 WHERE，群組後的金額條件寫在 HAVING。\n\n```sql\nSELECT C.CustID,\n       C.CustName,\n       SUM(U.Hours * U.UnitPrice) AS 總費用\nFROM Customer C\nJOIN Resource R ON C.CustID = R.CustID\nJOIN Usage    U ON R.ResID  = U.ResID\nWHERE U.UseDate >= '2026-09-01'\n  AND U.UseDate <  '2026-10-01'\nGROUP BY C.CustID, C.CustName\nHAVING SUM(U.Hours * U.UnitPrice) > 10000\nORDER BY 總費用 DESC;\n```\n\n重點：\n- 日期用「大於等於月初、小於下月初」的半開區間，不必擔心 9 月有幾天，也能使用索引。\n- **WHERE 在分組前過濾每一筆資料，HAVING 在分組後過濾群組**，聚合函數只能放在 HAVING。\n\n**(二) 從未產生用量的資源（6分）**\n\n「找不到對應資料」是 LEFT JOIN 加 IS NULL 的典型用法。左外部連接會保留 Resource 的每一筆，沒有用量的資源其 Usage 欄位為 NULL。\n\n```sql\nSELECT R.ResID, R.ResType, C.CustName\nFROM Resource R\nJOIN Customer C ON R.CustID = C.CustID\nLEFT JOIN Usage U ON R.ResID = U.ResID\nWHERE U.ResID IS NULL;\n```\n\n也可以用 NOT EXISTS 寫：\n\n```sql\nSELECT R.ResID, R.ResType, C.CustName\nFROM Resource R\nJOIN Customer C ON R.CustID = C.CustID\nWHERE NOT EXISTS (SELECT 1 FROM Usage U WHERE U.ResID = R.ResID);\n```\n\n注意：若寫成 `WHERE R.ResID NOT IN (SELECT ResID FROM Usage)`，只要子查詢結果含有 NULL，整個條件就會變成未知而查不到資料，所以 NOT EXISTS 較安全。\n\n**(三) 擁有所有資源類型的客戶（8分）**\n\n這是「**關聯除法**」，與 113 年第一題「買過某作者全部的書」是同一種題型。做法是：每位客戶擁有的**不同資源類型數**，等於資源表中**所有資源類型的總數**。\n\n```sql\nSELECT C.CustName\nFROM Customer C\nJOIN Resource R ON C.CustID = R.CustID\nGROUP BY C.CustID, C.CustName\nHAVING COUNT(DISTINCT R.ResType) =\n       (SELECT COUNT(DISTINCT ResType) FROM Resource);\n```\n\n另一種寫法是雙重 NOT EXISTS，意思是「不存在任何一種類型是這位客戶沒有的」：\n\n```sql\nSELECT C.CustName\nFROM Customer C\nWHERE NOT EXISTS (\n    SELECT DISTINCT T.ResType FROM Resource T\n    WHERE NOT EXISTS (\n        SELECT 1 FROM Resource R\n        WHERE R.CustID = C.CustID AND R.ResType = T.ResType));\n```\n\n**一定要加 DISTINCT**：同一位客戶可能有多台 VM，不去重複的話計數會被灌大，誤判成擁有全部類型。",
+    "code": null
+   },
+   {
+    "id": "115A-2",
+    "no": "二",
+    "topic": "sec",
+    "topicName": "資訊安全",
+    "title": "零信任架構（核心原則、NIST SP 800-207 元件、導入步驟）",
+    "score": 20,
+    "question": "政府推動機關導入「零信任架構（Zero Trust Architecture, ZTA）」，以取代傳統以邊界為主的防護思維。請回答下列問題：（3題，共20分）\n(一) 請說明零信任的意義及其核心原則，並比較其與傳統邊界防禦模型的差異。（8分）\n(二) 依美國 NIST SP 800-207，零信任架構的邏輯元件包含哪些？請說明各元件的功能。（6分）\n(三) 某國營事業擬導入零信任，請提出可行的導入步驟。（6分）",
+    "answer": "**(一) 零信任的意義、核心原則與比較（8分）**\n\n*意義*：零信任是一種資安架構理念，認為**網路位置不代表可信**。無論存取請求來自內網或外網，都不預設信任，每一次存取都必須經過驗證與授權。口號是「**永不信任，持續驗證**（Never trust, always verify）」。\n\n*核心原則*：\n1. **明確驗證**：每次存取都依使用者身分、設備健康狀態、位置、時間、行為等多項資訊判斷。\n2. **最小權限**：只給完成工作所需的最少權限，並採即時（Just-in-Time）與適量（Just-Enough）授權。\n3. **假設已遭入侵**：預設攻擊者可能已在內部，因此要做網路微分段、加密所有流量、持續監控，縮小被入侵後的影響範圍。\n4. **持續評估**：授權不是一次性的，連線期間若風險升高（例如設備被偵測出惡意程式）要能即時撤銷。\n\n*與傳統邊界防禦的比較*：\n\n| 比較面向 | 傳統邊界防禦（城堡護城河） | 零信任 |\n|---|---|---|\n| 信任基礎 | 內網即可信 | 不因位置給予信任 |\n| 防護重點 | 防火牆、VPN 守住邊界 | 身分、設備與每一筆存取 |\n| 驗證時機 | 進入時驗證一次 | 每次存取、持續驗證 |\n| 內部移動 | 進來後可橫向移動 | 微分段，限制橫向移動 |\n| 適用情境 | 員工都在辦公室 | 雲端、遠距辦公、行動裝置 |\n\n傳統模型的問題在於，一旦攻擊者突破邊界（例如透過釣魚郵件取得 VPN 帳號），就能在內網暢行無阻。APT 攻擊正是利用這個弱點。\n\n**(二) NIST SP 800-207 的邏輯元件（6分）**\n\n```htmldiagram\n<div class=\"dg-col\" style=\"gap:.3rem;\">\n  <div class=\"dg-row\">\n    <div class=\"dg-box gold\">PE 政策引擎<div class=\"dg-sub\">做出允許或拒絕的決策</div></div>\n    <div class=\"dg-arrow bi\"></div>\n    <div class=\"dg-box gold\">PA 政策管理器<div class=\"dg-sub\">依決策建立或中止連線</div></div>\n  </div>\n  <div class=\"flow-label\">PE + PA 合稱政策決策點（PDP，控制平面）</div>\n  <div class=\"dg-arrow v\"></div>\n  <div class=\"dg-row\">\n    <div class=\"dg-box\">使用者／設備</div>\n    <div class=\"dg-arrow right\"></div>\n    <div class=\"dg-box accent\">PEP 政策執行點<div class=\"dg-sub\">資料平面的閘門</div></div>\n    <div class=\"dg-arrow right\"></div>\n    <div class=\"dg-box blue\">企業資源<div class=\"dg-sub\">應用、資料、服務</div></div>\n  </div>\n  <div class=\"dg-sub\">PE 參考的資訊來源：身分管理、設備狀態（CDM）、威脅情資、存取日誌、法規政策</div>\n</div>\n```\n\n1. **政策引擎（Policy Engine, PE）**：零信任的「大腦」。綜合身分、設備狀態、威脅情資、行為紀錄等資訊，依信任演算法決定是否允許某次存取。\n2. **政策管理器（Policy Administrator, PA）**：依 PE 的決策，產生該次連線的驗證憑證或權杖，並通知 PEP 開啟或關閉連線。\n3. **政策執行點（Policy Enforcement Point, PEP）**：位於使用者與資源之間的閘門，負責實際放行、監控與中止連線。\n\nPE 與 PA 合稱政策決策點（PDP），屬於控制平面；PEP 屬於資料平面。\n\n我國政府推動的零信任架構，也是以「**身分鑑別、設備鑑別、信任推斷**」三大機制為核心，對應上述元件的功能。\n\n**(三) 國營事業的導入步驟（6分）**\n\n1. **盤點資產與資料流**：清查有哪些使用者、設備、應用系統與資料，了解誰需要存取什麼。國營事業特別要區分 IT 系統與 OT（工控、電網、油管）系統。\n2. **強化身分鑑別**：建立集中式身分管理（IAM），全面導入多因子驗證，優先採用 FIDO2 等抗釣魚的驗證方式，並落實最小權限。\n3. **設備鑑別與健康檢查**：只有納管、已修補、已安裝端點防護的設備才能存取資源。\n4. **網路微分段**：依業務切割網段，工控網路與辦公網路嚴格隔離，限制橫向移動。\n5. **建置政策決策與執行機制**：建立 PE、PA、PEP，依風險動態授權，並加密所有流量。\n6. **持續監控與改善**：集中收集日誌（SIEM），偵測異常行為，定期檢討政策。\n\n導入原則是**分階段進行**，先從遠距存取、特權帳號、高價值系統等風險最高的地方開始，不必一次全面替換。",
+    "code": null
+   },
+   {
+    "id": "115A-3",
+    "no": "三",
+    "topic": "mis",
+    "topicName": "資管理論與名詞",
+    "title": "雲端共同責任模型、常見雲端資安風險與對策",
+    "score": 15,
+    "question": "企業將系統移轉至公有雲時，常誤以為資安全部由雲端服務提供者（CSP）負責。請回答下列問題：（3題，共15分）\n(一) 請說明雲端「共同責任模型（Shared Responsibility Model）」，並以 IaaS、PaaS、SaaS 三種服務模式比較雙方的責任劃分。（6分）\n(二) 請列舉 3 種常見的雲端資安風險。（4分）\n(三) 針對(二)的風險，請提出對應的防護措施。（5分）",
+    "answer": "**(一) 共同責任模型（6分）**\n\n共同責任模型指雲端的資訊安全由 **CSP 與客戶共同承擔**。簡單說，CSP 負責「**雲端本身的安全**」（Security *of* the cloud），客戶負責「**雲端裡面的安全**」（Security *in* the cloud）。服務模式不同，責任分界也不同。\n\n| 管理項目 | IaaS | PaaS | SaaS |\n|---|---|---|---|\n| 實體機房、硬體、網路 | CSP | CSP | CSP |\n| 虛擬化層 | CSP | CSP | CSP |\n| 作業系統修補 | **客戶** | CSP | CSP |\n| 中介軟體、執行環境 | **客戶** | CSP | CSP |\n| 應用程式 | **客戶** | **客戶** | CSP |\n| 資料 | **客戶** | **客戶** | **客戶** |\n| 帳號與存取權限 | **客戶** | **客戶** | **客戶** |\n\n規律：從 IaaS 到 SaaS，客戶要管的東西越來越少，但**資料本身與帳號權限，在任何模式下都是客戶的責任**。\n\n**(二) 常見的雲端資安風險（4分）**\n\n1. **組態設定錯誤**：例如儲存空間（如 S3 Bucket）設成公開、資料庫開放對外連線、安全群組全開。這是雲端資料外洩最常見的原因，而且屬於客戶的責任。\n2. **帳號與金鑰外洩**：管理者帳號沒有多因子驗證、API 金鑰被寫進程式碼並上傳到 GitHub，攻擊者取得後可直接操作雲端資源，甚至開大量主機挖礦。\n3. **權限過大**：帳號或服務被授予遠超過需要的權限，一旦被入侵，影響範圍會很大。\n4. **不安全的 API 與缺乏監控**：雲端完全以 API 操作，若 API 未妥善驗證或未啟用日誌，入侵難以察覺。\n5. **資料落地與法規遵循**：資料存放的地區可能涉及個資法、主管機關規定。\n\n（任選 3 項說明即可。）\n\n**(三) 防護措施（5分）**\n\n| 風險 | 防護措施 |\n|---|---|\n| 組態錯誤 | 導入雲端安全態勢管理（CSPM）自動檢查設定；以基礎設施即程式碼（IaC）搭配範本管理，避免人工設定出錯；預設封鎖公開存取 |\n| 帳號與金鑰外洩 | 所有帳號強制多因子驗證；不使用 root 帳號做日常操作；金鑰集中存放在金鑰管理服務（KMS、Secrets Manager）並定期輪替；在 CI 流程掃描程式碼中的金鑰 |\n| 權限過大 | 依角色授權（RBAC），落實最小權限；定期檢視並移除閒置帳號與權限 |\n| API 與監控 | 啟用雲端稽核日誌（如 CloudTrail）並匯入 SIEM；設定異常用量與費用告警 |\n| 資料保護 | 傳輸與儲存皆加密，重要資料由客戶自管金鑰；選擇符合法規的資料中心地區；定期備份並演練還原 |\n\n結論：上雲不等於把資安交出去，客戶仍要建立自己的雲端資安治理，並在合約中明確約定 CSP 的責任、服務等級（SLA）與事件通報義務。",
+    "code": null
+   },
+   {
+    "id": "115A-4",
+    "no": "四",
+    "topic": "sec",
+    "topicName": "資訊安全",
+    "title": "勒索軟體事件應變（應變流程、備份策略、通報時限）",
+    "score": 15,
+    "question": "某國營事業的檔案伺服器遭勒索軟體加密，畫面出現要求支付比特幣的訊息。請回答下列問題：（3題，共15分）\n(一) 請依資安事件應變的生命週期，說明處理本事件的步驟。（7分）\n(二) 請說明可降低勒索軟體衝擊的備份策略。（4分）\n(三) 依我國資通安全管理法相關規定，機關知悉資安事件後應於多久內通報？並說明事件等級與應變時限的關係。（4分）",
+    "answer": "**(一) 事件應變步驟（7分）**\n\n依 NIST SP 800-61 的事件應變生命週期，可分為四個階段：\n\n1. **準備（Preparation）**\n事前就要完成：訂定應變計畫與聯絡窗口、組成應變小組、建立離線備份、準備鑑識工具、定期演練。\n\n2. **偵測與分析（Detection & Analysis）**\n- 確認是勒索軟體事件，判斷受影響的主機、帳號與資料範圍。\n- 辨識勒索軟體種類（可查詢 No More Ransom 等網站，部分種類有免費解密工具）。\n- 依影響程度判定事件等級，並啟動通報。\n\n3. **圍堵、根除與復原（Containment, Eradication & Recovery）**\n- **圍堵**：立即將受感染主機**拔除網路**（但不要關機，以保留記憶體中的鑑識證據），封鎖可疑帳號，阻止擴散。\n- **根除**：找出入侵管道（釣魚郵件、未修補的 VPN 漏洞、遠端桌面弱密碼），移除惡意程式與後門，修補漏洞並重設所有可能外洩的密碼。\n- **復原**：確認環境乾淨後，從**未受感染的備份**還原系統與資料，並持續監控是否再次感染。\n\n4. **事後檢討（Post-Incident Activity）**\n撰寫事件報告，分析根本原因，檢討防護與流程的缺失並改善，更新應變計畫。\n\n補充：原則上**不建議支付贖金**。付款不保證能拿回資料，還可能使組織成為再次勒索的目標，而且目前勒索集團常採「雙重勒索」，就算還原資料，仍可能威脅公開竊得的資料。\n\n**(二) 備份策略（4分）**\n\n採用 **3-2-1-1-0 原則**：\n- **3** 份資料副本（1 份正式資料加 2 份備份）\n- **2** 種不同的儲存媒體\n- **1** 份存放在異地\n- **1** 份**離線**（air-gapped）或**不可變**（immutable，寫入後不能修改或刪除）\n- **0** 錯誤：定期做還原演練，確認備份真的能用\n\n其中「離線或不可變」最關鍵，因為勒索軟體會刻意尋找並加密網路上可存取的備份。此外，備份帳號要與一般網域帳號分開，並設定備份保留多個版本。\n\n**(三) 通報時限與事件等級（4分）**\n\n- 依「資通安全事件通報及應變辦法」，公務機關與特定非公務機關（**公營事業屬於特定非公務機關**）**知悉資安事件後，應於 1 小時內**完成通報。\n- 事件依影響程度分為**第一級到第四級**，第四級最嚴重（例如涉及關鍵基礎設施的核心業務、國家機密）。\n- 應變時限：**第一、二級**事件應於知悉後 **72 小時內**完成損害控制或復原；**第三、四級**事件應於 **36 小時內**完成。完成後還要在規定期限內提交調查、處理及改善報告。\n\n國營事業多屬關鍵基礎設施提供者，等級判定可能較高，因此事前演練與備份更顯重要。\n\n（作答提醒：法規細節以考試當時的最新版本為準。）",
+    "code": null
+   },
+   {
+    "id": "115A-5",
+    "no": "五",
+    "topic": "prog",
+    "topicName": "程式設計實作",
+    "title": "計算小於 n 的質數個數（埃拉托斯特尼篩法）",
+    "score": 15,
+    "question": "請設計一函式 int countPrimes(int n)，回傳小於 n 的質數個數，並註明所使用的程式語言。（2題，共15分）\n輸入：整數 n（0 ≤ n ≤ 5×10⁶）\n輸出：小於 n 的質數個數。例如 n = 10 時，小於 10 的質數有 2、3、5、7，回傳 4。\n(一) 若對每個數逐一以試除法判斷是否為質數，其時間複雜度為何？請說明為何不適合本題。（4分）\n(二) 請以時間複雜度更低的方法撰寫此函式，並說明其時間與空間複雜度。（11分）",
+    "answer": "**(一) 逐一試除法的複雜度（4分）**\n\n判斷一個數 k 是否為質數，只需試除到 √k，需要 O(√k) 次。對 2 到 n−1 每個數都做一次，總時間約為 **O(n√n)**。\n\nn = 5×10⁶ 時，n√n ≈ 5×10⁶ × 2236 ≈ 1.1×10¹⁰ 次運算，太慢。而且每個數都重新判斷，重複做了大量相同的除法。\n\n**(二) 埃拉托斯特尼篩法（11分）**\n\n*想法*：與其逐一判斷誰是質數，不如反過來「**把合數刪掉**」。\n\n1. 建立一個長度 n 的標記陣列，先假設 2 到 n−1 全是質數。\n2. 從 2 開始，若 i 仍是質數，就把 i 的倍數全部標記為合數。\n3. **從 i × i 開始刪**即可，因為比 i × i 小的 i 的倍數（如 2i、3i），早就被更小的質數刪過了。\n4. 只要做到 i × i < n 就能停，剩下沒被刪的就是質數。\n\n*以 n = 20 為例*：\n- i = 2：刪 4, 6, 8, 10, 12, 14, 16, 18\n- i = 3：從 9 開始刪 9, 15（12、18 已刪）\n- i = 5：5 × 5 = 25 ≥ 20，停止\n- 剩下：2, 3, 5, 7, 11, 13, 17, 19 → 共 8 個\n\n*複雜度*：\n- **時間 O(n log log n)**：每個質數 p 刪約 n/p 個數，總和 n(1/2 + 1/3 + 1/5 + …) ≈ n log log n，非常接近線性。\n- **空間 O(n)**：需要一個長度 n 的標記陣列（用 char 或 bool，5×10⁶ 只佔約 5 MB）。",
+    "code": {
+     "lang": "c",
+     "text": "// 程式語言：C\n\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint countPrimes(int n) {\n    if (n < 3) return 0;                  // 小於 2 沒有質數；n = 2 時也沒有\n\n    char *isComposite = calloc(n, 1);     // 0 = 可能是質數，1 = 合數\n    if (isComposite == NULL) return -1;   // 記憶體配置失敗\n\n    // 只需篩到 i * i < n；用 long long 避免 i * i 溢位\n    for (long long i = 2; i * i < n; i++) {\n        if (!isComposite[i]) {\n            // 從 i * i 開始刪，更小的倍數已被更小的質數刪過\n            for (long long j = i * i; j < n; j += i)\n                isComposite[j] = 1;\n        }\n    }\n\n    int count = 0;\n    for (int i = 2; i < n; i++)           // 數出沒被刪掉的數\n        if (!isComposite[i]) count++;\n\n    free(isComposite);\n    return count;\n}\n\nint main(void) {\n    printf(\"%d\\n\", countPrimes(10));       // 4  (2, 3, 5, 7)\n    printf(\"%d\\n\", countPrimes(20));       // 8\n    printf(\"%d\\n\", countPrimes(5000000));  // 348513\n    return 0;\n}\n\n/* 時間複雜度：O(n log log n)\n   空間複雜度：O(n) */"
+    }
+   },
+   {
+    "id": "115A-6",
+    "no": "六",
+    "topic": "ds",
+    "topicName": "資料結構與演算法",
+    "title": "Max-Heap 建立、刪除最大值與堆積排序",
+    "score": 15,
+    "question": "請回答下列有關最大堆積（Max-Heap）的問題：（3題，共15分）\n(一) 依序將 35、20、50、10、45、60、30 插入一個空的 Max-Heap，請畫出完成後的堆積，並寫出其陣列表示。（6分）\n(二) 承(一)，執行一次「刪除最大值」後，請畫出新的堆積。（4分）\n(三) 請說明堆積排序（Heap Sort）的作法，以及其時間複雜度與是否為穩定排序。（5分）",
+    "answer": "**(一) 建立 Max-Heap（6分）**\n\n插入規則：新元素放在最後一個位置，若比父節點大就與父節點交換，一路往上直到不再比父節點大（稱為 **sift-up**）。以陣列表示時，第 i 個節點的父節點為 ⌊i/2⌋（索引從 1 開始）。\n\n| 插入 | 調整過程 | 陣列 |\n|---|---|---|\n| 35 | 成為根 | 35 |\n| 20 | 20 < 35，不動 | 35, 20 |\n| 50 | 50 > 35，交換 | 50, 20, 35 |\n| 10 | 10 < 20，不動 | 50, 20, 35, 10 |\n| 45 | 45 > 20 交換；45 < 50 停 | 50, 45, 35, 10, 20 |\n| 60 | 60 > 35 交換；60 > 50 再交換 | 60, 45, 50, 10, 20, 35 |\n| 30 | 30 < 50，不動 | 60, 45, 50, 10, 20, 35, 30 |\n\n插入 60 時的調整（橘色為移動中的節點）：\n\n```tree\n{\"v\":\"50\",\"l\":{\"v\":\"45\",\"l\":{\"v\":\"10\"},\"r\":{\"v\":\"20\"}},\"r\":{\"v\":\"35\",\"l\":{\"v\":\"60\",\"t\":\"accent\"}}}\n```\n\n**完成後的 Max-Heap**：\n\n```tree\n{\"v\":\"60\",\"t\":\"ink\",\"l\":{\"v\":\"45\",\"l\":{\"v\":\"10\"},\"r\":{\"v\":\"20\"}},\"r\":{\"v\":\"50\",\"l\":{\"v\":\"35\"},\"r\":{\"v\":\"30\"}}}\n```\n\n陣列表示：**[60, 45, 50, 10, 20, 35, 30]**\n\n**(二) 刪除最大值（4分）**\n\n刪除規則：取出根（最大值 60），把**最後一個元素**（30）移到根，再往下與「較大的子節點」比較並交換，直到比兩個子節點都大（稱為 **sift-down**）。\n\n1. 取出 60，把 30 移到根：[30, 45, 50, 10, 20, 35]\n2. 30 的子節點為 45、50，較大者 50 → 交換：[50, 45, 30, 10, 20, 35]\n3. 30 現在的子節點只有 35 → 35 > 30，交換：[50, 45, 35, 10, 20, 30]\n4. 30 已是葉節點，結束。\n\n```tree\n{\"v\":\"50\",\"t\":\"ink\",\"l\":{\"v\":\"45\",\"l\":{\"v\":\"10\"},\"r\":{\"v\":\"20\"}},\"r\":{\"v\":\"35\",\"l\":{\"v\":\"30\",\"t\":\"gold\"}}}\n```\n\n陣列表示：**[50, 45, 35, 10, 20, 30]**\n\n**(三) 堆積排序（5分）**\n\n*作法*：\n1. **建堆**：把陣列整理成 Max-Heap。從最後一個非葉節點（索引 ⌊n/2⌋）往前，逐一做 sift-down，這個步驟只需 O(n)。\n2. **反覆取最大值**：把根（最大值）與陣列最後一個元素交換，最大值就被放到最終位置；接著把堆積大小減 1，對新的根做 sift-down。\n3. 重複步驟 2，直到堆積只剩 1 個元素，陣列即由小到大排好。\n\n*特性*：\n- **時間複雜度**：最佳、平均、最差皆為 **O(n log n)**。建堆 O(n)，之後 n − 1 次 sift-down 各 O(log n)。\n- **空間複雜度**：**O(1)**，在原陣列上就地排序。\n- **不穩定**：交換根與最後元素時，可能把相同鍵值的元素順序打亂。\n\n與快速排序比較：快速排序平均通常較快，但最差為 O(n²)；堆積排序保證最差 O(n log n)，且不需額外空間。",
+    "code": {
+     "lang": "c",
+     "text": "// 程式語言：C — 堆積排序（陣列索引從 0 開始，左子 2i+1、右子 2i+2）\n\n#include <stdio.h>\n\nvoid swap(int *a, int *b) { int t = *a; *a = *b; *b = t; }\n\n// 對以 i 為根、大小為 n 的子樹做 sift-down\nvoid siftDown(int arr[], int n, int i) {\n    while (1) {\n        int largest = i;\n        int left = 2 * i + 1, right = 2 * i + 2;\n        if (left  < n && arr[left]  > arr[largest]) largest = left;\n        if (right < n && arr[right] > arr[largest]) largest = right;\n        if (largest == i) break;          // 已比兩個子節點都大\n        swap(&arr[i], &arr[largest]);\n        i = largest;                      // 繼續往下調整\n    }\n}\n\nvoid heapSort(int arr[], int n) {\n    // 1. 建堆：從最後一個非葉節點往前做 sift-down，O(n)\n    for (int i = n / 2 - 1; i >= 0; i--)\n        siftDown(arr, n, i);\n\n    // 2. 把最大值換到尾端，縮小堆積後重新調整\n    for (int end = n - 1; end > 0; end--) {\n        swap(&arr[0], &arr[end]);\n        siftDown(arr, end, 0);\n    }\n}\n\nint main(void) {\n    int a[] = {35, 20, 50, 10, 45, 60, 30};\n    int n = sizeof(a) / sizeof(a[0]);\n    heapSort(a, n);\n    for (int i = 0; i < n; i++) printf(\"%d \", a[i]);   // 10 20 30 35 45 50 60\n    printf(\"\\n\");\n    return 0;\n}"
+    }
+   }
+  ]
+ }
+];
+const EXAM_DATA_PART2 = [];
+const EXAM_DATA_PART3 = [];
+const EXAM_DATA_PART4 = [];
+</script>
+<script>/* ===== 經濟部考古題複習系統 — 應用邏輯 ===== */
+
+// 合併所有資料（依年度由新到舊）
+const ALL_YEARS = [
+  ...EXAM_DATA_PART1, ...EXAM_DATA_PART2,
+  ...EXAM_DATA_PART3, ...EXAM_DATA_PART4
+];
+
+const TOPIC_INFO = {
+  db:   { name: '資料庫',          cls: 't-db'   },
+  ds:   { name: '資料結構與演算法', cls: 't-ds'   },
+  prog: { name: '程式設計實作',     cls: 't-prog' },
+  sec:  { name: '資訊安全',         cls: 't-sec'  },
+  net:  { name: '網路與系統',       cls: 't-net'  },
+  mis:  { name: '資管理論與名詞',   cls: 't-mis'  },
+};
+
+// 攤平成題目陣列
+const ALL_Q = [];
+ALL_YEARS.forEach(y => {
+  y.questions.forEach(q => {
+    ALL_Q.push({ ...q, year: y.year, subject: y.subject,
+                 yearNote: y.note || '', timeLimit: y.timeLimit });
+  });
+});
+
+let state = { mode: 'year', topic: 'all', search: '', terms: [] };
+const openIds = new Set();   // 使用者展開的題目卡（重新渲染後仍保留）
+
+
+/* ============================================================
+   搜尋 / 跳轉 / 換行 共用工具（新增）
+   ============================================================ */
+const BREAK_AT_PERIOD = true;   // 解析遇到「。」自動換行；不想要就改成 false
+
+/* 全形→半形、英文轉小寫；逐字處理，確保處理後長度不變（highlight 才對得準） */
+function normText(s) {
+  let out = '';
+  for (const ch of String(s)) {
+    const n = ch.normalize('NFKC').toLowerCase();
+    out += (n.length === ch.length) ? n : ch;
+  }
+  return out;
+}
+function parseTerms(raw) {
+  return [...new Set(normText(raw).split(/\s+/).filter(Boolean))];
+}
+/* 去掉資料裡用來排版的 HTML 標籤，避免搜 "br"、"code"、"strong" 時誤中 */
+function stripTags(s) {
+  return String(s == null ? '' : s)
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(?:strong|code|sub|sup|u|em|b|i)\s*>/gi, '');
+}
+/* 每個關鍵字都必須出現（AND）；總分 = 各關鍵字命中的最高權重欄位之和 */
+function scoreFields(terms, fields) {
+  let total = 0;
+  for (const term of terms) {
+    let best = 0;
+    for (const f of fields) if (f.w > best && f.t.includes(term)) best = f.w;
+    if (!best) return 0;
+    total += best;
+  }
+  return total;
+}
+/* 在已渲染的 DOM 文字節點上標黃（不動 HTML 結構） */
+function highlightIn(root, terms) {
+  if (!root || !terms.length) return;
+  const nodes = [];
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = walker.nextNode())) {
+    if (!n.nodeValue.trim()) continue;
+    const p = n.parentNode;
+    if (p && p.closest && p.closest('svg, button, mark')) continue;
+    nodes.push(n);
+  }
+  nodes.forEach(node => {
+    const text = node.nodeValue, low = normText(text);
+    const ranges = [];
+    terms.forEach(t => {
+      let i = low.indexOf(t);
+      while (i !== -1) { ranges.push([i, i + t.length]); i = low.indexOf(t, i + t.length); }
+    });
+    if (!ranges.length) return;
+    ranges.sort((a, b) => a[0] - b[0]);
+    const merged = [ranges[0].slice()];
+    for (let k = 1; k < ranges.length; k++) {
+      const last = merged[merged.length - 1];
+      if (ranges[k][0] <= last[1]) last[1] = Math.max(last[1], ranges[k][1]);
+      else merged.push(ranges[k].slice());
+    }
+    const frag = document.createDocumentFragment();
+    let pos = 0;
+    merged.forEach(([s, e]) => {
+      if (s > pos) frag.appendChild(document.createTextNode(text.slice(pos, s)));
+      const m = document.createElement('mark');
+      m.className = 'hl';
+      m.textContent = text.slice(s, e);
+      frag.appendChild(m);
+      pos = e;
+    });
+    if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+/* 解析換行：遇到「。」就換行（已有 <br>、句尾、或後面接」』）” 的不重複換） */
+function breakSentences(s) {
+  if (!BREAK_AT_PERIOD) return s;
+  return String(s).replace(
+    /。(?!(?:<\/[a-z]+>)*(?:\s*<br\s*\/?>|\s*$|[」』）)”"']))/gi,
+    '。<br>'
+  );
+}
+
+/* ---------- 搜尋框綁定（支援中文輸入法，組字中不觸發搜尋） ---------- */
+function applySearch() {
+  const input = document.getElementById('searchInput');
+  state.search = input.value.trim();
+  state.terms = parseTerms(state.search);
+  render();
+}
+function clearSearch() {
+  const input = document.getElementById('searchInput');
+  input.value = '';
+  document.getElementById('searchClear').classList.remove('show');
+  applySearch();
+  input.focus();
+}
+function bindSearch() {
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClear');
+  let timer, composing = false;
+  const schedule = () => { clearTimeout(timer); timer = setTimeout(applySearch, 150); };
+  input.addEventListener('compositionstart', () => { composing = true; });
+  input.addEventListener('compositionend', () => { composing = false; schedule(); });
+  input.addEventListener('input', () => {
+    clearBtn.classList.toggle('show', input.value.length > 0);
+    if (!composing) schedule();
+  });
+  input.addEventListener('keydown', e => { if (e.key === 'Escape') clearSearch(); });
+  clearBtn.addEventListener('click', clearSearch);
+}
+
+/* ---------- 跳轉面板 ---------- */
+let JUMP_ITEMS = [];
+let JUMP_TITLE = '跳到年度';
+function buildJump() {
+  const fab = document.getElementById('jumpFab');
+  const grid = document.getElementById('jumpGrid');
+  document.getElementById('jumpTitle').textContent = JUMP_TITLE;
+  fab.classList.toggle('show', JUMP_ITEMS.length > 0);
+  grid.innerHTML = JUMP_ITEMS.map(it =>
+    `<button class="jump-item${it.done ? ' done' : ''}${it.open ? ' on' : ''}" onclick="jumpTo('${it.key}')">
+       <b>${it.label}</b><small>${it.sub || ''}</small></button>`
+  ).join('');
+  if (!JUMP_ITEMS.length) toggleJump(false);
+}
+function toggleJump(force) {
+  const p = document.getElementById('jumpPanel');
+  p.hidden = (typeof force === 'boolean') ? !force : !p.hidden;
+}
+function scrollToGroup(key) {
+  const el = document.getElementById('g-' + key);
+  if (!el) return;
+  const ctrl = document.querySelector('.controls');
+  const top = el.getBoundingClientRect().top + window.scrollY - (ctrl ? ctrl.offsetHeight : 0) - 10;
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto';          // 跳轉用瞬間定位，避免長距離捲動動畫
+  window.scrollTo(0, Math.max(0, top));
+  root.style.scrollBehavior = '';
+}
+document.addEventListener('click', e => {
+  const p = document.getElementById('jumpPanel');
+  if (p && !p.hidden && !p.contains(e.target) && !e.target.closest('#jumpFab')) p.hidden = true;
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleJump(false); });
+
+/* ---------- 搜尋欄位索引 ---------- */
+function plainAnswer(md) {
+  return String(md || '')
+    .replace(/```(?:htmldiagram|tree)\n[\s\S]*?```/g, ' ')   // 圖表/樹狀圖的 HTML、JSON 不列入搜尋
+    .replace(/^#{1,4}\s+/gm, '')
+    .replace(/\*\*|`/g, '')
+    .replace(/\|/g, ' ')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(?:strong|code|sub|sup|u|em|b|i)\s*>/gi, '');
+}
+function searchIndex(q) {
+  return q._ix || (q._ix = {
+    title: normText(stripTags(q.title)),
+    ques:  normText(stripTags(q.question)),
+    ans:   normText(plainAnswer(q.answer)),
+    code:  normText(q.code ? q.code.text : ''),
+    meta:  normText(q.year + ' ' + q.year + '年 第' + q.no + '題 ' +
+                    ((TOPIC_INFO[q.topic] || {}).name || '') + ' ' + (q.part || ''))
+  });
+}
+function searchFields(q) {
+  const ix = searchIndex(q);
+  return [{ t: ix.title, w: 10 }, { t: ix.ques, w: 6 }, { t: ix.ans, w: 3 },
+          { t: ix.code, w: 2 }, { t: ix.meta, w: 1 }];
+}
+function bodyHit(q) {
+  const ix = searchIndex(q);
+  return state.terms.some(t => ix.ques.includes(t) || ix.ans.includes(t) || ix.code.includes(t));
+}
+
+/* ---------- 輕量 Markdown 渲染 ---------- */
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderMarkdown(md) {
+  // 先抽出 ``` 程式碼/ASCII 區塊
+  const blocks = [];
+  md = md.replace(/```(\w*)\n([\s\S]*?)```/g, (m, lang, code) => {
+    blocks.push({ lang, code });
+    return `\u0000BLOCK${blocks.length - 1}\u0000`;
+  });
+
+  const lines = md.split('\n');
+  let html = '', i = 0;
+
+  while (i < lines.length) {
+    let line = lines[i];
+
+    // 區塊佔位
+    if (/^\u0000BLOCK\d+\u0000$/.test(line.trim())) {
+      const idx = parseInt(line.trim().match(/\d+/)[0]);
+      const b = blocks[idx];
+      // html-diagram 圍欄：直接輸出 HTML（用於圖表），不做跳脫
+      if (b.lang === 'htmldiagram') {
+        html += `<div class="html-diagram">${b.code}</div>`;
+      } else if (b.lang === 'tree') {
+        // tree 圍欄：JSON 樹資料 → 自動產生對齊的 SVG 樹狀圖
+        html += `<div class="html-diagram">${renderTreeSVG(b.code)}</div>`;
+      } else {
+        const text = b.code.replace(/\n$/, '');
+        const lang = resolveLang(b.lang, text);
+        html += lang
+          ? codeBlockHtml({ lang, text })
+          : `<pre><code>${escapeHtml(text)}</code></pre>`;
+      }
+      i++; continue;
+    }
+
+    // 表格
+    if (line.includes('|') && i + 1 < lines.length &&
+        /^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i+1])) {
+      const headers = line.split('|').map(c => c.trim()).filter(c => c !== '');
+      i += 2;
+      let rows = [];
+      while (i < lines.length && lines[i].includes('|')) {
+        const cells = lines[i].split('|').map(c => c.trim());
+        // 去除頭尾空白格
+        if (cells[0] === '') cells.shift();
+        if (cells[cells.length-1] === '') cells.pop();
+        rows.push(cells);
+        i++;
+      }
+      html += '<table><thead><tr>' +
+        headers.map(h => `<th>${inline(h)}</th>`).join('') +
+        '</tr></thead><tbody>' +
+        rows.map(r => '<tr>' +
+          r.map(c => `<td>${inline(c)}</td>`).join('') + '</tr>').join('') +
+        '</tbody></table>';
+      continue;
+    }
+
+    // 標題
+    let m;
+    if ((m = line.match(/^####\s+(.*)/))) { html += `<h4>${inline(m[1])}</h4>`; i++; continue; }
+    if ((m = line.match(/^###\s+(.*)/)))  { html += `<h4>${inline(m[1])}</h4>`; i++; continue; }
+
+    // 無序清單
+    if (/^\s*[-*]\s+/.test(line)) {
+      let items = [];
+      while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) {
+        items.push(lines[i].replace(/^\s*[-*]\s+/, ''));
+        i++;
+      }
+      html += '<ul>' + items.map(it => `<li>${breakSentences(inline(it))}</li>`).join('') + '</ul>';
+      continue;
+    }
+    // 有序清單
+    if (/^\s*\d+\.\s+/.test(line)) {
+      let items = [];
+      while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) {
+        items.push(lines[i].replace(/^\s*\d+\.\s+/, ''));
+        i++;
+      }
+      html += '<ol>' + items.map(it => `<li>${breakSentences(inline(it))}</li>`).join('') + '</ol>';
+      continue;
+    }
+
+    // 空行
+    if (line.trim() === '') { i++; continue; }
+
+    // 一般段落（合併連續非空行）
+    let para = [line];
+    i++;
+    while (i < lines.length && lines[i].trim() !== '' &&
+           !/^\s*[-*]\s+/.test(lines[i]) && !/^\s*\d+\.\s+/.test(lines[i]) &&
+           !/^#{3,4}\s/.test(lines[i]) &&
+           !/^\u0000BLOCK\d+\u0000$/.test(lines[i].trim()) &&
+           !(lines[i].includes('|') && i+1 < lines.length &&
+             /^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i+1]))) {
+      para.push(lines[i]); i++;
+    }
+    html += `<p>${para.map(l => breakSentences(inline(l))).join('<br>')}</p>`;
+  }
+  return html;
+}
+
+// 行內語法：**粗體**、`code`、<u>底線</u>
+function inline(s) {
+  // 先抽出 `code` 片段保護起來，其餘文字才做標籤還原與粗體
+  const codes = [];
+  s = s.replace(/`([^`]+)`/g, (m, c) => { codes.push(c); return '\u0001' + (codes.length - 1) + '\u0001'; });
+  s = escapeHtml(s);
+  // 還原資料中直接寫的白名單標籤（<u> 用於標示主鍵）
+  s = s.replace(/&lt;(\/?)(strong|code|sub|sup|u)&gt;/g, '<$1$2>');
+  s = s.replace(/&lt;br\s*\/?&gt;/g, '<br>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/\u0001(\d+)\u0001/g, (m, i) => '<code>' + escapeHtml(codes[+i]) + '</code>');
+  return s;
+}
+
+/* ---------- 二元樹 SVG 產生器 ---------- */
+// 輸入 JSON：{ "v":"根值", "l":{子樹}, "r":{子樹} }
+// l/r 可省略；空子樹可用 null。採對稱佈局：節點置於左右子樹正中央，
+// 單子節點向左/右偏移固定距離，使左右視覺平衡。
+function renderTreeSVG(json) {
+  let root;
+  try { root = JSON.parse(json.trim()); }
+  catch (e) { return `<pre><code>樹資料格式錯誤</code></pre>`; }
+
+  const NODE_R  = 21;       // 節點圓半徑
+  const H_UNIT  = 32;       // 水平基本單位
+  const V_GAP   = 76;       // 層與層垂直間距
+  const PAD     = 30;       // 邊界留白
+
+  // ── 遞迴佈局：回傳該子樹的 {width, rootX}（皆以 H_UNIT 為單位）──
+  // 做法：左子樹先排好佔據 [0, lw)，右子樹排在 [lw+gap, ...)，
+  //       父節點 x = 左右子根的中點；單子節點則讓父在子的對側偏移一格，
+  //       使整棵子樹仍保有對稱的視覺重心。
+  function layout(node, depth) {
+    node._d = depth;
+    const L = node.l, R = node.r;
+
+    // 葉節點：寬度 1，根在 0
+    if (!L && !R) {
+      node._w = 1;
+      node._x = 0;
+      return;
+    }
+
+    // 雙子：左右子樹各自佈局，並排放置
+    if (L && R) {
+      layout(L, depth + 1);
+      layout(R, depth + 1);
+      const gap = 1;                         // 左右子樹之間留 1 單位
+      // 左子樹佔 [0, L._w)，右子樹整體右移 L._w + gap
+      const shift = L._w + gap;
+      offset(R, shift);
+      node._w = L._w + gap + R._w;
+      node._x = (L._x + R._x) / 2;           // 父 = 左右子根中點
+      return;
+    }
+
+    // 單左子：左子樹佈局後，父放在「左子根右側一格」
+    if (L) {
+      layout(L, depth + 1);
+      node._x = L._x + 1;                    // 父在左子根右邊一格
+      // 整棵子樹寬度 = 左子樹寬度，但要確保涵蓋父節點 x
+      node._w = Math.max(L._w, node._x + 1);
+      return;
+    }
+
+    // 單右子：右子樹佈局後，父放在「右子根左側一格」
+    {
+      layout(R, depth + 1);
+      // 父在右子根左邊一格；若會 < 0 則整體右移
+      let px = R._x - 1;
+      if (px < 0) { offset(R, -px); px = 0; }
+      node._x = px;
+      node._w = Math.max(R._w + (px < 0 ? -px : 0), node._x + 1,
+                         R._x + 1);
+      return;
+    }
+  }
+  // 把以 node 為根的整棵子樹所有 _x 平移 dx
+  function offset(node, dx) {
+    if (!node) return;
+    node._x += dx;
+    offset(node.l, dx);
+    offset(node.r, dx);
+  }
+  layout(root, 0);
+
+  // 收集座標範圍
+  let minX = Infinity, maxX = -Infinity, maxDepth = 0;
+  (function scan(node) {
+    if (!node) return;
+    minX = Math.min(minX, node._x);
+    maxX = Math.max(maxX, node._x);
+    maxDepth = Math.max(maxDepth, node._d);
+    scan(node.l); scan(node.r);
+  })(root);
+
+  const width  = (maxX - minX) * H_UNIT + PAD * 2 + NODE_R * 2;
+  const height = maxDepth * V_GAP + PAD * 2 + NODE_R * 2;
+
+  function cx(node) { return PAD + NODE_R + (node._x - minX) * H_UNIT; }
+  function cy(node) { return PAD + NODE_R + node._d * V_GAP; }
+
+  // 第三遍：產生連線與節點
+  let edges = '', nodes = '';
+  function draw(node) {
+    if (!node) return;
+    const x = cx(node), y = cy(node);
+    ['l', 'r'].forEach(side => {
+      const child = node[side];
+      if (child) {
+        edges += `<line x1="${x}" y1="${y}" x2="${cx(child)}" y2="${cy(child)}" `
+               + `stroke="#3d4456" stroke-width="2"/>`;
+        draw(child);
+      }
+    });
+    const palette = {
+      accent: ['#fbf3f0', '#8a3324', '#8a3324'],
+      blue:   ['#eef4f7', '#1f5673', '#1f5673'],
+      gold:   ['#faf5e6', '#a07e2c', '#7a5d1e'],
+      dim:    ['#e8e3d6', '#b3a98f', '#8a8266'],
+      ink:    ['#1a1f2c', '#1a1f2c', '#ffffff'],
+    };
+    const [fill, stroke, txt] = palette[node.t] || palette.ink;
+    nodes += `<circle cx="${x}" cy="${y}" r="${NODE_R}" `
+           + `fill="${fill}" stroke="${stroke}" stroke-width="2.5"/>`
+           + `<text x="${x}" y="${y + 5}" text-anchor="middle" `
+           + `font-size="15" font-weight="700" fill="${txt}">`
+           + escapeHtml(String(node.v)) + `</text>`;
+  }
+  draw(root);
+
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" `
+       + `style="max-width:${width}px;width:100%;font-family:'Noto Sans TC',sans-serif;">`
+       + edges + nodes + `</svg>`;
+}
+
+/* ---------- 語言判斷 ---------- */
+const LANG_ALIAS = {
+  sql:'sql', mysql:'sql', tsql:'sql', plsql:'sql', pgsql:'sql',
+  c:'c', cpp:'c', 'c++':'c',
+  java:'java', python:'python', py:'python',
+  javascript:'javascript', js:'javascript', php:'php',
+  pseudo:'pseudo', pseudocode:'pseudo',
+  text:'', txt:'', plain:''          // 明確指定純文字 → 不上色
+};
+function detectLang(code) {
+  const t = code.trim();
+  if (/[│─┌└├┐┘▶▼◀▲╱╲]/.test(t)) return '';                       // ASCII 圖
+  if (/^\s*(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|WITH)\b/i.test(t)) return 'sql';
+  if (/#include|\bint\s+main\s*\(/.test(t)) return 'c';
+  if (/\b(public|private)\s+(class|static|void)|System\.out/.test(t)) return 'java';
+  if (/^\s*(def\s|import\s+\w+|from\s+\w+\s+import)/m.test(t)) return 'python';
+  if (/^\s*(Algorithm|Function|Procedure)\b|\bthen\b|\bend\s+(if|while|for)\b|←/i.test(t)) return 'pseudo';
+  return '';
+}
+function resolveLang(lang, code) {
+  const k = (lang || '').toLowerCase();
+  if (k && Object.prototype.hasOwnProperty.call(LANG_ALIAS, k)) return LANG_ALIAS[k];
+  return detectLang(code);
+}
+
+const SQL_KW = new Set(('SELECT FROM WHERE GROUP BY ORDER HAVING ASC DESC JOIN INNER LEFT RIGHT FULL OUTER ON AS ' +
+  'AND OR NOT IN IS NULL LIKE BETWEEN EXISTS UNION ALL DISTINCT TOP LIMIT OFFSET FETCH FIRST ROWS ROW ONLY ' +
+  'CASE WHEN THEN ELSE END INSERT INTO VALUES UPDATE SET DELETE REPLACE CREATE TABLE INDEX VIEW TRIGGER DROP ' +
+  'ALTER ADD PRIMARY KEY FOREIGN REFERENCES CONSTRAINT UNIQUE DEFAULT CLUSTER BEFORE AFTER FOR EACH BEGIN ' +
+  'DECLARE IF SIGNAL SQLSTATE MESSAGE_TEXT WITH USING NEW OLD').split(' '));
+const SQL_TYPE = new Set('INT INTEGER CHAR VARCHAR DATETIME DATE TIMESTAMP DECIMAL FLOAT DOUBLE TEXT BOOLEAN'.split(' '));
+const PSEUDO_KW = new Set(('ALGORITHM FUNCTION PROCEDURE INPUT OUTPUT IF THEN ELSE FOR TO DO WHILE END RETURN ' +
+  'AND OR NOT NULL IS EMPTY').split(' '));
+
+/* ---------- 程式碼語法 highlight（逐字元 tokenizer）---------- */
+function highlightCode(code, lang) {
+  lang = LANG_ALIAS[(lang || '').toLowerCase()] || (lang || '').toLowerCase();
+  const kw = {
+    c: ['int','char','void','return','if','else','for','while','do','struct','typedef','bool','long','double','float','define','include','sizeof','static','const','unsigned','break','continue','switch','case','NULL','true','false'],
+    java: ['public','private','protected','class','int','void','return','if','else','for','while','do','new','static','final','abstract','extends','implements','import','package','this','super','boolean','double','String','char','long','float','try','catch','throw','throws','interface','null','true','false','break','continue'],
+    python: ['def','return','if','elif','else','for','while','import','from','as','with','try','except','finally','class','None','True','False','and','or','not','in','is','lambda','break','continue','global','print'],
+    javascript: ['function','return','if','else','for','while','let','const','var','new','class','this','try','catch','import','export','from','null','true','false','typeof','break','continue','console'],
+    php: ['function','return','if','else','elseif','for','while','foreach','as','class','new','public','private','echo','true','false','null','require','include']
+  };
+  const isSql = lang === 'sql', isPseudo = lang === 'pseudo';
+  const list = new Set(kw[lang] || kw.c);
+
+  let out = '', i = 0;
+  const n = code.length;
+  const wrap = (cls, text) => `<span class="${cls}">${escapeHtml(text)}</span>`;
+  const isWordChar = c => /[A-Za-z0-9_@]/.test(c);
+  const isDigit = c => c >= '0' && c <= '9';
+
+  while (i < n) {
+    const c = code[i];
+    const two = code.substr(i, 2);
+
+    if (two === '/*') {
+      let j = code.indexOf('*/', i + 2);
+      j = (j === -1) ? n : j + 2;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
+    if (two === '//' && !isSql) {
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
+    if (two === '--' && isSql) {
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
+    if (c === '#' && (lang === 'python' || lang === 'php')) {
+      let j = code.indexOf('\n', i); if (j === -1) j = n;
+      out += wrap('tok-com', code.slice(i, j)); i = j; continue;
+    }
+    if (lang === 'python' && (code.startsWith('"""', i) || code.startsWith("'''", i))) {
+      const q = code.substr(i, 3);
+      let j = code.indexOf(q, i + 3); j = (j === -1) ? n : j + 3;
+      out += wrap('tok-str', code.slice(i, j)); i = j; continue;
+    }
+    if (c === '"' || c === "'") {
+      let j = i + 1;
+      while (j < n && code[j] !== c) { if (code[j] === '\\') j++; j++; }
+      j = Math.min(j + 1, n);
+      out += wrap('tok-str', code.slice(i, j)); i = j; continue;
+    }
+    if (isDigit(c)) {
+      let j = i;
+      while (j < n && /[0-9.]/.test(code[j])) j++;
+      out += wrap('tok-num', code.slice(i, j)); i = j; continue;
+    }
+    if (isWordChar(c) && !isDigit(c)) {
+      let j = i;
+      while (j < n && isWordChar(code[j])) j++;
+      const word = code.slice(i, j), up = word.toUpperCase();
+      if (isSql) {
+        if (SQL_TYPE.has(up))      out += wrap('tok-typ', word);
+        else if (SQL_KW.has(up))   out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      } else if (isPseudo) {
+        if (PSEUDO_KW.has(up))     out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      } else {
+        if (list.has(word))        out += wrap('tok-kw', word);
+        else if (code[j] === '(')  out += wrap('tok-fn', word);
+        else                       out += escapeHtml(word);
+      }
+      i = j; continue;
+    }
+    out += escapeHtml(c);
+    i++;
+  }
+  return out;
+}
+
+function codeBlockHtml(codeObj) {
+  if (!codeObj) return '';
+  const langLabel = {
+    c: 'C', java: 'Java', python: 'Python', javascript: 'JavaScript',
+    php: 'PHP', sql: 'SQL', pseudo: '虛擬碼'
+  }[codeObj.lang] || codeObj.lang;
+  return `<div class="code-block">
+    <div class="code-head">
+      <span class="dots"><span></span><span></span><span></span></span>
+      <span>${langLabel}</span>
+    </div>
+    <pre><code>${highlightCode(codeObj.text, codeObj.lang)}</code></pre>
+  </div>`;
+}
+
+/* ---------- 渲染題目卡 ---------- */
+/* QFENCE：考題中的程式碼圍欄 ``` 轉成程式碼區塊（避免原樣顯示、長行撐破版面） */
+function qFences(h) {
+  return h.replace(/```[a-z]*\n([\s\S]*?)\n```/g, (m, c) =>
+    '<pre style="background:#2b303b;color:#eee;padding:.7rem 1rem;border-radius:6px;overflow-x:auto;margin:.5rem 0;font-size:.85rem;white-space:pre">' + c + '</pre>');
+}
+
+function bodyHtml(q) {
+  return `      <span class="section-label q">考題</span>
+      <div class="q-question">${qFences(escapeHtml(q.question)).replace(/&lt;u&gt;([\s\S]*?)&lt;\/u&gt;/g, '<u>$1</u>')}</div>
+      <span class="section-label a">詳解</span>
+      <div class="q-answer">${renderMarkdown(q.answer)}</div>
+      ${q.code ? codeBlockHtml(q.code) : ''}`;
+}
+
+function fillBody(card) {
+  if (card.dataset.filled) return;
+  const q = ALL_Q.find(x => x.id === card.dataset.id);
+  if (!q) return;
+  const box = card.querySelector('.q-body');
+  box.innerHTML = bodyHtml(q);
+  card.dataset.filled = '1';
+  if (state.terms.length) highlightIn(box, state.terms);
+}
+
+function questionCard(q, forceOpen) {
+  const t = TOPIC_INFO[q.topic] || { name: q.topicName, cls: '' };
+  const isOpen = openIds.has(q.id) || !!forceOpen;
+  return `<div class="q-card ${t.cls}${isOpen ? ' open' : ''}" data-id="${q.id}"${isOpen ? ' data-filled="1"' : ''}>
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-no">${q.no}</div>
+      <div class="q-headmain">
+        <div class="q-title">${escapeHtml(q.title)}</div>
+        <div class="q-tags">
+          <span class="tag tag-topic">${t.name}</span>
+          <span class="tag tag-year">${q.year}年</span>
+          ${q.part ? `<span class="tag tag-part">${escapeHtml(q.part)}　第${q.no}題</span>` : ''}
+          <span class="tag tag-score">${q.score}分</span>
+        </div>
+      </div>
+      <div class="q-toggle">+</div>
+    </div>
+    <div class="q-body">${isOpen ? bodyHtml(q) : ''}</div>
+  </div>`;
+}
+
+/* ---------- 篩選 ---------- */
+function filterQuestions() {
+  let list = ALL_Q.filter(q => state.topic === 'all' || q.topic === state.topic);
+  if (state.terms.length) {
+    // 多關鍵字 AND、全形半形統一、依相關度排序（標題 > 考題 > 詳解 > 程式碼）
+    list = list
+      .map((q, i) => ({ q, i, s: scoreFields(state.terms, searchFields(q)) }))
+      .filter(x => x.s > 0)
+      .sort((a, b) => b.s - a.s || a.i - b.i)
+      .map(x => x.q);
+  }
+  return list;
+}
+
+/* ---------- 渲染主內容 ---------- */
+function updateSearchInfo(count, autoOpen) {
+  const el = document.getElementById('searchInfo');
+  if (!state.terms.length) { el.classList.remove('show'); el.innerHTML = ''; return; }
+  let h = `找到 <b>${count}</b> 題 ‧ 依相關度排序`;
+  if (count > 30) h += ' ‧ 結果較多，已不自動展開詳解，可再加關鍵字縮小範圍';
+  else h += ' ‧ 詳解中有符合的題目已自動展開並標黃';
+  el.innerHTML = h;
+  el.classList.add('show');
+}
+
+function render() {
+  const list = filterQuestions();
+  const wrap = document.getElementById('content');
+  const searching = state.terms.length > 0;
+  const autoOpen = searching && list.length <= 30;
+  JUMP_ITEMS = [];
+  updateSearchInfo(list.length, autoOpen);
+
+  if (list.length === 0) {
+    const msg = searching
+      ? `找不到符合「${escapeHtml(state.search)}」的題目。可改用較短的關鍵字；多個關鍵字請用空格分開。`
+      : '找不到符合條件的題目';
+    wrap.innerHTML = `<div class="empty">
+      <div class="big">📭</div>
+      <p>${msg}</p>
+    </div>`;
+    buildJump();
+    syncExpandBtn();
+    return;
+  }
+
+  let html = '';
+
+  if (searching) {
+    html += `<div class="group">
+      <div class="group-head">
+        <span class="g-badge">搜尋</span>
+        <span class="g-title">依相關度排序</span>
+        <span class="g-meta">共 ${list.length} 題</span>
+      </div>
+      ${list.map(q => questionCard(q, autoOpen && bodyHit(q))).join('')}
+    </div>`;
+  } else if (state.mode === 'year') {
+    JUMP_TITLE = '跳到年度';
+    // 依年度分組
+    const byYear = {};
+    list.forEach(q => { (byYear[q.year] = byYear[q.year] || []).push(q); });
+    const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
+    years.forEach(yr => {
+      const qs = byYear[yr];
+      const yObj = ALL_YEARS.find(y => y.year === yr);
+      const totalScore = qs.reduce((s, q) => s + q.score, 0);
+      JUMP_ITEMS.push({ key: 'y' + yr, label: yr, sub: `${qs.length} 題` });
+      html += `<div class="group" id="g-y${yr}">
+        <div class="group-head">
+          <span class="g-badge">${yr} 年</span>
+          <span class="g-title">${escapeHtml(yObj.subject)}</span>
+          <span class="g-meta">
+            ${yObj.timeLimit ? '考試時間 ' + yObj.timeLimit + '<br>' : ''}
+            本頁 ${qs.length} 題 / ${totalScore} 分
+          </span>
+        </div>
+        ${yObj.note ? `<div class="group-note">※ ${escapeHtml(yObj.note)}</div>` : ''}
+        ${qs.map(q => questionCard(q)).join('')}
+      </div>`;
+    });
+  } else {
+    JUMP_TITLE = '跳到主題';
+    // 依主題分組
+    const byTopic = {};
+    list.forEach(q => { (byTopic[q.topic] = byTopic[q.topic] || []).push(q); });
+    Object.keys(TOPIC_INFO).forEach(tk => {
+      const qs = byTopic[tk];
+      if (!qs || qs.length === 0) return;
+      // 同主題內依年度新到舊、再依題號
+      qs.sort((a, b) => Number(b.year) - Number(a.year));
+      const t = TOPIC_INFO[tk];
+      JUMP_ITEMS.push({ key: 't' + tk, label: t.name, sub: `${qs.length} 題` });
+      html += `<div class="group" id="g-t${tk}">
+        <div class="group-head">
+          <span class="g-badge">${t.name}</span>
+          <span class="g-title">歷年同類考題彙整</span>
+          <span class="g-meta">共 ${qs.length} 題<br>跨 ${new Set(qs.map(q=>q.year)).size} 個年度</span>
+        </div>
+        ${qs.map(q => questionCard(q)).join('')}
+      </div>`;
+    });
+  }
+
+  wrap.innerHTML = html;
+  if (searching) highlightIn(wrap, state.terms);
+  buildJump();
+  syncExpandBtn();
+}
+
+function jumpTo(key) {
+  toggleJump(false);
+  scrollToGroup(key);
+}
+
+/* ---------- 互動 ---------- */
+function toggleCard(headerEl) {
+  const card = headerEl.parentElement;
+  const open = card.classList.toggle('open');
+  if (open) fillBody(card);
+  if (open) openIds.add(card.dataset.id); else openIds.delete(card.dataset.id);
+  syncExpandBtn();
+}
+
+function setMode(mode) {
+  state.mode = mode;
+  document.querySelectorAll('.mode-switch button').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  render();
+}
+
+function updateStatBar() {
+  const scope = ALL_Q;
+  const yearSet = new Set(scope.map(q => q.year));
+  document.getElementById('statYear').textContent = yearSet.size;
+  document.getElementById('statQ').textContent = scope.length;
+  document.getElementById('statTopic').textContent = new Set(scope.map(q => q.topic)).size;
+}
+
+function rebuildTopicChips() {
+  const scope = ALL_Q;
+  const topicCount = {};
+  scope.forEach(q => topicCount[q.topic] = (topicCount[q.topic]||0)+1);
+  const filterRow = document.getElementById('filterRow');
+  let chips = `<button class="chip ${state.topic === 'all' ? 'active' : ''}" data-topic="all"
+    onclick="setTopic('all')">全部<span class="c-count">${scope.length}</span></button>`;
+  Object.keys(TOPIC_INFO).forEach(tk => {
+    const cnt = topicCount[tk] || 0;
+    if (cnt === 0) return;
+    chips += `<button class="chip ${state.topic === tk ? 'active' : ''}" data-topic="${tk}"
+      onclick="setTopic('${tk}')">${TOPIC_INFO[tk].name}<span class="c-count">${cnt}</span></button>`;
+  });
+  filterRow.innerHTML = chips;
+}
+
+function setTopic(topic) {
+  state.topic = topic;
+  document.querySelectorAll('.chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.topic === topic);
+  });
+  render();
+}
+
+/* 按鈕文字依「目前畫面上的卡片是否都已展開」決定，不再用獨立旗標 */
+function syncExpandBtn() {
+  const cards = [...document.querySelectorAll('.q-card')];
+  const allOpen = cards.length > 0 && cards.every(c => c.classList.contains('open'));
+  document.getElementById('btnExpand').textContent = allOpen ? '全部收合' : '全部展開';
+}
+function toggleExpandAll() {
+  const cards = [...document.querySelectorAll('.q-card')];
+  const allOpen = cards.length > 0 && cards.every(c => c.classList.contains('open'));
+  cards.forEach(c => {
+    c.classList.toggle('open', !allOpen);
+    if (!allOpen) fillBody(c);
+    if (allOpen) openIds.delete(c.dataset.id); else openIds.add(c.dataset.id);
+  });
+  syncExpandBtn();
+}
+
+/* ---------- 初始化 ---------- */
+function init() {
+  updateStatBar();
+  rebuildTopicChips();
+
+  bindSearch();
+
+  // 回頂部
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('show', window.scrollY > 600);
+  });
+
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

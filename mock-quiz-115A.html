@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>經濟部新進職員甄試｜115 年模擬卷 A｜計算機原理・網路概論</title>
+<style>/* ===== 經濟部考古題刷題系統 — 樣式（與資管/程設詳解系統一致） ===== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink:        #1a1f2c;
+  --ink-soft:   #3d4456;
+  --paper:      #f4f1ea;
+  --paper-warm: #ece6d8;
+  --card:       #fffdf8;
+  --line:       #d8d0bf;
+  --accent:     #8a3324;
+  --accent-2:   #1f5673;
+  --gold:       #a07e2c;
+  --green:      #2d6a4f;
+  --shadow:     rgba(40,32,20,0.13);
+
+  /* 主題分類色（計概/網概專屬） */
+  --t-arch:  #1f5673;  /* 數位邏輯/CPU/記憶體 */
+  --t-os:    #6a4c93;  /* 作業系統 */
+  --t-ds:    #2d6a4f;  /* 資料結構與演算法 */
+  --t-prog:  #b5651d;  /* 程式語言/觀念 */
+  --t-net:   #1a4d6e;  /* 網路基礎/拓樸/媒介 */
+  --t-tcpip: #8a3324;  /* TCP/IP 通訊協定 */
+  --t-wire:  #a07e2c;  /* 無線/行動網路 */
+  --t-sec:   #5c2a2a;  /* 資安 */
+  --t-misc:  #4a5859;  /* 雜項 */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.78;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(31,86,115,0.025) 31px, rgba(31,86,115,0.025) 32px);
+}
+
+/* ===== 頁首 ===== */
+.site-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2.4rem 1.5rem 2rem;
+  text-align: center;
+  border-bottom: 4px solid var(--accent-2);
+  position: relative;
+}
+.site-header .kicker {
+  font-size: .78rem; letter-spacing: .55em; text-indent: .55em;
+  color: var(--gold); font-weight: 700; margin-bottom: .7rem;
+}
+.site-header h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 900; font-size: clamp(1.55rem, 4.2vw, 2.6rem);
+  letter-spacing: .05em; line-height: 1.3;
+}
+.site-header h1 .stamp {
+  display: inline-block; border: 2.5px solid var(--accent-2);
+  color: var(--accent-2); padding: .05em .3em; border-radius: 6px;
+  transform: rotate(-3deg); margin: 0 .15em;
+  font-size: .82em; background: rgba(244,241,234,0.06);
+}
+.site-header .sub {
+  margin-top: .8rem; font-size: .88rem; color: #b8bcca; font-weight: 400;
+  letter-spacing: .04em;
+}
+
+/* ===== 統計列 ===== */
+.stat-bar {
+  display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+  background: var(--paper-warm); padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.stat-bar .stat { text-align: center; min-width: 70px; }
+.stat-bar .num {
+  font-family: 'Noto Serif TC', serif; font-weight: 900;
+  font-size: 1.6rem; color: var(--accent-2); line-height: 1;
+}
+.stat-bar .num.correct { color: var(--green); }
+.stat-bar .num.wrong { color: var(--accent); }
+.stat-bar .lbl {
+  font-size: .7rem; color: var(--ink-soft); letter-spacing: .15em;
+  margin-top: .25rem;
+}
+
+/* ===== 控制列 ===== */
+.controls {
+  position: sticky; top: 0; z-index: 50;
+  background: rgb(244,241,234);
+  border-bottom: 1.5px solid var(--line);
+  padding: .85rem 1.5rem;
+  box-shadow: 0 3px 14px var(--shadow);
+}
+.controls-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
+}
+.mode-switch {
+  display: flex; border: 2px solid var(--ink); border-radius: 8px;
+  overflow: hidden;
+}
+.mode-switch button {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: none; background: transparent; cursor: pointer;
+  padding: .5rem 1rem; font-size: .85rem; font-weight: 700;
+  color: var(--ink); transition: all .18s;
+  border-right: 1px solid var(--ink);
+}
+.mode-switch button:last-child { border-right: none; }
+.mode-switch button.active { background: var(--ink); color: var(--paper); }
+.mode-switch button:hover:not(.active) { background: rgba(26,31,44,0.08); }
+
+.group-switch {
+  display: flex; border: 1.5px solid var(--ink-soft); border-radius: 8px;
+  overflow: hidden;
+}
+.group-switch button {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: none; background: transparent; cursor: pointer;
+  padding: .5rem .85rem; font-size: .82rem; font-weight: 500;
+  color: var(--ink-soft); transition: all .18s;
+  border-right: 1px solid var(--line);
+}
+.group-switch button:last-child { border-right: none; }
+.group-switch button.active { background: var(--ink-soft); color: var(--paper); }
+
+.search-box {
+  flex: 1; min-width: 160px; position: relative;
+}
+.search-box input {
+  width: 100%; font-family: 'Noto Sans TC', sans-serif;
+  padding: .5rem .85rem .5rem 2.1rem; font-size: .88rem;
+  border: 1.5px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink);
+}
+.search-box input:focus { outline: 2px solid var(--accent-2); border-color: transparent; }
+.search-box::before {
+  content: '🔍'; position: absolute; left: .65rem; top: 50%;
+  transform: translateY(-50%); font-size: .82rem; opacity: .5;
+}
+
+.btn-small {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--ink-soft); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 8px;
+  padding: .5rem .85rem; font-size: .8rem; font-weight: 500;
+  white-space: nowrap; transition: all .15s;
+}
+.btn-small:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn-small.danger { border-color: var(--accent); color: var(--accent); }
+.btn-small.danger:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+/* ===== 篩選晶片 ===== */
+.filter-row {
+  max-width: 1100px; margin: .7rem auto 0;
+  display: flex; gap: .4rem; flex-wrap: wrap;
+}
+.chip {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--line); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 999px;
+  padding: .35rem .9rem; font-size: .78rem; font-weight: 500;
+  transition: all .15s;
+}
+.chip:hover { border-color: var(--ink-soft); }
+.chip.active {
+  background: var(--ink); color: var(--paper);
+  border-color: var(--ink); font-weight: 700;
+}
+.chip .c-count {
+  opacity: .65; font-size: .9em; margin-left: .25em;
+}
+
+/* ===== 主內容 ===== */
+.wrap {
+  max-width: 1100px; margin: 1.5rem auto; padding: 0 1.5rem;
+}
+
+/* 群組標題 */
+.group {
+  margin-bottom: 2.5rem;
+}
+.group-head {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem; margin-bottom: 1.2rem;
+  background: linear-gradient(180deg, var(--card), var(--paper-warm));
+  border: 1px solid var(--line); border-left: 4px solid var(--accent-2);
+  border-radius: 4px;
+  flex-wrap: wrap;
+}
+.group-head .g-badge {
+  background: var(--ink); color: var(--paper);
+  padding: .25rem .8rem; border-radius: 4px;
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: 1.05rem; letter-spacing: .04em;
+}
+.group-head .g-title {
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: 1rem; color: var(--ink);
+}
+.group-head .g-meta {
+  margin-left: auto; font-size: .78rem; color: var(--ink-soft);
+  text-align: right; line-height: 1.4;
+}
+
+/* ===== 題目卡片 ===== */
+.q-list {
+  display: grid; gap: 1rem;
+}
+.q-card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color .15s, box-shadow .15s;
+}
+.q-card:hover { border-color: var(--ink-soft); }
+.q-card.answered.correct { border-left: 4px solid var(--green); }
+.q-card.answered.wrong { border-left: 4px solid var(--accent); }
+.q-card.bookmarked { box-shadow: 0 0 0 1.5px var(--gold) inset; }
+
+.q-head {
+  padding: .9rem 1.1rem;
+  display: flex; align-items: flex-start; gap: .9rem;
+  border-bottom: 1px solid var(--line);
+}
+.q-no {
+  flex-shrink: 0;
+  width: 2.3rem; height: 2.3rem;
+  background: var(--ink); color: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: .95rem; border-radius: 4px;
+}
+.q-card.answered.correct .q-no { background: var(--green); }
+.q-card.answered.wrong .q-no { background: var(--accent); }
+
+.q-headmain { flex: 1; min-width: 0; }
+.q-text {
+  font-size: .98rem; color: var(--ink); line-height: 1.65;
+  white-space: pre-wrap; word-break: break-word;
+}
+.q-text code, .q-stem-code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--paper-warm); padding: .05em .35em;
+  border-radius: 3px; font-size: .92em;
+}
+
+.q-tags {
+  margin-top: .6rem;
+  display: flex; flex-wrap: wrap; gap: .35rem;
+}
+.tag {
+  font-size: .68rem; padding: .15rem .55rem;
+  border-radius: 99px; letter-spacing: .04em;
+  font-weight: 500; line-height: 1.5;
+}
+.tag-topic { color: #fff; font-weight: 700; }
+.t-arch  .tag-topic { background: var(--t-arch); }
+.t-os    .tag-topic { background: var(--t-os); }
+.t-ds    .tag-topic { background: var(--t-ds); }
+.t-prog  .tag-topic { background: var(--t-prog); }
+.t-net   .tag-topic { background: var(--t-net); }
+.t-tcpip .tag-topic { background: var(--t-tcpip); }
+.t-wire  .tag-topic { background: var(--t-wire); }
+.t-sec   .tag-topic { background: var(--t-sec); }
+.t-misc  .tag-topic { background: var(--t-misc); }
+
+.tag-year {
+  background: var(--paper-warm); color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+.tag-no {
+  background: transparent; color: var(--ink-soft);
+  border: 1px dashed var(--line);
+}
+.tag-multi {
+  background: var(--accent); color: var(--paper);
+  border: 1px solid var(--accent);
+  font-weight: 700;
+}
+.submit-btn {
+  background: var(--accent-2); color: var(--paper);
+  border: none; padding: .45rem 1.1rem;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 700; font-size: .82rem;
+  border-radius: 4px; cursor: pointer;
+  letter-spacing: .06em;
+  transition: background .15s;
+}
+.submit-btn:hover:not(:disabled) { background: var(--ink); }
+.submit-btn:disabled { background: var(--line); color: var(--ink-soft); cursor: not-allowed; }
+
+.q-bookmark {
+  flex-shrink: 0;
+  font-size: 1.4rem; line-height: 1;
+  background: none; border: none; cursor: pointer;
+  color: var(--line); padding: 0; transition: color .15s, transform .15s;
+}
+.q-bookmark:hover { transform: scale(1.15); }
+.q-bookmark.on { color: var(--gold); }
+
+/* ===== 選項 ===== */
+.q-body { padding: 1rem 1.1rem; }
+.options {
+  display: grid; gap: .55rem;
+}
+.opt {
+  display: flex; align-items: flex-start; gap: .7rem;
+  padding: .7rem .9rem;
+  border: 1.5px solid var(--line); border-radius: 5px;
+  background: var(--card); cursor: pointer;
+  transition: all .15s;
+  font-size: .92rem; line-height: 1.55;
+}
+.opt:hover { background: var(--paper-warm); border-color: var(--ink-soft); }
+.opt .opt-letter {
+  flex-shrink: 0;
+  width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  background: var(--paper-warm); color: var(--ink-soft);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: .85rem;
+  border: 1.5px solid var(--line);
+}
+.opt .opt-text {
+  flex: 1; white-space: pre-wrap; word-break: break-word;
+}
+.opt.user-selected {
+  border-color: var(--accent-2); background: rgba(31,86,115,0.06);
+}
+.opt.user-selected .opt-letter {
+  background: var(--accent-2); color: #fff; border-color: var(--accent-2);
+}
+/* 答案揭曉後 */
+.q-card.revealed .opt { cursor: default; }
+.q-card.revealed .opt.correct {
+  border-color: var(--green); background: rgba(45,106,79,0.08);
+}
+.q-card.revealed .opt.correct .opt-letter {
+  background: var(--green); color: #fff; border-color: var(--green);
+}
+.q-card.revealed .opt.user-selected.wrong {
+  border-color: var(--accent); background: rgba(138,51,36,0.07);
+}
+.q-card.revealed .opt.user-selected.wrong .opt-letter {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.q-card.revealed .opt:hover { background: var(--card); }
+.q-card.revealed .opt.correct:hover { background: rgba(45,106,79,0.08); }
+
+/* 提示「正確答案」徽章 */
+.correct-mark, .wrong-mark {
+  margin-left: auto; flex-shrink: 0;
+  font-size: .72rem; padding: .1rem .5rem;
+  border-radius: 3px; font-weight: 700;
+  letter-spacing: .05em;
+}
+.correct-mark { background: var(--green); color: #fff; }
+.wrong-mark { background: var(--accent); color: #fff; }
+
+/* ===== 解析區 ===== */
+.explain {
+  margin-top: .9rem; padding: .9rem 1rem;
+  border: 1px dashed var(--accent-2);
+  background: rgba(31,86,115,0.04);
+  border-radius: 4px;
+  font-size: .9rem; line-height: 1.7;
+  color: var(--ink);
+}
+.explain-label {
+  display: inline-block;
+  font-family: 'Noto Serif TC', serif; font-weight: 700;
+  font-size: .75rem; letter-spacing: .15em;
+  background: var(--accent-2); color: #fff;
+  padding: .1rem .5rem; border-radius: 3px; margin-bottom: .55rem;
+}
+.explain strong { color: var(--accent-2); }
+.explain code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--paper-warm); padding: .05em .35em;
+  border-radius: 3px; font-size: .92em;
+}
+.explain p { margin: .35rem 0; }
+.explain ul { margin: .35rem 0 .35rem 1.25rem; }
+.explain li { margin: .15rem 0; }
+
+/* ===== 動作按鈕（每題下方） ===== */
+.q-actions {
+  margin-top: .9rem; display: flex; gap: .5rem; flex-wrap: wrap;
+}
+.q-actions button {
+  font-family: 'Noto Sans TC', sans-serif;
+  border: 1.5px solid var(--line); background: var(--card);
+  color: var(--ink-soft); cursor: pointer; border-radius: 5px;
+  padding: .35rem .8rem; font-size: .8rem; font-weight: 500;
+  transition: all .15s;
+}
+.q-actions button:hover { background: var(--ink-soft); color: var(--paper); border-color: var(--ink-soft); }
+.q-actions button.reveal-btn { border-color: var(--accent-2); color: var(--accent-2); }
+.q-actions button.reveal-btn:hover { background: var(--accent-2); color: #fff; }
+
+/* ===== 空狀態 ===== */
+.empty {
+  text-align: center; padding: 4rem 1.5rem; color: var(--ink-soft);
+}
+.empty .big { font-size: 3rem; margin-bottom: .8rem; opacity: .35; }
+
+/* ===== 回頂部 ===== */
+.to-top {
+  position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 100;
+  width: 2.6rem; height: 2.6rem; border: none;
+  border-radius: 50%; background: var(--ink); color: var(--paper);
+  font-size: 1.1rem; cursor: pointer;
+  box-shadow: 0 4px 12px var(--shadow);
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.to-top.show { opacity: 1; pointer-events: auto; }
+.to-top:hover { background: var(--accent-2); }
+
+/* ===== 頁尾 ===== */
+.site-footer {
+  margin-top: 3rem; padding: 2rem 1.5rem 1.5rem;
+  background: var(--ink); color: #b8bcca;
+  text-align: center; font-size: .82rem;
+}
+.site-footer p { margin: .3rem 0; }
+.site-footer strong { color: var(--paper); }
+
+/* ===== 響應式 ===== */
+@media (max-width: 640px) {
+  .site-header { padding: 1.8rem 1rem 1.5rem; }
+  .stat-bar { gap: 1.2rem; padding: .8rem 1rem; }
+  .stat-bar .num { font-size: 1.3rem; }
+  .controls { padding: .7rem .9rem; }
+  .controls-inner { gap: .5rem; }
+  .filter-row { gap: .3rem; }
+  .chip { padding: .3rem .7rem; font-size: .73rem; }
+  .wrap { padding: 0 .8rem; margin: 1rem auto; }
+  .group-head { padding: .8rem 1rem; }
+  .group-head .g-meta { margin-left: 0; text-align: left; font-size: .72rem; }
+  .q-head { padding: .75rem .85rem; gap: .6rem; }
+  .q-no { width: 2rem; height: 2rem; font-size: .85rem; }
+  .q-text { font-size: .92rem; }
+  .q-body { padding: .85rem; }
+  .opt { padding: .6rem .75rem; font-size: .88rem; }
+}
+
+/* ===== 搜尋強化 / 跳轉面板（新增） ===== */
+.search-box input { padding-right: 2.2rem; }
+.search-clear {
+  position: absolute; right: .35rem; top: 50%; transform: translateY(-50%);
+  border: none; background: transparent; color: var(--ink-soft);
+  font-size: 1.05rem; line-height: 1; cursor: pointer;
+  padding: .25rem .45rem; border-radius: 50%; display: none;
+}
+.search-clear.show { display: block; }
+.search-clear:hover { background: var(--paper-warm); }
+.search-info {
+  max-width: 1100px; margin: .55rem auto 0;
+  font-size: .8rem; color: var(--ink-soft); display: none;
+}
+.search-info.show { display: block; }
+.search-info b { color: var(--accent); }
+mark.hl {
+  background: rgba(255, 208, 70, .6); color: inherit;
+  padding: 0 .06em; border-radius: 2px;
+}
+
+.jump-fab {
+  position: fixed; right: 1.2rem; bottom: 4.3rem; z-index: 90;
+  height: 2.6rem; padding: 0 1rem; border: none; border-radius: 999px;
+  background: var(--accent-2); color: #fff; cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-size: .88rem; font-weight: 700;
+  box-shadow: 0 4px 12px var(--shadow); display: none;
+}
+.jump-fab.show { display: block; }
+.jump-fab:hover { background: var(--ink); }
+.jump-panel {
+  position: fixed; right: 1.2rem; bottom: calc(4.3rem + 3.2rem); z-index: 95;
+  width: min(360px, calc(100vw - 2.4rem)); max-height: 60vh; overflow: auto;
+  background: var(--card); border: 1.5px solid var(--line); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(40,32,20,.25);
+}
+.jump-panel[hidden] { display: none; }
+.jump-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .7rem .9rem; border-bottom: 1px solid var(--line);
+  font-family: 'Noto Serif TC', serif; font-weight: 700; color: var(--ink);
+  position: sticky; top: 0; background: var(--card);
+}
+.jump-head button {
+  border: none; background: transparent; cursor: pointer;
+  font-size: 1rem; color: var(--ink-soft);
+}
+.jump-grid {
+  display: grid; gap: .45rem; padding: .8rem;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+}
+.jump-item {
+  display: flex; flex-direction: column; align-items: center; gap: .1rem;
+  padding: .45rem .3rem; border: 1.5px solid var(--line); border-radius: 8px;
+  background: var(--paper); color: var(--ink); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; line-height: 1.25;
+}
+.jump-item b { font-size: .95rem; }
+.jump-item small { font-size: .68rem; color: var(--ink-soft); }
+.jump-item:hover { border-color: var(--accent-2); background: #fff; }
+.jump-item.on { border-color: var(--accent-2); box-shadow: 0 0 0 1px var(--accent-2) inset; }
+.jump-item.done small { color: #2d6a4f; font-weight: 700; }
+.jump-foot {
+  display: flex; gap: .5rem; padding: 0 .8rem .8rem;
+}
+.jump-foot button {
+  flex: 1; padding: .45rem; border: 1.5px solid var(--ink-soft); border-radius: 8px;
+  background: var(--card); color: var(--ink-soft); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-size: .8rem;
+}
+.jump-foot button:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ===== 年度群組可收合（新增） ===== */
+.group.collapsible { margin-bottom: 2rem; }
+.group.collapsible:not(.open) { margin-bottom: .7rem; }
+.group.collapsible > .group-head { cursor: pointer; user-select: none; }
+.group.collapsible:not(.open) > .group-head { margin-bottom: 0; }
+.group.collapsible > .group-head:hover { border-left-color: var(--accent); }
+.g-chev {
+  color: var(--ink-soft); font-size: .9rem; width: 1rem; text-align: center;
+  transition: transform .18s;
+}
+.group.open > .group-head .g-chev { transform: rotate(90deg); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="kicker">經濟部所屬事業機構 ‧ 新進職員甄試</div>
+  <h1>計算機原理 ＋ 網路概論</h1>
+  <div class="sub">115 年模擬卷 A ‧ 依歷年出題規律預測 ‧ 資安與雲端加重</div>
+</header>
+
+<div class="stat-bar">
+  <div class="stat"><div class="num" id="statTotal">—</div><div class="lbl">題目總數</div></div>
+  <div class="stat"><div class="num" id="statYears">—</div><div class="lbl">考試年度</div></div>
+  <div class="stat"><div class="num" id="statAnswered">0</div><div class="lbl">已作答</div></div>
+  <div class="stat"><div class="num correct" id="statCorrect">0</div><div class="lbl">答對</div></div>
+  <div class="stat"><div class="num wrong" id="statWrong">0</div><div class="lbl">答錯</div></div>
+  <div class="stat"><div class="num" id="statRate">—</div><div class="lbl">正確率</div></div>
+</div>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="mode-switch">
+      <button class="active" data-mode="quiz" onclick="setMode('quiz')">刷題模式</button>
+      <button data-mode="review" onclick="setMode('review')">閱讀模式</button>
+      <button data-mode="wrong" onclick="setMode('wrong')">錯題複習</button>
+      <button data-mode="bookmark" onclick="setMode('bookmark')">已收藏</button>
+    </div>
+    <div class="group-switch">
+      <button class="active" data-group="year" onclick="setGroup('year')">依年度</button>
+      <button data-group="topic" onclick="setGroup('topic')">依主題</button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" autocomplete="off" placeholder="搜尋（多個關鍵字用空格分開）">
+      <button class="search-clear" id="searchClear" aria-label="清除搜尋">✕</button>
+    </div>
+    <button class="btn-small" onclick="shuffleQuestions()">🔀 隨機排序</button>
+    <button class="btn-small danger" onclick="resetProgress()">重設進度</button>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="search-info" id="searchInfo"></div>
+</div>
+
+<main class="wrap">
+  <div id="content"></div>
+</main>
+
+<button class="jump-fab" id="jumpFab" onclick="toggleJump()" aria-label="跳轉">📍 跳轉</button>
+<div class="jump-panel" id="jumpPanel" hidden>
+  <div class="jump-head"><span id="jumpTitle">跳到年度</span><button onclick="toggleJump(false)" aria-label="關閉">✕</button></div>
+  <div class="jump-grid" id="jumpGrid"></div>
+  <div class="jump-foot">
+    <button onclick="expandAllGroups(true)">全部展開</button>
+    <button onclick="expandAllGroups(false)">全部收合</button>
+  </div>
+</div>
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer class="site-footer">
+  <p><strong>經濟部所屬事業機構 新進職員甄試</strong>　計算機原理・網路概論　刷題系統</p>
+  <p>本卷為依 95～114 年考古題規律編寫之模擬題，非官方試題；答案與解析為參考說明。</p>
+  <p style="margin-top:.6rem; opacity:.7;">作答進度自動儲存於本機瀏覽器 ‧ 切換裝置不會同步</p>
+</footer>
+
+<script>
+/* ============================================================
+   題目資料
+   每題格式：
+   { id: "114-1", year: "114", no: 1,
+     topic: "arch",  // 主題分類代號（見 TOPIC_INFO）
+     stem: "題幹文字",
+     options: ["選項A", "選項B", "選項C", "選項D"],
+     answer: "C",    // 正確答案字母
+     explain: "解析（可含 markdown：**粗體** `代碼` <br> 換行）"
+   }
+   ============================================================ */
+
+const TOPIC_INFO = {
+  arch:  { name: '數位邏輯/CPU/記憶體', cls: 't-arch'  },
+  os:    { name: '作業系統',             cls: 't-os'    },
+  ds:    { name: '資料結構/演算法',      cls: 't-ds'    },
+  prog:  { name: '程式語言/觀念',        cls: 't-prog'  },
+  net:   { name: '網路基礎/拓樸',        cls: 't-net'   },
+  tcpip: { name: 'TCP/IP 通訊協定',      cls: 't-tcpip' },
+  wire:  { name: '無線/行動網路',        cls: 't-wire'  },
+  sec:   { name: '資訊安全',             cls: 't-sec'   },
+  misc:  { name: '雲端/物聯/其他',       cls: 't-misc'  }
+};
+
+const ALL_Q = [
+ {
+  "id": "115A-1",
+  "year": "115",
+  "no": 1,
+  "topic": "arch",
+  "stem": "在 8 位元 2 的補數系統中，計算 01101010 + 01011100，下列敘述何者正確？",
+  "options": [
+   "結果為 11000110，未發生溢位",
+   "結果為 11000110，發生溢位",
+   "結果為 00110110，發生溢位",
+   "結果為 11000110，代表 +198"
+  ],
+  "answer": "B",
+  "explain": "01101010 = +106，01011100 = +92，真實和為 +198。<br>8 位元 2 補數範圍為 −128～+127，+198 超出範圍 → <strong>溢位</strong>。<br>位元相加得 11000110，以 2 補數解讀為 −58（兩個正數相加得到負數，正是溢位的判斷依據）。"
+ },
+ {
+  "id": "115A-2",
+  "year": "115",
+  "no": 2,
+  "topic": "arch",
+  "stem": "將十六進位數 (2AC)₁₆ 轉換為八進位，結果為何？",
+  "options": [
+   "(1254)₈",
+   "(1324)₈",
+   "(2254)₈",
+   "(1252)₈"
+  ],
+  "answer": "A",
+  "explain": "經由二進位轉換：2AC₁₆ = <code>0010 1010 1100</code>。<br>由右往左每 3 位一組：<code>001 010 101 100</code> = 1 2 5 4 → <strong>(1254)₈</strong>。<br>驗算：2AC₁₆ = 684；1254₈ = 512+128+40+4 = 684。"
+ },
+ {
+  "id": "115A-3",
+  "year": "115",
+  "no": 3,
+  "topic": "arch",
+  "stem": "某系統快取存取時間 2 ns、主記憶體存取時間 80 ns，快取命中率 95%。若未命中時須先查快取、再存取主記憶體，平均有效存取時間為何？",
+  "options": [
+   "5.9 ns",
+   "6.0 ns",
+   "4.0 ns",
+   "82 ns"
+  ],
+  "answer": "B",
+  "explain": "命中：2 ns；未命中：2 + 80 = 82 ns。<br>EAT = 0.95 × 2 + 0.05 × 82 = 1.9 + 4.1 = <strong>6.0 ns</strong>。<br>（若題目說「未命中時直接存取主記憶體」，則為 0.95×2 + 0.05×80 = 5.9 ns，作答時要看清題意。）"
+ },
+ {
+  "id": "115A-4",
+  "year": "115",
+  "no": 4,
+  "topic": "arch",
+  "stem": "某程式有 60% 可平行化，其餘須循序執行。若改用 4 核心處理器，依 Amdahl 定律，最大加速比約為何？",
+  "options": [
+   "4",
+   "2.5",
+   "1.82",
+   "1.6"
+  ],
+  "answer": "C",
+  "explain": "加速比 = 1 / [(1 − P) + P / N] = 1 / (0.4 + 0.6/4) = 1 / (0.4 + 0.15) = 1 / 0.55 ≈ <strong>1.82</strong>。<br>重點：循序部分（40%）限制了上限，即使核心無限多，加速比也不會超過 1/0.4 = 2.5。"
+ },
+ {
+  "id": "115A-5",
+  "year": "115",
+  "no": 5,
+  "topic": "arch",
+  "stem": "以 6 顆 2 TB 硬碟組成 RAID 6，可用容量為何？",
+  "options": [
+   "12 TB",
+   "10 TB",
+   "8 TB",
+   "6 TB"
+  ],
+  "answer": "C",
+  "explain": "RAID 6 採<strong>雙重分散式同位元</strong>，需犧牲 2 顆硬碟的容量，可容忍任 2 顆同時故障。<br>可用容量 = (6 − 2) × 2 TB = <strong>8 TB</strong>。<br>對照：RAID 5 為 (n−1)，RAID 1 為一半，RAID 0 為全部。"
+ },
+ {
+  "id": "115A-6",
+  "year": "115",
+  "no": 6,
+  "topic": "arch",
+  "stem": "布林函數 F = (A + B)(A + B') 化簡後為何？",
+  "options": [
+   "A",
+   "B",
+   "AB",
+   "A + B"
+  ],
+  "answer": "A",
+  "explain": "分配律：(A + B)(A + B') = A + BB' = A + 0 = <strong>A</strong>。<br>也可展開：AA + AB' + AB + BB' = A + A(B' + B) + 0 = A。"
+ },
+ {
+  "id": "115A-7",
+  "year": "115",
+  "no": 7,
+  "topic": "os",
+  "stem": "三個行程 P1（到達 0，執行 6）、P2（到達 1，執行 3）、P3（到達 2，執行 5），採 Round Robin、時間片段 4，平均等待時間為何？（新到達的行程排在被搶占行程之前）",
+  "options": [
+   "約 5.67",
+   "約 6.33",
+   "約 4.67",
+   "7"
+  ],
+  "answer": "A",
+  "explain": "甘特圖：P1(0–4) → P2(4–7，完成) → P3(7–11) → P1(11–13，完成) → P3(13–14，完成)。<br>等待時間 = 完成 − 到達 − 執行：<br>P1 = 13 − 0 − 6 = 7；P2 = 7 − 1 − 3 = 3；P3 = 14 − 2 − 5 = 7。<br>平均 = 17 / 3 ≈ <strong>5.67</strong>。"
+ },
+ {
+  "id": "115A-8",
+  "year": "115",
+  "no": 8,
+  "topic": "os",
+  "stem": "下列何種做法可破壞死結的「循環等待」條件？",
+  "options": [
+   "允許多個行程同時使用印表機",
+   "改用 Round Robin 排程",
+   "增加實體記憶體容量",
+   "規定所有行程依資源編號由小到大的順序申請資源"
+  ],
+  "answer": "D",
+  "explain": "死結四條件：互斥、占用並等待、不可搶奪、<strong>循環等待</strong>。<br>將資源編號並規定<strong>只能依遞增順序申請</strong>，就不可能形成環狀等待鏈，屬於死結預防。<br>(A) 違反印表機的互斥本質，實務上做不到；(B)(C) 與死結無直接關係。"
+ },
+ {
+  "id": "115A-9",
+  "year": "115",
+  "no": 9,
+  "topic": "os",
+  "stem": "某系統虛擬位址 32 位元、分頁大小 4 KB、每個頁表項 4 bytes。若採單層頁表，每個行程的頁表大小為何？",
+  "options": [
+   "4 KB",
+   "1 MB",
+   "4 MB",
+   "16 MB"
+  ],
+  "answer": "C",
+  "explain": "頁內偏移 = log₂(4K) = 12 位元，頁號 = 32 − 12 = 20 位元 → 共 2²⁰ 個頁表項。<br>頁表大小 = 2²⁰ × 4 bytes = <strong>4 MB</strong>。<br>這正是多層分頁或反轉頁表出現的原因：單層頁表太大。"
+ },
+ {
+  "id": "115A-10",
+  "year": "115",
+  "no": 10,
+  "topic": "misc",
+  "stem": "關於容器（Container）與虛擬機器（VM）的比較，下列何者正確？",
+  "options": [
+   "每個容器都包含一套完整的客體作業系統",
+   "容器共用宿主機的作業系統核心，啟動快、資源耗用少",
+   "容器的隔離性一般比虛擬機器更強",
+   "Hypervisor 是容器的執行引擎"
+  ],
+  "answer": "B",
+  "explain": "<strong>容器</strong>（如 Docker）共用宿主 OS 核心，只封裝應用程式與相依套件，因此輕量、秒級啟動。<br><strong>VM</strong> 透過 Hypervisor 模擬硬體，每台各有完整客體 OS，隔離性較強但較重。<br>(A)(D) 描述的是 VM；(C) 相反，VM 隔離性較強。"
+ },
+ {
+  "id": "115A-11",
+  "year": "115",
+  "no": 11,
+  "topic": "os",
+  "stem": "使用號誌（Semaphore）保護臨界區間以達成互斥時，二元號誌的初始值應設為多少？",
+  "options": [
+   "0",
+   "1",
+   "−1",
+   "等於行程數 n"
+  ],
+  "answer": "B",
+  "explain": "互斥用的二元號誌初值為 <strong>1</strong>，代表「目前有 1 個名額可進入」。<br>進入前 wait(S)：S 由 1 變 0；其他行程再 wait 就會被阻擋。離開時 signal(S) 歸還名額。<br>初值設 0 常用於「同步」（等待某事件發生），不是互斥。"
+ },
+ {
+  "id": "115A-12",
+  "year": "115",
+  "no": 12,
+  "topic": "ds",
+  "stem": "後序式 <code>a b + c d − *</code>，若 a = 4、b = 2、c = 7、d = 3，其值為何？",
+  "options": [
+   "24",
+   "18",
+   "12",
+   "10"
+  ],
+  "answer": "A",
+  "explain": "以堆疊求值：<br>a b + → 4 + 2 = 6；c d − → 7 − 3 = 4；最後 * → 6 × 4 = <strong>24</strong>。<br>對應中序式為 (a + b) × (c − d)。"
+ },
+ {
+  "id": "115A-13",
+  "year": "115",
+  "no": 13,
+  "topic": "ds",
+  "stem": "依序將 15、9、20、5、30 插入一個空的 Max-Heap，完成後以陣列（層序）表示為何？",
+  "options": [
+   "30, 20, 15, 5, 9",
+   "30, 15, 20, 9, 5",
+   "30, 20, 15, 9, 5",
+   "20, 30, 15, 5, 9"
+  ],
+  "answer": "A",
+  "explain": "逐步插入（新元素放最後，再與父節點比較往上調整）：<br>15 → [15]<br>9 → [15, 9]<br>20 → [15, 9, 20]，20 > 15 交換 → [20, 9, 15]<br>5 → [20, 9, 15, 5]<br>30 → 放在第 5 格，父節點為 9 → 交換 → 父節點 20 → 再交換 → <strong>[30, 20, 15, 5, 9]</strong>。"
+ },
+ {
+  "id": "115A-14",
+  "year": "115",
+  "no": 14,
+  "topic": "ds",
+  "stem": "雜湊表大小為 7，雜湊函數 h(k) = k mod 7，以線性探測解決碰撞。依序插入 10、17、24、3，則 3 最終存放於哪個位置？",
+  "options": [
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "answer": "D",
+  "explain": "10 mod 7 = 3 → 放 3。<br>17 mod 7 = 3（碰撞）→ 探測 4 → 放 4。<br>24 mod 7 = 3 → 3、4 已占 → 放 5。<br>3 mod 7 = 3 → 3、4、5 已占 → 放 <strong>6</strong>。<br>這種連續占用的現象稱為<strong>主要叢集（primary clustering）</strong>，是線性探測的缺點。"
+ },
+ {
+  "id": "115A-15",
+  "year": "115",
+  "no": 15,
+  "topic": "ds",
+  "stem": "在含有 n 個節點的 AVL 樹中搜尋一個鍵值，最差時間複雜度為何？",
+  "options": [
+   "O(1)",
+   "O(log n)",
+   "O(n)",
+   "O(n log n)"
+  ],
+  "answer": "B",
+  "explain": "AVL 樹是自我平衡的二元搜尋樹，任一節點左右子樹高度差 ≤ 1，樹高維持 O(log n)，因此搜尋、插入、刪除的最差情況都是 <strong>O(log n)</strong>。<br>對照：一般 BST 退化成鏈狀時，最差為 O(n)。"
+ },
+ {
+  "id": "115A-16",
+  "year": "115",
+  "no": 16,
+  "topic": "prog",
+  "stem": "執行下列 C 程式片段，輸出為何？<br><code>int a[] = {1, 2, 3, 4, 5};<br>int *p = a + 1;<br>printf(\"%d\", *(p + 2) + p[-1]);</code>",
+  "options": [
+   "4",
+   "6",
+   "5",
+   "7"
+  ],
+  "answer": "C",
+  "explain": "p 指向 a[1]。<br>*(p + 2) = a[3] = 4；p[−1] = *(p − 1) = a[0] = 1。<br>4 + 1 = <strong>5</strong>。"
+ },
+ {
+  "id": "115A-17",
+  "year": "115",
+  "no": 17,
+  "topic": "prog",
+  "stem": "執行下列 Python 程式碼，輸出為何？<br><code>s = [1, 2, 3]<br>t = s<br>t.append(4)<br>print(len(s))</code>",
+  "options": [
+   "3",
+   "4",
+   "發生錯誤",
+   "None"
+  ],
+  "answer": "B",
+  "explain": "<code>t = s</code> 並沒有複製串列，只是讓 t 與 s <strong>指向同一個 list 物件</strong>。透過 t 新增元素，s 看到的也是同一個物件，所以長度為 <strong>4</strong>。<br>若要複製應寫 <code>t = s.copy()</code> 或 <code>t = s[:]</code>。"
+ },
+ {
+  "id": "115A-18",
+  "year": "115",
+  "no": 18,
+  "topic": "prog",
+  "stem": "關於 Java 的抽象類別（abstract class）與介面（interface），下列何者正確？",
+  "options": [
+   "抽象類別可以直接用 new 建立物件",
+   "一個類別可以同時繼承多個抽象類別",
+   "一個類別可以實作多個介面",
+   "介面中不能宣告任何方法"
+  ],
+  "answer": "C",
+  "explain": "Java 只允許<strong>單一繼承</strong>（extends 一個類別），但可以 <strong>implements 多個介面</strong>，藉此達到類似多重繼承的效果。<br>(A) 抽象類別不能被實體化；(B) 不能多重繼承類別；(D) 介面就是用來宣告方法（Java 8 起還可有 default 方法）。"
+ },
+ {
+  "id": "115A-19",
+  "year": "115",
+  "no": 19,
+  "topic": "prog",
+  "stem": "已知遞迴函數 f(n) = f(n − 1) + f(n − 2)，且 f(0) = 1、f(1) = 1，則 f(5) 為何？",
+  "options": [
+   "5",
+   "3",
+   "13",
+   "8"
+  ],
+  "answer": "D",
+  "explain": "依序計算：f(0)=1、f(1)=1、f(2)=2、f(3)=3、f(4)=5、f(5)=<strong>8</strong>。<br>注意起始值與標準費氏數列（F(0)=0）不同，要看清題目定義。"
+ },
+ {
+  "id": "115A-20",
+  "year": "115",
+  "no": 20,
+  "topic": "net",
+  "stem": "第二層交換器（Layer 2 Switch）是依據下列何者轉送訊框？",
+  "options": [
+   "IP 位址",
+   "埠號（Port Number）",
+   "網域名稱",
+   "MAC 位址"
+  ],
+  "answer": "D",
+  "explain": "L2 交換器運作於<strong>資料鏈結層</strong>，依訊框的目的 <strong>MAC 位址</strong>查詢 MAC 位址表後轉送。<br>依 IP 位址轉送的是路由器（L3）；依埠號處理的是 L4 設備（如防火牆、負載平衡器）。"
+ },
+ {
+  "id": "115A-21",
+  "year": "115",
+  "no": 21,
+  "topic": "net",
+  "stem": "IEEE 802.1Q 標籤中的 VLAN ID 欄位長 12 位元，扣除保留值 0 與 4095 後，可使用的 VLAN 數量為何？",
+  "options": [
+   "4096",
+   "4094",
+   "1024",
+   "256"
+  ],
+  "answer": "B",
+  "explain": "12 位元可表示 2¹² = 4096 個值，扣除保留的 0 與 4095，可用 <strong>4094</strong> 個 VLAN。<br>802.1Q 標籤共 4 bytes，插在來源 MAC 與 EtherType 之間。"
+ },
+ {
+  "id": "115A-22",
+  "year": "115",
+  "no": 22,
+  "topic": "net",
+  "stem": "生成樹協定（STP, IEEE 802.1D）的主要功能為何？",
+  "options": [
+   "在有實體迴圈的交換網路中阻斷冗餘路徑，避免廣播風暴",
+   "將區域網路切割成多個廣播網域",
+   "動態分配 IP 位址給主機",
+   "加密交換器之間的流量"
+  ],
+  "answer": "A",
+  "explain": "交換網路為了備援常有多條實體路徑，若不處理，廣播訊框會無限循環造成<strong>廣播風暴</strong>。STP 選出根橋接器，邏輯上阻斷多餘的埠，形成無迴圈的樹狀拓樸；主要鏈路故障時再重新收斂啟用備援路徑。<br>(B) 是 VLAN；(C) 是 DHCP。"
+ },
+ {
+  "id": "115A-23",
+  "year": "115",
+  "no": 23,
+  "topic": "net",
+  "stem": "關於軟體定義網路（SDN），下列敘述何者正確？",
+  "options": [
+   "SDN 將路由決策交由每台交換器各自獨立計算",
+   "SDN 只能用於無線網路",
+   "SDN 的核心概念是將控制平面與資料平面分離，由集中式控制器管理",
+   "SDN 必須使用專屬的實體網路線"
+  ],
+  "answer": "C",
+  "explain": "SDN 把網路設備的「大腦」（<strong>控制平面</strong>）抽出，集中到 SDN 控制器；設備只保留「轉送」（<strong>資料平面</strong>），控制器透過南向介面（如 OpenFlow）下達規則。<br>好處是網路可程式化、集中管理，雲端資料中心大量採用。"
+ },
+ {
+  "id": "115A-24",
+  "year": "115",
+  "no": 24,
+  "topic": "tcpip",
+  "stem": "主機 IP 位址為 172.20.45.130/22，其所屬子網路的網路位址與廣播位址分別為何？",
+  "options": [
+   "172.20.44.0 與 172.20.47.255",
+   "172.20.45.0 與 172.20.45.255",
+   "172.20.40.0 與 172.20.47.255",
+   "172.20.44.0 與 172.20.48.255"
+  ],
+  "answer": "A",
+  "explain": "/22 → 遮罩 255.255.252.0，第 3 個八位元組的區塊大小為 256 − 252 = 4。<br>45 落在 44～47 這一段 → 網路位址 <strong>172.20.44.0</strong>，廣播位址 <strong>172.20.47.255</strong>。<br>快速法：45 ÷ 4 = 11 餘 1 → 11 × 4 = 44。"
+ },
+ {
+  "id": "115A-25",
+  "year": "115",
+  "no": 25,
+  "topic": "tcpip",
+  "stem": "某部門需要 500 個可用主機位址，下列哪一個遮罩長度最節省位址？",
+  "options": [
+   "/22",
+   "/23",
+   "/24",
+   "/25"
+  ],
+  "answer": "B",
+  "explain": "可用主機數 = 2^(32−n) − 2。<br>/24：254（不足）；<strong>/23：2⁹ − 2 = 510</strong>（足夠且最小）；/22：1022（浪費）。"
+ },
+ {
+  "id": "115A-26",
+  "year": "115",
+  "no": 26,
+  "topic": "tcpip",
+  "stem": "將 10.1.64.0/24 至 10.1.71.0/24 共 8 個連續網段聚合成一筆路由，結果為何？",
+  "options": [
+   "10.1.64.0/20",
+   "10.1.64.0/22",
+   "10.1.64.0/21",
+   "10.1.0.0/16"
+  ],
+  "answer": "C",
+  "explain": "8 個 /24 = 2³ 個，聚合時遮罩縮短 3 位 → /21。<br>檢查起點：64 = 01000000，後 3 位為 0，且 64～71 恰為一個 /21 區塊 → <strong>10.1.64.0/21</strong>。<br>與 114 年第 27 題同一題型。"
+ },
+ {
+  "id": "115A-27",
+  "year": "115",
+  "no": 27,
+  "topic": "tcpip",
+  "stem": "IPv6 位址 2001:0db8:0000:0000:0000:ff00:0042:8329 的最簡寫法為何？",
+  "options": [
+   "2001:db8::ff:42:8329",
+   "2001:db8:0:0::ff00:42:8329::",
+   "2001:0db8::ff00:0042:8329:0",
+   "2001:db8::ff00:42:8329"
+  ],
+  "answer": "D",
+  "explain": "規則一：每組的<strong>前導 0</strong> 可省略（0db8 → db8、0042 → 42），但組內後面的 0 不能省（ff00 不能寫成 ff）。<br>規則二：連續的全 0 組可用 <strong>::</strong> 取代，且<strong>只能用一次</strong>。<br>結果：<strong>2001:db8::ff00:42:8329</strong>。"
+ },
+ {
+  "id": "115A-28",
+  "year": "115",
+  "no": 28,
+  "topic": "tcpip",
+  "stem": "TCP 三向交握中，伺服器回覆的第二個區段設定了哪些旗標？",
+  "options": [
+   "SYN 與 ACK",
+   "只有 ACK",
+   "FIN 與 ACK",
+   "SYN 與 RST"
+  ],
+  "answer": "A",
+  "explain": "① 用戶端送 <strong>SYN</strong>（seq = x）<br>② 伺服器回 <strong>SYN + ACK</strong>（seq = y，ack = x + 1）<br>③ 用戶端送 <strong>ACK</strong>（ack = y + 1）<br>SYN Flood 攻擊就是讓伺服器停在第 ② 步，留下大量半開連線。"
+ },
+ {
+  "id": "115A-29",
+  "year": "115",
+  "no": 29,
+  "topic": "tcpip",
+  "stem": "TCP Reno 壅塞控制中，若發生重傳逾時（timeout），傳送端會如何處理？",
+  "options": [
+   "壅塞視窗加倍",
+   "ssthresh 設為目前視窗的一半，壅塞視窗重設為 1 MSS，重新進入慢啟動",
+   "直接關閉連線",
+   "停止傳送直到接收端通知視窗大於 0"
+  ],
+  "answer": "B",
+  "explain": "逾時代表網路嚴重壅塞：<strong>ssthresh = cwnd / 2，cwnd = 1 MSS</strong>，重新慢啟動。<br>若是收到 3 個重複 ACK（較輕微），Reno 則採快速重傳加快速恢復：cwnd 減半後直接進入壅塞避免。<br>(D) 描述的是接收視窗為 0 的<strong>流量控制</strong>，不是壅塞控制。"
+ },
+ {
+  "id": "115A-30",
+  "year": "115",
+  "no": 30,
+  "topic": "tcpip",
+  "stem": "下列服務與預設埠號的配對，何者錯誤？",
+  "options": [
+   "SSH ─ 22",
+   "DNS ─ 53",
+   "IMAP ─ 143",
+   "SNMP ─ 25"
+  ],
+  "answer": "D",
+  "explain": "SNMP 使用 <strong>UDP 161</strong>（Trap 用 162），25 是 SMTP。<br>常考埠號：FTP 20/21、SSH 22、Telnet 23、SMTP 25、DNS 53、DHCP 67/68、HTTP 80、POP3 110、IMAP 143、SNMP 161、LDAP 389、HTTPS 443、RDP 3389。"
+ },
+ {
+  "id": "115A-31",
+  "year": "115",
+  "no": 31,
+  "topic": "tcpip",
+  "stem": "用戶端透過 DHCP 取得 IP 位址時，訊息交換的正確順序為何？",
+  "options": [
+   "Request → Offer → Discover → Ack",
+   "Discover → Request → Offer → Ack",
+   "Discover → Offer → Request → Ack",
+   "Offer → Discover → Ack → Request"
+  ],
+  "answer": "C",
+  "explain": "DHCP 四步驟簡稱 <strong>DORA</strong>：<br>Discover（用戶端廣播尋找伺服器）→ Offer（伺服器提供位址）→ Request（用戶端請求使用）→ Ack（伺服器確認）。<br>DHCP 使用 UDP，伺服器埠 67、用戶端埠 68。"
+ },
+ {
+  "id": "115A-32",
+  "year": "115",
+  "no": 32,
+  "topic": "tcpip",
+  "stem": "使用者已登入網站，但嘗試存取沒有權限的頁面時，伺服器最適合回應哪一個 HTTP 狀態碼？",
+  "options": [
+   "301",
+   "401",
+   "403",
+   "503"
+  ],
+  "answer": "C",
+  "explain": "<strong>403 Forbidden</strong>：伺服器知道你是誰，但你沒有權限。<br>401 Unauthorized：尚未認證或認證失敗，需要登入。<br>301：永久轉址；503：服務暫時無法使用。"
+ },
+ {
+  "id": "115A-33",
+  "year": "115",
+  "no": 33,
+  "topic": "tcpip",
+  "stem": "HTTP/3 的傳輸層是建立在下列哪一個協定之上？",
+  "options": [
+   "QUIC（基於 UDP）",
+   "TCP",
+   "SCTP",
+   "ICMP"
+  ],
+  "answer": "A",
+  "explain": "HTTP/3 改用 <strong>QUIC</strong>，QUIC 運作在 <strong>UDP</strong> 上，自行實作可靠傳輸、壅塞控制，並內建 TLS 1.3。<br>優點：減少交握延遲（可 0-RTT）、避免 TCP 的隊頭阻塞、換網路時連線不中斷。"
+ },
+ {
+  "id": "115A-34",
+  "year": "115",
+  "no": 34,
+  "topic": "tcpip",
+  "stem": "資料位元為 101101，生成多項式 G(x) = x³ + x + 1，以 CRC 編碼後實際傳送的位元串為何？",
+  "options": [
+   "101101100",
+   "101101011",
+   "101101001",
+   "101101110"
+  ],
+  "answer": "B",
+  "explain": "G(x) = x³ + x + 1 → 除數 <code>1011</code>，次數 3，在資料後補 3 個 0：<code>101101000</code>。<br>模 2 除法：101101000 先與 1011 XOR 得 000001000，再對剩下的 1000 與 1011 XOR 得 011 → 餘數 <strong>011</strong>。<br>傳送：101101 + 011 = <strong>101101011</strong>。"
+ },
+ {
+  "id": "115A-35",
+  "year": "115",
+  "no": 35,
+  "topic": "tcpip",
+  "stem": "某編碼的最小漢明距離為 4，則最多可偵測幾個位元錯誤、更正幾個位元錯誤？",
+  "options": [
+   "偵測 2 個、更正 1 個",
+   "偵測 3 個、更正 2 個",
+   "偵測 4 個、更正 2 個",
+   "偵測 3 個、更正 1 個"
+  ],
+  "answer": "D",
+  "explain": "最小距離 d：可偵測 d − 1 個錯誤，可更正 ⌊(d − 1) / 2⌋ 個錯誤。<br>d = 4 → 偵測 <strong>3</strong> 個，更正 ⌊3/2⌋ = <strong>1</strong> 個。<br>這正是 SECDED（單錯更正、雙錯偵測）記憶體 ECC 的原理。"
+ },
+ {
+  "id": "115A-36",
+  "year": "115",
+  "no": 36,
+  "topic": "wire",
+  "stem": "Wi-Fi 6（IEEE 802.11ax）引入、讓 AP 能同時以不同子載波服務多個用戶的技術為何？",
+  "options": [
+   "CSMA/CD",
+   "OFDMA",
+   "FHSS",
+   "WEP"
+  ],
+  "answer": "B",
+  "explain": "<strong>OFDMA</strong>（正交分頻多工存取）把一個頻道切成多個資源單元（RU），同時分配給不同用戶，在多裝置環境中大幅提升效率。<br>Wi-Fi 6 其他重點：上下行 MU-MIMO、TWT（目標喚醒時間，省電）、1024-QAM。"
+ },
+ {
+  "id": "115A-37",
+  "year": "115",
+  "no": 37,
+  "topic": "wire",
+  "stem": "WPA3 個人版以哪一種機制取代 WPA2 的預共用金鑰（PSK）交握，以抵禦離線字典攻擊？",
+  "options": [
+   "TKIP",
+   "WEP",
+   "WPS",
+   "SAE"
+  ],
+  "answer": "D",
+  "explain": "<strong>SAE</strong>（Simultaneous Authentication of Equals，又稱 Dragonfly）取代 WPA2-PSK 的四向交握。攻擊者即使側錄交握封包，也無法離線暴力猜密碼，並提供前向保密。<br>WEP、TKIP 都已被視為不安全；WPS 是便利配對機制，本身有漏洞。"
+ },
+ {
+  "id": "115A-38",
+  "year": "115",
+  "no": 38,
+  "topic": "sec",
+  "stem": "「零信任架構（Zero Trust Architecture）」的核心原則為何？",
+  "options": [
+   "內部網路一律可信任，只需加強邊界防火牆",
+   "通過 VPN 驗證後即可存取所有內部資源",
+   "永不信任、持續驗證，每次存取都依身分、設備與情境評估授權",
+   "只要安裝防毒軟體即符合零信任"
+  ],
+  "answer": "C",
+  "explain": "零信任的口號是 <strong>Never trust, always verify</strong>：不因位於內網就給予信任，每一次存取都要依身分、設備狀態與情境動態授權，並落實<strong>最小權限</strong>。<br>(A)(B) 正是傳統「城堡護城河」模型，也是零信任要取代的觀念。"
+ },
+ {
+  "id": "115A-39",
+  "year": "115",
+  "no": 39,
+  "topic": "sec",
+  "stem": "為防範勒索軟體，業界提出的「3-2-1-1-0」備份原則中，第二個「1」代表什麼？",
+  "options": [
+   "至少 1 份離線（air-gapped）或不可變（immutable）的備份",
+   "每 1 天備份一次",
+   "只保留 1 份最新備份",
+   "由 1 位專人管理備份"
+  ],
+  "answer": "A",
+  "explain": "3：3 份資料副本；2：2 種不同儲存媒體；1：1 份放異地；<strong>1：1 份離線或不可竄改的備份</strong>；0：還原測試 0 錯誤。<br>勒索軟體常會一併加密連線中的備份，因此離線或不可變的那一份是最後防線。<br>與 112 年第 36 題「3-2-1 原則」為延伸題。"
+ },
+ {
+  "id": "115A-40",
+  "year": "115",
+  "no": 40,
+  "topic": "sec",
+  "stem": "系統儲存使用者密碼時，下列做法何者最安全？",
+  "options": [
+   "以 MD5 雜湊後儲存",
+   "以 SHA-1 雜湊後儲存",
+   "以 AES 加密後儲存，金鑰放在同一台伺服器",
+   "以 bcrypt 或 Argon2 等加鹽的慢速雜湊函數儲存"
+  ],
+  "answer": "D",
+  "explain": "密碼應使用<strong>專為密碼設計的慢速雜湊</strong>（bcrypt、scrypt、Argon2、PBKDF2），並為每個帳號加入隨機 <strong>salt</strong>，可抵禦彩虹表與大量暴力破解。<br>MD5、SHA-1 計算太快且有碰撞弱點；可逆加密一旦金鑰外洩，所有密碼都會被還原。"
+ },
+ {
+  "id": "115A-41",
+  "year": "115",
+  "no": 41,
+  "topic": "sec",
+  "stem": "關於 TLS 1.3，下列敘述何者正確？",
+  "options": [
+   "仍支援以 RSA 直接交換金鑰",
+   "只保留具前向保密的 (EC)DHE 金鑰交換，並將交握縮短為 1-RTT",
+   "取消了所有加密功能以提升速度",
+   "與 SSL 3.0 完全相容"
+  ],
+  "answer": "B",
+  "explain": "TLS 1.3 重點：<br>‧ 移除 RSA 金鑰交換、RC4、SHA-1 等不安全項目，只保留 <strong>(EC)DHE</strong>，確保<strong>前向保密</strong>（私鑰日後外洩也解不開過去的流量）。<br>‧ 交握由 2-RTT 縮短為 <strong>1-RTT</strong>，可選 0-RTT 重連。"
+ },
+ {
+  "id": "115A-42",
+  "year": "115",
+  "no": 42,
+  "topic": "sec",
+  "stem": "攻擊者將網址 <code>/order?id=1001</code> 改為 <code>/order?id=1002</code>，就看到別人的訂單。此弱點屬於 OWASP Top 10（2021）哪一類？",
+  "options": [
+   "Broken Access Control（存取控制失效）",
+   "Cryptographic Failures（加密機制失效）",
+   "Injection（注入）",
+   "Security Logging Failures（日誌監控不足）"
+  ],
+  "answer": "A",
+  "explain": "這種直接修改物件識別碼就能存取他人資料的弱點稱為 <strong>IDOR</strong>，屬於 <strong>Broken Access Control</strong>，也是 OWASP 2021 第 1 名。<br>防範：伺服器端每次都要檢查「目前使用者是否有權存取該筆資料」，不能只靠前端隱藏。"
+ },
+ {
+  "id": "115A-43",
+  "year": "115",
+  "no": 43,
+  "topic": "sec",
+  "stem": "下列何者「不是」防範跨站腳本攻擊（XSS）的有效措施？",
+  "options": [
+   "對輸出到 HTML 的內容做編碼",
+   "設定 Content Security Policy（CSP）",
+   "使用預備語句（Prepared Statement）查詢資料庫",
+   "將 Session Cookie 設為 HttpOnly"
+  ],
+  "answer": "C",
+  "explain": "<strong>Prepared Statement 是防 SQL Injection</strong> 的手段，對 XSS 無效。<br>XSS 的防禦重點：輸出編碼（最根本）、CSP 限制腳本來源、HttpOnly 讓 JavaScript 讀不到 Cookie、輸入驗證。"
+ },
+ {
+  "id": "115A-44",
+  "year": "115",
+  "no": 44,
+  "topic": "sec",
+  "stem": "近年供應鏈攻擊頻傳，軟體物料清單（SBOM）的主要用途為何？",
+  "options": [
+   "加密軟體原始碼",
+   "列出軟體所使用的元件、套件與版本，以便追蹤已知漏洞",
+   "取代防火牆的功能",
+   "提供使用者操作手冊"
+  ],
+  "answer": "B",
+  "explain": "<strong>SBOM</strong>（Software Bill of Materials）就像軟體的「成分表」，列出所有第三方元件及版本。當某套件爆出漏洞（例如 Log4Shell），可以快速查出哪些系統受影響並修補。"
+ },
+ {
+  "id": "115A-45",
+  "year": "115",
+  "no": 45,
+  "topic": "sec",
+  "stem": "甲要傳送一份文件給乙，並讓乙確認文件確實是甲發出且未被竄改，正確做法為何？",
+  "options": [
+   "甲以乙的公鑰簽章，乙以乙的私鑰驗證",
+   "甲以甲的公鑰簽章，乙以甲的私鑰驗證",
+   "甲以對稱金鑰加密即可",
+   "甲以甲的私鑰對文件雜湊值簽章，乙以甲的公鑰驗證"
+  ],
+  "answer": "D",
+  "explain": "數位簽章流程：甲計算文件雜湊值 → 以<strong>甲的私鑰</strong>簽章 → 乙以<strong>甲的公鑰</strong>驗證，並自行計算雜湊比對。<br>可達成<strong>來源鑑別、完整性、不可否認性</strong>，但不提供機密性（要保密需再用乙的公鑰加密）。"
+ },
+ {
+  "id": "115A-46",
+  "year": "115",
+  "no": 46,
+  "topic": "sec",
+  "stem": "DNS、NTP、Memcached 常被用來發動「反射放大型 DDoS」，主要是利用了這些服務的何種特性？",
+  "options": [
+   "使用 TCP，需要三向交握",
+   "必須先通過身分驗證",
+   "採用 UDP 無連線傳輸，攻擊者可偽造來源 IP，且小請求會換得大回應",
+   "只能在內部網路使用"
+  ],
+  "answer": "C",
+  "explain": "UDP 不需交握，攻擊者把請求的<strong>來源 IP 偽造成受害者</strong>，伺服器就把回應送給受害者（反射）；而這些服務的回應遠大於請求（放大，Memcached 可達數萬倍）。<br>防禦：關閉不必要的公開服務、限制 Open Resolver、ISP 端實施來源位址驗證（BCP 38）、流量清洗。"
+ },
+ {
+  "id": "115A-47",
+  "year": "115",
+  "no": 47,
+  "topic": "sec",
+  "stem": "下列哪一種驗證方式最能抵禦釣魚網站竊取登入憑證？",
+  "options": [
+   "簡訊一次性密碼（SMS OTP）",
+   "要求密碼包含大小寫與符號",
+   "FIDO2／Passkey 通行金鑰",
+   "密碼提示問題"
+  ],
+  "answer": "C",
+  "explain": "<strong>FIDO2／Passkey</strong> 採公私鑰驗證，私鑰不離開裝置，且簽章與<strong>網站網域綁定</strong>，釣魚網站拿不到可重用的憑證，屬於「抗釣魚」驗證。<br>SMS OTP 仍可能被使用者輸入到假網站，或遭 SIM 卡盜換。"
+ },
+ {
+  "id": "115A-48",
+  "year": "115",
+  "no": 48,
+  "topic": "misc",
+  "stem": "在雲端「共同責任模型」下，若企業採用 IaaS（如租用虛擬機），下列何者屬於「客戶」的責任？",
+  "options": [
+   "資料中心的實體門禁",
+   "虛擬機作業系統的安全修補",
+   "Hypervisor 的維護",
+   "機房電力與冷卻"
+  ],
+  "answer": "B",
+  "explain": "IaaS 中，雲端業者負責實體設施、硬體、網路與虛擬化層；<strong>客戶負責作業系統以上</strong>：OS 修補、中介軟體、應用程式、資料、帳號權限。<br>越往 PaaS、SaaS 移動，客戶責任越少，但<strong>資料與帳號權限永遠是客戶的責任</strong>。"
+ },
+ {
+  "id": "115A-49",
+  "year": "115",
+  "no": 49,
+  "topic": "misc",
+  "stem": "下列何者屬於「無伺服器運算（Serverless）／函數即服務（FaaS）」？",
+  "options": [
+   "企業自建機房的實體伺服器",
+   "Amazon EC2 虛擬機",
+   "Microsoft 365 Office 線上版",
+   "AWS Lambda，依函數實際執行次數與時間計費"
+  ],
+  "answer": "D",
+  "explain": "<strong>FaaS</strong>：開發者只上傳函數，由事件觸發執行，平台自動擴充，<strong>依實際執行計費</strong>，閒置不收費，完全不需管理伺服器。代表：AWS Lambda、Azure Functions、Google Cloud Functions。<br>(B) 是 IaaS；(C) 是 SaaS。"
+ },
+ {
+  "id": "115A-50",
+  "year": "115",
+  "no": 50,
+  "topic": "misc",
+  "stem": "生成式 AI 應用中常見的「檢索增強生成（RAG）」技術，主要目的為何？",
+  "options": [
+   "先從外部知識庫檢索相關資料，再交給語言模型生成回答，以降低幻覺並使用最新或內部資料",
+   "加快 GPU 的運算時脈",
+   "將模型參數壓縮以節省記憶體",
+   "取代資料庫的備份機制"
+  ],
+  "answer": "A",
+  "explain": "<strong>RAG</strong>：使用者提問 → 從向量資料庫等知識庫<strong>檢索</strong>相關文件 → 連同問題送入大型語言模型<strong>生成</strong>答案。<br>優點：不必重新訓練模型就能使用企業內部或最新資料，回答可附來源，減少「幻覺」。"
+ }
+];
+
+
+/* === 進度持久化 (localStorage) === */
+const STORAGE_KEY = 'gy_mock115a_progress_v1';
+/* 舊版（國營＋關務合併站）使用的 key；若同網域下有舊進度，首次載入時只搬移屬於本站的題目 */
+const LEGACY_STORAGE_KEY = 'gy_mock115a_none';
+let progress = loadProgress();
+
+function loadProgress() {
+  try {
+    let raw = localStorage.getItem(STORAGE_KEY);
+    let migrate = false;
+    if (!raw) {
+      raw = localStorage.getItem(LEGACY_STORAGE_KEY);
+      migrate = !!raw;
+    }
+    if (!raw) return { answers: {}, bookmarks: {} };
+    const p = JSON.parse(raw);
+    let answers = p.answers || {};       // { id: "A"|"B"|"C"|"D" }
+    let bookmarks = p.bookmarks || {};   // { id: true }
+    if (migrate) {
+      const ids = new Set(ALL_Q.map(q => q.id));
+      const pick = obj => Object.keys(obj).reduce((o, k) => (ids.has(k) && (o[k] = obj[k]), o), {});
+      answers = pick(answers);
+      bookmarks = pick(bookmarks);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ answers, bookmarks })); } catch (e) {}
+    }
+    return { answers, bookmarks };
+  } catch (e) {
+    return { answers: {}, bookmarks: {} };
+  }
+}
+function saveProgress() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); } catch (e) {}
+}
+
+/* === 狀態 === */
+let state = {
+  mode: 'quiz',       // quiz | review | wrong | bookmark
+  group: 'year',      // year | topic
+  topicFilter: 'all',
+  search: '',
+  terms: [],
+  openGroups: new Set(),   // 目前展開的年度/主題群組（預設全部收合）
+  shuffled: false,
+  shuffleSeed: 0
+};
+
+/* === Markdown 渲染（極簡） === */
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function renderInline(s) {
+  // **粗體**, `code`, <br>
+  let out = escapeHtml(s)
+    .replace(/&lt;br&gt;/g, '<br>')
+    .replace(/&lt;strong&gt;/g, '<strong>').replace(/&lt;\/strong&gt;/g, '</strong>')
+    .replace(/&lt;code&gt;/g, '<code>').replace(/&lt;\/code&gt;/g, '</code>')
+    .replace(/&lt;(\/?)(sub|sup)&gt;/g, '<$1$2>');
+  out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+  return out;
+}
+
+
+/* ============================================================
+   搜尋 / 跳轉 / 換行 共用工具（新增）
+   ============================================================ */
+const BREAK_AT_PERIOD = true;   // 解析遇到「。」自動換行；不想要就改成 false
+
+/* 全形→半形、英文轉小寫；逐字處理，確保處理後長度不變（highlight 才對得準） */
+function normText(s) {
+  let out = '';
+  for (const ch of String(s)) {
+    const n = ch.normalize('NFKC').toLowerCase();
+    out += (n.length === ch.length) ? n : ch;
+  }
+  return out;
+}
+function parseTerms(raw) {
+  return [...new Set(normText(raw).split(/\s+/).filter(Boolean))];
+}
+/* 去掉資料裡用來排版的 HTML 標籤，避免搜 "br"、"code"、"strong" 時誤中 */
+function stripTags(s) {
+  return String(s == null ? '' : s)
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/?(?:strong|code|sub|sup|u|em|b|i)\s*>/gi, '');
+}
+/* 每個關鍵字都必須出現（AND）；總分 = 各關鍵字命中的最高權重欄位之和 */
+function scoreFields(terms, fields) {
+  let total = 0;
+  for (const term of terms) {
+    let best = 0;
+    for (const f of fields) if (f.w > best && f.t.includes(term)) best = f.w;
+    if (!best) return 0;
+    total += best;
+  }
+  return total;
+}
+/* 在已渲染的 DOM 文字節點上標黃（不動 HTML 結構） */
+function highlightIn(root, terms) {
+  if (!root || !terms.length) return;
+  const nodes = [];
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = walker.nextNode())) {
+    if (!n.nodeValue.trim()) continue;
+    const p = n.parentNode;
+    if (p && p.closest && p.closest('svg, button, mark')) continue;
+    nodes.push(n);
+  }
+  nodes.forEach(node => {
+    const text = node.nodeValue, low = normText(text);
+    const ranges = [];
+    terms.forEach(t => {
+      let i = low.indexOf(t);
+      while (i !== -1) { ranges.push([i, i + t.length]); i = low.indexOf(t, i + t.length); }
+    });
+    if (!ranges.length) return;
+    ranges.sort((a, b) => a[0] - b[0]);
+    const merged = [ranges[0].slice()];
+    for (let k = 1; k < ranges.length; k++) {
+      const last = merged[merged.length - 1];
+      if (ranges[k][0] <= last[1]) last[1] = Math.max(last[1], ranges[k][1]);
+      else merged.push(ranges[k].slice());
+    }
+    const frag = document.createDocumentFragment();
+    let pos = 0;
+    merged.forEach(([s, e]) => {
+      if (s > pos) frag.appendChild(document.createTextNode(text.slice(pos, s)));
+      const m = document.createElement('mark');
+      m.className = 'hl';
+      m.textContent = text.slice(s, e);
+      frag.appendChild(m);
+      pos = e;
+    });
+    if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+/* 解析換行：遇到「。」就換行（已有 <br>、句尾、或後面接」』）” 的不重複換） */
+function breakSentences(s) {
+  if (!BREAK_AT_PERIOD) return s;
+  return String(s).replace(
+    /。(?!(?:<\/[a-z]+>)*(?:\s*<br\s*\/?>|\s*$|[」』）)”"']))/gi,
+    '。<br>'
+  );
+}
+
+/* ---------- 搜尋框綁定（支援中文輸入法，組字中不觸發搜尋） ---------- */
+function applySearch() {
+  const input = document.getElementById('searchInput');
+  state.search = input.value.trim();
+  state.terms = parseTerms(state.search);
+  render();
+}
+function clearSearch() {
+  const input = document.getElementById('searchInput');
+  input.value = '';
+  document.getElementById('searchClear').classList.remove('show');
+  applySearch();
+  input.focus();
+}
+function bindSearch() {
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClear');
+  let timer, composing = false;
+  const schedule = () => { clearTimeout(timer); timer = setTimeout(applySearch, 150); };
+  input.addEventListener('compositionstart', () => { composing = true; });
+  input.addEventListener('compositionend', () => { composing = false; schedule(); });
+  input.addEventListener('input', () => {
+    clearBtn.classList.toggle('show', input.value.length > 0);
+    if (!composing) schedule();
+  });
+  input.addEventListener('keydown', e => { if (e.key === 'Escape') clearSearch(); });
+  clearBtn.addEventListener('click', clearSearch);
+}
+
+/* ---------- 跳轉面板 ---------- */
+let JUMP_ITEMS = [];
+let JUMP_TITLE = '跳到年度';
+function buildJump() {
+  const fab = document.getElementById('jumpFab');
+  const grid = document.getElementById('jumpGrid');
+  document.getElementById('jumpTitle').textContent = JUMP_TITLE;
+  fab.classList.toggle('show', JUMP_ITEMS.length > 0);
+  grid.innerHTML = JUMP_ITEMS.map(it =>
+    `<button class="jump-item${it.done ? ' done' : ''}${it.open ? ' on' : ''}" onclick="jumpTo('${it.key}')">
+       <b>${it.label}</b><small>${it.sub || ''}</small></button>`
+  ).join('');
+  if (!JUMP_ITEMS.length) toggleJump(false);
+}
+function toggleJump(force) {
+  const p = document.getElementById('jumpPanel');
+  p.hidden = (typeof force === 'boolean') ? !force : !p.hidden;
+}
+function scrollToGroup(key) {
+  const el = document.getElementById('g-' + key);
+  if (!el) return;
+  const ctrl = document.querySelector('.controls');
+  const top = el.getBoundingClientRect().top + window.scrollY - (ctrl ? ctrl.offsetHeight : 0) - 10;
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto';          // 跳轉用瞬間定位，避免長距離捲動動畫
+  window.scrollTo(0, Math.max(0, top));
+  root.style.scrollBehavior = '';
+}
+document.addEventListener('click', e => {
+  const p = document.getElementById('jumpPanel');
+  if (p && !p.hidden && !p.contains(e.target) && !e.target.closest('#jumpFab')) p.hidden = true;
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleJump(false); });
+
+/* === 統計 === */
+function computeStats(list) {
+  let answered = 0, correct = 0, wrong = 0;
+  list.forEach(q => {
+    const u = progress.answers[q.id];
+    if (u) {
+      answered++;
+      if (q.allCorrect || u === q.answer || (q.altAnswer && u === q.altAnswer)) correct++;
+      else wrong++;
+    }
+  });
+  return { answered, correct, wrong };
+}
+
+function updateStatBar() {
+  const scope = ALL_Q;
+  document.getElementById('statTotal').textContent = scope.length;
+  document.getElementById('statYears').textContent = new Set(scope.map(q=>q.year)).size;
+  const s = computeStats(scope);
+  document.getElementById('statAnswered').textContent = s.answered;
+  document.getElementById('statCorrect').textContent = s.correct;
+  document.getElementById('statWrong').textContent = s.wrong;
+  document.getElementById('statRate').textContent =
+    s.answered > 0 ? Math.round(s.correct / s.answered * 100) + '%' : '—';
+}
+
+/* === 搜尋欄位索引 === */
+function searchFields(q, withExplain) {
+  const ix = q._ix || (q._ix = {
+    stem: normText(stripTags(q.stem)),
+    opts: normText(q.options.map(stripTags).join('\n')),
+    exp:  normText(stripTags(q.explain || '')),
+    meta: normText(q.year + ' ' + q.year + '年 第' + q.no + '題 ' +
+                   ((TOPIC_INFO[q.topic] || {}).name || '') + (q.type === 'multi' ? ' 複選題' : ''))
+  });
+  const f = [{ t: ix.stem, w: 10 }, { t: ix.opts, w: 6 }, { t: ix.meta, w: 1 }];
+  if (withExplain) f.push({ t: ix.exp, w: 3 });
+  return f;
+}
+
+/* === 篩選 === */
+function filterQuestions() {
+  let list = ALL_Q.slice();
+
+  // 模式
+  if (state.mode === 'wrong') {
+    list = list.filter(q => progress.answers[q.id] && !q.allCorrect && progress.answers[q.id] !== q.answer && progress.answers[q.id] !== q.altAnswer);
+  } else if (state.mode === 'bookmark') {
+    list = list.filter(q => progress.bookmarks[q.id]);
+  }
+
+  // 主題
+  if (state.topicFilter !== 'all') {
+    list = list.filter(q => q.topic === state.topicFilter);
+  }
+
+  // 搜尋：多關鍵字 AND、全形半形統一、去除 HTML 標籤、依相關度排序
+  if (state.terms.length) {
+    const withExplain = state.mode === 'review' || state.mode === 'wrong';
+    return list
+      .map((q, i) => ({ q, i, s: scoreFields(state.terms, searchFields(q, withExplain)) }))
+      .filter(x => x.s > 0)
+      .sort((a, b) => b.s - a.s || a.i - b.i)
+      .map(x => x.q);
+  }
+
+  // 隨機
+  if (state.shuffled) {
+    list = shuffleArray(list, state.shuffleSeed);
+  }
+
+  return list;
+}
+
+function shuffleArray(arr, seed) {
+  // 簡易確定性洗牌（Fisher-Yates with seeded random）
+  const a = arr.slice();
+  let s = seed || 1;
+  const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* === 渲染題目卡 === */
+function renderQuestion(q) {
+  const t = TOPIC_INFO[q.topic] || { name: '其他', cls: 't-misc' };
+  const userAns = progress.answers[q.id];
+  const isBookmarked = !!progress.bookmarks[q.id];
+  const isAnswered = !!userAns;
+  // 多選題：userAns 為已排序字串如 "ABC"；單選為單一字母
+  const isCorrect = q.allCorrect ? isAnswered : (q.type === 'multi'
+    ? (userAns && [...userAns].sort().join('') === [...(q.answer||'')].sort().join(''))
+    : (userAns === q.answer || (q.altAnswer && userAns === q.altAnswer)));
+  const isViewed = !!(progress.viewed && progress.viewed[q.id]);
+  // 在「閱讀模式」或「錯題複習」中預設揭曉答案
+  const forceReveal = state.mode === 'review' || state.mode === 'wrong';
+  const revealed = forceReveal || isAnswered || isViewed;
+
+  let cls = 'q-card ' + t.cls;
+  if (revealed && isAnswered) cls += ' answered ' + (isCorrect ? 'correct' : 'wrong');
+  if (revealed) cls += ' revealed';
+  if (isBookmarked) cls += ' bookmarked';
+
+  // 選項
+  const letters = 'ABCDE';
+  const isMulti = q.type === 'multi';
+  // 多選題：userAns 為排序後的字串如 "ABC"；單選為單一字母
+  const userSet = new Set((userAns || '').split(''));
+  // 進行中（尚未提交）的多選暫存
+  if (isMulti && !progress.pending) progress.pending = {};
+  const pendingSet = isMulti ? new Set(((progress.pending && progress.pending[q.id]) || '').split('').filter(Boolean)) : null;
+  const correctSet = new Set((q.answer || '').split(''));
+  if (q.altAnswer) correctSet.add(q.altAnswer);
+
+  const optsHtml = q.options.map((opt, idx) => {
+    const letter = letters[idx];
+    let oCls = 'opt';
+    if (isMulti) {
+      // 多選：揭曉前看 pending；揭曉後看 userAns
+      if (!revealed && pendingSet.has(letter)) oCls += ' user-selected';
+      if (revealed && userSet.has(letter)) oCls += ' user-selected';
+    } else {
+      if (userAns === letter) oCls += ' user-selected';
+    }
+    if (revealed) {
+      if (correctSet.has(letter)) oCls += ' correct';
+      if (!q.allCorrect) {
+        if (isMulti) {
+          if (userSet.has(letter) && !correctSet.has(letter)) oCls += ' wrong';
+        } else {
+          if (userAns === letter && !correctSet.has(letter)) oCls += ' wrong';
+        }
+      } else if (userAns === letter && letter !== q.answer) {
+        oCls += ' correct';
+      }
+    }
+    let mark = '';
+    if (revealed && correctSet.has(letter)) mark = '<span class="correct-mark">正解</span>';
+    else if (revealed && q.allCorrect && userAns === letter && letter !== q.answer) mark = '<span class="correct-mark">送分</span>';
+    else if (revealed && !q.allCorrect && !isMulti && userAns === letter && !correctSet.has(letter)) mark = '<span class="wrong-mark">你的選擇</span>';
+    else if (revealed && !q.allCorrect && isMulti && userSet.has(letter) && !correctSet.has(letter)) mark = '<span class="wrong-mark">你的選擇</span>';
+    return `<div class="${oCls}" onclick="selectAnswer('${q.id}','${letter}')">
+      <div class="opt-letter">${letter}</div>
+      <div class="opt-text">${renderInline(opt)}</div>
+      ${mark}
+    </div>`;
+  }).join('');
+
+  // 解析
+  let explainHtml = '';
+  if (revealed && q.explain) {
+    explainHtml = `<div class="explain">
+      <span class="explain-label">解析</span>
+      <div>${renderInline(breakSentences(q.explain))}</div>
+    </div>`;
+  }
+
+  // 動作按鈕
+  let actionsHtml = '<div class="q-actions">';
+  if (!revealed) {
+    if (isMulti) {
+      const hasPending = pendingSet && pendingSet.size > 0;
+      actionsHtml += `<button class="submit-btn" onclick="submitMultiAnswer('${q.id}')" ${hasPending ? '' : 'disabled'}>送出答案（已選 ${pendingSet ? pendingSet.size : 0} 項）</button>`;
+    }
+    actionsHtml += `<button class="reveal-btn" onclick="revealAnswer('${q.id}')">看答案</button>`;
+  } else if (!forceReveal) {
+    actionsHtml += `<button onclick="resetQuestion('${q.id}')">重新作答</button>`;
+  }
+  actionsHtml += '</div>';
+
+  return `<div class="${cls}" id="q-${q.id}">
+    <div class="q-head">
+      <div class="q-no">${q.no}</div>
+      <div class="q-headmain">
+        <div class="q-text">${renderInline(q.stem)}</div>
+        ${q.figure ? `<div class="q-figure" style="margin-top:.6rem">${q.figure}</div>` : ''}
+        <div class="q-tags">
+          <span class="tag tag-topic">${t.name}</span>
+          <span class="tag tag-year">${q.year} 年</span>
+          <span class="tag tag-no">第 ${q.no} 題</span>
+          ${isMulti ? '<span class="tag tag-multi">複選題</span>' : ''}
+        </div>
+      </div>
+      <button class="q-bookmark ${isBookmarked ? 'on' : ''}"
+              title="${isBookmarked ? '取消收藏' : '加入收藏'}"
+              onclick="toggleBookmark('${q.id}')">${isBookmarked ? '★' : '☆'}</button>
+    </div>
+    <div class="q-body">
+      <div class="options">${optsHtml}</div>
+      ${explainHtml}
+      ${actionsHtml}
+    </div>
+  </div>`;
+}
+
+/* === 主渲染 === */
+let GROUP_QS = {};
+
+function updateSearchInfo(count) {
+  const el = document.getElementById('searchInfo');
+  if (!state.terms.length) { el.classList.remove('show'); el.innerHTML = ''; return; }
+  let h = `找到 <b>${count}</b> 題 ‧ 依相關度排序`;
+  if (state.mode !== 'review' && state.mode !== 'wrong') {
+    h += ' ‧ 目前只搜尋題幹與選項（切到「閱讀模式」可一併搜尋解析）';
+  }
+  el.innerHTML = h;
+  el.classList.add('show');
+}
+
+function groupHtml(key, badge, title, meta, qs, open) {
+  GROUP_QS[key] = qs;
+  return `<div class="group collapsible${open ? ' open' : ''}" id="g-${key}" data-key="${key}">
+    <div class="group-head" onclick="toggleGroup('${key}')" role="button" tabindex="0"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleGroup('${key}')}">
+      <span class="g-chev" aria-hidden="true">▸</span>
+      <span class="g-badge">${badge}</span>
+      <span class="g-title">${title}</span>
+      <span class="g-meta">${meta}</span>
+    </div>
+    ${open ? `<div class="q-list">${qs.map(renderQuestion).join('')}</div>` : ''}
+  </div>`;
+}
+
+function render() {
+  const list = filterQuestions();
+  const wrap = document.getElementById('content');
+  const searching = state.terms.length > 0;
+  GROUP_QS = {};
+  JUMP_ITEMS = [];
+  updateSearchInfo(list.length);
+
+  if (list.length === 0) {
+    let msg = '找不到符合條件的題目';
+    if (searching) msg = `找不到符合「${escapeHtml(state.search)}」的題目。可改用較短的關鍵字；多個關鍵字請用空格分開。`;
+    else if (state.mode === 'wrong') msg = '尚未有答錯的題目，繼續加油 👍';
+    else if (state.mode === 'bookmark') msg = '尚未收藏任何題目（點題目右上角 ☆ 即可收藏）';
+    wrap.innerHTML = `<div class="empty"><div class="big">📭</div><p>${msg}</p></div>`;
+    updateStatBar();
+    buildJump();
+    return;
+  }
+
+  let html = '';
+  if (searching) {
+    // 搜尋結果：不分組、依相關度排序、全部展開
+    html += `<div class="group open">
+      <div class="group-head">
+        <span class="g-badge">搜尋</span>
+        <span class="g-title">依相關度排序</span>
+        <span class="g-meta">共 ${list.length} 題</span>
+      </div>
+      <div class="q-list">${list.map(renderQuestion).join('')}</div>
+    </div>`;
+  } else if (state.shuffled) {
+    // 隨機排序時不分組，全部列出
+    html += `<div class="group">
+      <div class="group-head">
+        <span class="g-badge">隨機</span>
+        <span class="g-title">已隨機打散全部題目</span>
+        <span class="g-meta">共 ${list.length} 題</span>
+      </div>
+      <div class="q-list">${list.map(renderQuestion).join('')}</div>
+    </div>`;
+  } else if (state.group === 'year') {
+    JUMP_TITLE = '跳到年度';
+    const byYear = {};
+    list.forEach(q => { (byYear[q.year] = byYear[q.year] || []).push(q); });
+    const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
+    years.forEach(yr => {
+      const qs = byYear[yr];
+      qs.sort((a, b) => a.no - b.no);
+      const s = computeStats(qs);
+      const key = 'y' + yr;
+      const open = state.openGroups.has(key);
+      JUMP_ITEMS.push({ key, label: yr, sub: `${s.answered}/${qs.length}`,
+                        done: s.answered === qs.length, open });
+      html += groupHtml(key, `${yr} 年`, '模擬卷 A ‧ 計算機原理＋網路概論',
+        `本年共 ${qs.length} 題<br>已答 ${s.answered} ‧ 對 ${s.correct} ‧ 錯 ${s.wrong}`, qs, open);
+    });
+  } else {
+    JUMP_TITLE = '跳到主題';
+    const byTopic = {};
+    list.forEach(q => { (byTopic[q.topic] = byTopic[q.topic] || []).push(q); });
+    Object.keys(TOPIC_INFO).forEach(tk => {
+      const qs = byTopic[tk];
+      if (!qs || qs.length === 0) return;
+      qs.sort((a, b) => Number(b.year) - Number(a.year) || a.no - b.no);
+      const t = TOPIC_INFO[tk];
+      const s = computeStats(qs);
+      const key = 't' + tk;
+      const open = state.openGroups.has(key);
+      JUMP_ITEMS.push({ key, label: t.name, sub: `${s.answered}/${qs.length}`,
+                        done: s.answered === qs.length, open });
+      html += groupHtml(key, t.name, '歷年同類考題',
+        `共 ${qs.length} 題 ‧ 跨 ${new Set(qs.map(q => q.year)).size} 年度<br>已答 ${s.answered} ‧ 對 ${s.correct} ‧ 錯 ${s.wrong}`,
+        qs, open);
+    });
+  }
+
+  wrap.innerHTML = html;
+  if (searching) highlightIn(wrap, state.terms);
+  updateStatBar();
+  buildJump();
+}
+
+/* === 群組收合 / 跳轉 === */
+function toggleGroup(key) {
+  const el = document.getElementById('g-' + key);
+  if (!el) return;
+  const open = !el.classList.contains('open');
+  if (open) state.openGroups.add(key); else state.openGroups.delete(key);
+  el.classList.toggle('open', open);
+  const old = el.querySelector(':scope > .q-list');
+  if (open && !old) {
+    el.insertAdjacentHTML('beforeend',
+      `<div class="q-list">${(GROUP_QS[key] || []).map(renderQuestion).join('')}</div>`);
+  } else if (!open && old) {
+    old.remove();                              // 收合時移除 DOM，保持頁面輕量
+  }
+  const it = JUMP_ITEMS.find(x => x.key === key);
+  if (it) { it.open = open; buildJump(); }
+}
+function jumpTo(key) {
+  toggleJump(false);
+  state.openGroups = new Set([key]);           // 只展開目標，其餘收合，位置才好預測
+  render();
+  scrollToGroup(key);
+}
+function expandAllGroups(open) {
+  state.openGroups = open ? new Set(JUMP_ITEMS.map(i => i.key)) : new Set();
+  render();
+}
+/* 錯題複習 / 已收藏：清單本來就是篩過的，直接全部展開 */
+function autoOpenFiltered() {
+  if (state.mode !== 'wrong' && state.mode !== 'bookmark') return;
+  state.openGroups = new Set(filterQuestions().map(q => state.group === 'topic' ? 't' + q.topic : 'y' + q.year));
+}
+
+/* === 互動 === */
+function selectAnswer(qid, letter) {
+  const q = ALL_Q.find(x => x.id === qid);
+  if (!q) return;
+  // 閱讀模式不允許作答
+  if (state.mode === 'review') return;
+  // 已作答則忽略點擊（除非按重新作答）
+  if (progress.answers[qid]) return;
+
+  if (q.type === 'multi') {
+    // 多選：切換選取狀態，暫存在 progress.pending
+    if (!progress.pending) progress.pending = {};
+    const cur = new Set((progress.pending[qid] || '').split('').filter(Boolean));
+    if (cur.has(letter)) cur.delete(letter);
+    else cur.add(letter);
+    progress.pending[qid] = [...cur].sort().join('');
+    saveProgress();
+    render();
+    const el = document.getElementById('q-' + qid);
+    if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    return;
+  }
+
+  progress.answers[qid] = letter;
+  saveProgress();
+  render();
+  // 滾動到該題保持視野
+  const el = document.getElementById('q-' + qid);
+  if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function submitMultiAnswer(qid) {
+  const q = ALL_Q.find(x => x.id === qid);
+  if (!q || q.type !== 'multi') return;
+  if (!progress.pending) progress.pending = {};
+  const ans = progress.pending[qid] || '';
+  if (!ans) { alert('請先至少選擇一個選項'); return; }
+  progress.answers[qid] = ans;
+  delete progress.pending[qid];
+  saveProgress();
+  render();
+}
+
+function revealAnswer(qid) {
+  if (!progress.viewed) progress.viewed = {};
+  progress.viewed[qid] = true;
+  saveProgress();
+  render();
+}
+
+function resetQuestion(qid) {
+  delete progress.answers[qid];
+  if (progress.viewed) delete progress.viewed[qid];
+  if (progress.pending) delete progress.pending[qid];
+  saveProgress();
+  render();
+}
+
+function toggleBookmark(qid) {
+  if (progress.bookmarks[qid]) delete progress.bookmarks[qid];
+  else progress.bookmarks[qid] = true;
+  saveProgress();
+  render();
+}
+
+function setMode(mode) {
+  state.mode = mode;
+  state.shuffled = false;
+  document.querySelectorAll('.mode-switch button').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  autoOpenFiltered();
+  render();
+}
+function setGroup(g) {
+  state.group = g;
+  state.shuffled = false;
+  document.querySelectorAll('.group-switch button').forEach(b => {
+    b.classList.toggle('active', b.dataset.group === g);
+  });
+  autoOpenFiltered();
+  render();
+}
+function setTopicFilter(topic) {
+  state.topicFilter = topic;
+  document.querySelectorAll('.chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.topic === topic);
+  });
+  render();
+}
+function shuffleQuestions() {
+  state.shuffled = !state.shuffled;
+  state.shuffleSeed = Date.now() % 100000;
+  render();
+}
+function resetProgress() {
+  if (!confirm('確定要清除所有作答進度（包含答題紀錄與收藏）？此動作無法復原。')) return;
+  progress = { answers: {}, bookmarks: {} };
+  saveProgress();
+  render();
+}
+
+/* 重建主題篩選晶片（計算各主題題數） */
+function rebuildTopicChips() {
+  const filterRow = document.getElementById('filterRow');
+  const scope = ALL_Q;
+  const topicCount = {};
+  scope.forEach(q => topicCount[q.topic] = (topicCount[q.topic] || 0) + 1);
+  let chips = `<button class="chip ${state.topicFilter === 'all' ? 'active' : ''}" data-topic="all"
+    onclick="setTopicFilter('all')">全部<span class="c-count">${scope.length}</span></button>`;
+  Object.keys(TOPIC_INFO).forEach(tk => {
+    const cnt = topicCount[tk] || 0;
+    if (cnt === 0) return;
+    chips += `<button class="chip ${state.topicFilter === tk ? 'active' : ''}" data-topic="${tk}"
+      onclick="setTopicFilter('${tk}')">${TOPIC_INFO[tk].name}<span class="c-count">${cnt}</span></button>`;
+  });
+  filterRow.innerHTML = chips;
+}
+
+/* === 初始化 === */
+function init() {
+  rebuildTopicChips();
+
+  bindSearch();
+
+  // 回頂部
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('show', window.scrollY > 600);
+  });
+
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
