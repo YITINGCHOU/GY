@@ -2309,10 +2309,11 @@ int main() {
 (三) 書籍編號 B6188 第一天會員折扣數由 92 折誤輸入為 82 折，請問當天書局少收了多少錢？`,
       answer: `**(一) 每本參考書的銷售數量（5分）**
 \`\`\`sql
-SELECT 書籍編號, SUM(數量) AS 銷售數量
-FROM 銷售
-GROUP BY 書籍編號
-ORDER BY 書籍編號 ASC;
+SELECT p.書籍編號, COALESCE(SUM(s.數量), 0) AS 銷售數量
+FROM 參考書 p
+LEFT JOIN 銷售 s ON p.書籍編號 = s.書籍編號
+GROUP BY p.書籍編號
+ORDER BY p.書籍編號 ASC;
 \`\`\`
 
 **(二) B3169 會員與非會員的購買總額（5分）**
