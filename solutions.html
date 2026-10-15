@@ -1855,7 +1855,7 @@ C. 使用資料庫系統將整理好的資料寫入，首次寫入先建立 user
 - **Transform**：依題目 6 項規則清理與驗證，不合格的記錄整筆丟棄。
 - **Load**：透過資料庫系統（本題以 MySQL 為例）建表並寫入，使用 REPLACE INTO 處理重複主鍵（相同 user_id 則覆蓋舊資料）。
 
-Python 有內建 re 模組（正規表示式）：使用者號碼用 \\d{8}、手機用 09\\d{8}、年齡用 [1-9]\\d*。
+Python 有內建 re 模組（正規表示式）：使用者號碼用 [0-9]{8}、手機用 09[0-9]{8}、年齡用 [1-9][0-9]*。數字寫成 [0-9]，不寫成反斜線 d：Python 3 的反斜線 d 也會比對全形數字等 Unicode 數字，會讓「９１２３４５６７」這類資料通過驗證（考試時用反斜線 d 通常也可接受；若要用，可加 re.ASCII 旗標限制只比對 0~9）。
 寫入資料庫時一律使用參數化查詢（%s 佔位符），避免 SQL Injection。`,
   code: {
     lang: "python",
@@ -1898,11 +1898,11 @@ try:
                 continue
     
             # 驗證：號碼8位數字、年齡正整數、手機09開頭共10位
-            if not re.fullmatch(r"\\d{8}", uid):
+            if not re.fullmatch(r"[0-9]{8}", uid):
                 continue
-            if not re.fullmatch(r"[1-9]\\d*", age):    # 首位 1~9，排除 0、負數、小數
+            if not re.fullmatch(r"[1-9][0-9]*", age):    # 首位 1~9，排除 0、負數、小數
                 continue
-            if not re.fullmatch(r"09\\d{8}", phone):
+            if not re.fullmatch(r"09[0-9]{8}", phone):
                 continue
     
             rows.append((uid, name, int(age), addr, email, phone))
@@ -3067,7 +3067,7 @@ result = sql_query(sqlstring)                                 # 執行查詢
 
 # 補充一：若已知 ID 格式（例如純數字），可再加白名單驗證：
 import re
-if not re.fullmatch(r"\\d+", id): id = ""
+if not re.fullmatch(r"[0-9]+", id): id = ""
 # 補充二：最佳實務是參數化查詢，將 SQL 結構與資料徹底分離：
 cursor.execute("Select * from idtable where id = %s", (Request("id"),))`
 }
@@ -3394,66 +3394,58 @@ const EXAM_DATA_PART3 = [
 (一) 多條件式判斷(IF conditions)  (二) 正規表示法(Regular Expression)`,
       answer: `**解題思路**
 
-中華民國身分證字號格式：**1 個英文字母 + 9 個數字**，共 10 碼。第 1 碼字母（縣市），第 2 碼為 1 或 2（性別），第 3~10 碼數字。（嚴謹版還需驗證檢查碼，此處依題意以「格式」檢查為主。）`,
+中華民國身分證字號格式：**1 個英文字母 + 9 個數字**，共 10 碼。第 1 碼字母（縣市），第 2 碼為 1 或 2（性別），第 3~10 碼數字。（嚴謹版還需驗證檢查碼，此處依題意以「格式」檢查為主。）
+
+本題以 **Python** 作答，兩種方式的重點：
+- **(一) 條件式**：依序檢查長度、第 1 碼、第 2 碼、第 3~10 碼，任一條件不符就回傳 False。字母與數字用字元範圍比較（'A' <= c <= 'Z'），不用 isalpha()、isdigit()，因為這兩個方法對中文、全形數字、上標數字也會回傳 True。
+- **(二) 正規表示法**：規則為 [A-Za-z][12][0-9]{8}，搭配 **fullmatch**，要求整個字串都符合，所以規則裡不必再寫 ^ 與 $；若用 match 只比對開頭，後面多出的字元不會被發現。
+- 數字寫成 [0-9]，不寫成反斜線 d，原因同上：Python 的反斜線 d 也會比對全形等 Unicode 數字。`,
       code: {
-        lang: "c",
-        text: `// 程式語言：C
+        lang: "python",
+        text: `# 程式語言：Python
+import re
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <regex.h>   // POSIX 正規表示法函式庫（Linux/Unix 可用；Windows MSVC 沒有）
 
-// (一) 多條件式判斷
-int checkIdByCondition(const char *s) {          // const 表示函式不會修改字串內容
+# (一) 多條件式判斷
+def check_id_by_condition(s):
+    if not isinstance(s, str) or len(s) != 10:      # 條件1：須為字串且長度為 10
+        return False
 
-    if (strlen(s) != 10) return 0;               // 條件1：長度須為 10
+    first = s[0]
+    if not ('A' <= first <= 'Z' or 'a' <= first <= 'z'):   # 條件2：第 1 碼須為英文字母
+        # 不用 first.isalpha()：它連中文、重音字母（如 é）也回傳 True
+        return False
 
-    if (!((s[0] >= 'A' && s[0] <= 'Z') ||        // 條件2：第 1 碼須為英文字母
-          (s[0] >= 'a' && s[0] <= 'z'))) {
-        return 0;
-    }
+    if s[1] not in ('1', '2'):                      # 條件3：第 2 碼須為 1 或 2
+        return False
 
-    if (s[1] != '1' && s[1] != '2') return 0;    // 條件3：第 2 碼須為 1 或 2
+    for ch in s[2:]:                                # 條件4：第 3~10 碼須皆為數字
+        # 不用 ch.isdigit()：它連上標數字（如 ²）、全形數字也回傳 True
+        if not ('0' <= ch <= '9'):
+            return False
+    return True                                     # 四個條件都通過
 
-    for (i = 2; i < 10; i++) {                   // 條件4：第 3~10 碼須皆為數字
-        // isdigit 一次只檢查「單一個字元」，不是整個字串，所以要用迴圈
-        // (unsigned char) 轉型：isdigit 的參數必須是 0~255 或 EOF，
-        // 而 char 在多數平台是有號的，遇到非 ASCII 字元會變負數而行為未定義
-        if (!isdigit((unsigned char)s[i])) return 0;
-    }
-    return 1;
-}
 
-// (二) 正規表示法
-int checkIdByRegex(const char *s) {
-    regex_t re;   // 用來存放「編譯好的正規表示法」，可想成一個空盒子
-    int ok;
+# (二) 正規表示法
+ID_PATTERN = re.compile(r"[A-Za-z][12][0-9]{8}")
+# [A-Za-z] 1 個英文字母 ; [12] 第 2 碼為 1 或 2 ; [0-9]{8} 八位數字
+# 數字寫成 [0-9]，不寫成反斜線 d：Python 的反斜線 d 會連全形等 Unicode 數字都算
 
-    // 步驟1：編譯規則（文字規則要先轉成內部格式才能比對）
-    // &re            : 編譯結果寫到 re（& 是取位址，讓函式能改到 re）
-    // 規則字串       : ^ 開頭 ; [A-Za-z] 1字母 ; [12] 第2碼1或2 ;
-    //                  [0-9]{8} 八位數字 ; $ 結尾
-    // REG_EXTENDED   : 使用擴充語法，{8} 才能直接寫（否則要寫成 \\{8\\}）
-    regcomp(&re, "^[A-Za-z][12][0-9]{8}$", REG_EXTENDED);
 
-    // 步驟2：執行比對
-    // 後三個參數 0, NULL, 0 是「取出比對片段」等進階功能，只判斷格式所以不需要
-    // 注意：regexec 回傳 0 代表「比對成功」
-    ok = (regexec(&re, s, 0, NULL, 0) == 0);
+def check_id_by_regex(s):
+    # fullmatch 要求「整個字串」都符合規則，所以規則不用再寫 ^ 與 $
+    # 不用 match：它只比對開頭，後面多出的字元不會被發現
+    return isinstance(s, str) and ID_PATTERN.fullmatch(s) is not None
 
-    // 步驟3：釋放 regcomp 內部配置的記憶體，避免記憶體洩漏
-    regfree(&re);
 
-    return ok;
-}
-
-int main(void) {
-    printf("%d\\n", checkIdByCondition("A123456789")); // 1 (true)
-    printf("%d\\n", checkIdByRegex("A123456789"));     // 1 (true)
-    printf("%d\\n", checkIdByRegex("1123456789"));     // 0 (false，開頭非字母)
-    return 0;
-}`
+if __name__ == "__main__":
+    for t in ["A123456789", "1123456789", "A12345678"]:
+        print(t, check_id_by_condition(t), check_id_by_regex(t))
+    # 輸出：
+    # A123456789 True True     （符合格式）
+    # 1123456789 False False   （第 1 碼不是英文字母）
+    # A12345678 False False    （只有 9 碼，長度不符）
+`
       }
     },
 {
