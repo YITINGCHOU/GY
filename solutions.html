@@ -3403,48 +3403,46 @@ const EXAM_DATA_PART3 = [
       code: {
         lang: "python",
         text: `# 程式語言：Python
-import re
-
 
 # (一) 多條件式判斷
-def check_id_by_condition(s):
-    if not isinstance(s, str) or len(s) != 10:      # 條件1：須為字串且長度為 10
+def check_id_if(s):
+    # 條件 1：長度必須為 10
+    if len(s) != 10:
         return False
 
-    first = s[0]
-    if not ('A' <= first <= 'Z' or 'a' <= first <= 'z'):   # 條件2：第 1 碼須為英文字母
-        # 不用 first.isalpha()：它連中文、重音字母（如 é）也回傳 True
+    # 條件 2：第 1 碼必須是大寫英文字母
+    if not ('A' <= s[0] <= 'Z'):
         return False
 
-    if s[1] not in ('1', '2'):                      # 條件3：第 2 碼須為 1 或 2
+    # 條件 3：第 2 碼必須是 1 或 2
+    if s[1] != '1' and s[1] != '2':
         return False
 
-    for ch in s[2:]:                                # 條件4：第 3~10 碼須皆為數字
-        # 不用 ch.isdigit()：它連上標數字（如 ²）、全形數字也回傳 True
+    # 條件 4：第 3~10 碼必須全為數字
+    for ch in s[2:]:
         if not ('0' <= ch <= '9'):
             return False
-    return True                                     # 四個條件都通過
 
+    return True
 
+uid = input("請輸入身分證字號：")
+if check_id_if(uid):
+    print("格式正確")
+else:
+    print("格式錯誤")
+    
 # (二) 正規表示法
-ID_PATTERN = re.compile(r"[A-Za-z][12][0-9]{8}")
-# [A-Za-z] 1 個英文字母 ; [12] 第 2 碼為 1 或 2 ; [0-9]{8} 八位數字
-# 數字寫成 [0-9]，不寫成反斜線 d：Python 的反斜線 d 會連全形等 Unicode 數字都算
+import re
+
+def check_id_re(s):
+    return re.fullmatch(r'[A-Z][12][0-9]{8}', s) is not None
 
 
-def check_id_by_regex(s):
-    # fullmatch 要求「整個字串」都符合規則，所以規則不用再寫 ^ 與 $
-    # 不用 match：它只比對開頭，後面多出的字元不會被發現
-    return isinstance(s, str) and ID_PATTERN.fullmatch(s) is not None
-
-
-if __name__ == "__main__":
-    for t in ["A123456789", "1123456789", "A12345678"]:
-        print(t, check_id_by_condition(t), check_id_by_regex(t))
-    # 輸出：
-    # A123456789 True True     （符合格式）
-    # 1123456789 False False   （第 1 碼不是英文字母）
-    # A12345678 False False    （只有 9 碼，長度不符）
+uid = input("請輸入身分證字號：")
+if check_id_re(uid):
+    print("格式正確")
+else:
+    print("格式錯誤")
 `
       }
     },
