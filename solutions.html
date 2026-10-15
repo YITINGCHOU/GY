@@ -1807,36 +1807,58 @@ int main() {
 **(三) Stack 程式實作（6分）**`,
       code: {
         lang: "java",
-        text: `// 程式語言：Java（使用 ArrayDeque 實作 Stack）
+        text: `// 程式語言：Java
 
-import java.util.*;
+class Mystack{
+    private double[] data;
+    private int top;
 
-public class FloatStackDemo {
-
-    public static void main(String[] args) {
-        Deque<Float> stack = new ArrayDeque<>();
-
-        float[] values = {20.22f, 12.21f, 70.25f, 58.29f};
-
-        // 插入 4 個浮點數
-        for (float v : values) {
-            stack.push(v);
-            System.out.printf("Pushed: %.2f%n", v);
-        }
-
-        System.out.println("開始逐一移除:");
-
-        // 逐一移除,並檢測是否為空
-        while (!stack.isEmpty()) {
-            float val = stack.pop();
-            System.out.printf("Popped: %.2f%n", val);
-        }
-
-        // 再次確認 stack 已空
-        if (stack.isEmpty()) {
-            System.out.println("Stack 已經是空的了!");
-        }
+    public Mystack(int size){
+        this.data = new double[size];
+        this.top = -1;
     }
+
+    public boolean isEmpty(){
+        return top == -1;
+    }
+
+    public boolean isFull(){
+        return top == data.length - 1;
+    }
+
+    public void push(double value){
+        if (isFull()){
+            System.out.println("stack is full");
+            return;
+        }
+        data[++top] = value;
+    }
+    
+    public double pop(){
+        if (isEmpty()){
+            throw new RuntimeException("stack is empty");
+        }
+        return data[top--];
+    }
+}
+
+public class StackDemo{
+    public static void main(String[] args) {
+        Mystack s = new Mystack(4);
+        double[] values = {20.22, 12.21, 70.25, 58.29};
+        
+        for (double v : values){
+            s.push(v);
+            System.out.println("push: " + v);
+        }
+        
+        while (!s.isEmpty()){
+            System.out.println("pop: " + s.pop());
+        }
+
+        System.out.println("stack is empty? " + s.isEmpty());
+    }
+}
 }`
       }
     },
@@ -3452,26 +3474,24 @@ else:
       question: `何謂環狀佇列(Circular Queue)（4分）？請使用 C、Java 等程式語言或虛擬碼以陣列(Array)方式實作環狀佇列，其中須包含新增與刪除佇列元素之方法（20分）。`,
       answer: `**何謂環狀佇列（4分）**
 
-佇列（Queue）是「先進先出（FIFO）」結構。用「一般陣列」實作時，front 與 rear 指標只往後移，前端被刪除的空間無法再利用 —— rear 到陣列尾端就誤判為「滿」（假性溢位 false overflow）。
-
-**環狀佇列**把陣列「頭尾相接」想像成一個環，指標移到尾端後可透過「對陣列大小取餘數（mod）」繞回開頭，重複利用前端釋放的空間，解決假性溢位。關鍵運算：\`rear = (rear+1) % capacity\`、\`front = (front+1) % capacity\`。
-
-**判斷空/滿**：front 與 rear 重合時無法區分空滿，本實作以「**size 計數**」解決：空 → \`size==0\`；滿 → \`size==capacity\`，陣列每一格皆可使用。front 指向第一個元素，rear 指向下一個要插入的位置。
-
+佇列（Queue）是「先進先出（FIFO）」結構。
+用「一般陣列」實作時，front 與 rear 指標只往後移，前端被刪除的空間無法再利用 —— rear 到陣列尾端就誤判為「滿」（假性溢位 false overflow）。
+**環狀佇列**把陣列「頭尾相接」想像成一個環，指標移到尾端後可透過「對陣列大小取餘數（mod）」繞回開頭，重複利用前端釋放的空間，解決假性溢位。
+關鍵運算：\`rear = (rear+1) % data.length\`、\`front = (front+1) % data.length\`。
+**判斷空/滿**：front 與 rear 重合時無法區分空滿，本實作以「**count 計數**」解決：空 → \`count==0\`；滿 → \`count==data.length\`，陣列每一格皆可使用。
+front 指向第一個元素，rear 指向下一個要插入的位置。
 **時間複雜度**：enqueue 與 dequeue 皆為 O(1)。`,
       code: {
         lang: "java",
-        text: `// 程式語言：Java — 環狀佇列（陣列實作，以 size 計數判斷空／滿）
+        text: `// 程式語言：Java — 環狀佇列（陣列實作，以 count 計數判斷空／滿）
 
 public class CircularQueue {
     private int[] data;     // 存放元素的陣列
     private int front;      // 指向第一個元素
     private int rear;       // 指向下一個要插入的位置
-    private int size;       // 目前元素個數
-    private int capacity;   // 陣列容量
+    private int count;       // 目前元素個數
 
     public CircularQueue(int capacity) {
-        this.capacity = capacity;
         this.data = new int[capacity];
         this.front = 0;
         this.rear = 0;
@@ -3483,29 +3503,28 @@ public class CircularQueue {
     }
 
     public boolean isFull() {
-        return size == capacity;
+        return size == data.capacity;
     }
 
     // 新增元素（enqueue）
-    public boolean enqueue(int value) {
+    public void enqueue(int value) {
         if (isFull()) {
-            System.out.println("佇列已滿，無法新增");
-            return false;
+            System.out.println("queue full");
+            return;
         }
         data[rear] = value;
-        rear = (rear + 1) % capacity;   // 繞回開頭
-        size++;
-        return true;
+        rear = (rear + 1) % data.length;   // 繞回開頭
+        count++;
     }
 
     // 刪除元素（dequeue）
     public int dequeue() {
         if (isEmpty()) {
-            throw new RuntimeException("佇列為空，無法刪除");
+            throw new RuntimeException("queue empty");
         }
         int value = data[front];
-        front = (front + 1) % capacity; // 繞回開頭
-        size--;
+        front = (front + 1) % data.length; // 繞回開頭
+        count--;
         return value;
     }
 
