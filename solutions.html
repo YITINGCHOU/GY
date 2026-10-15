@@ -3435,8 +3435,7 @@ else:
 import re
 
 def check_id_re(s):
-    return re.fullmatch(r'[A-Z][12][0-9]{8}', s) is not None
-
+    return re.fullmatch(r"[A-Z][12][0-9]{8}", s) is not None
 
 uid = input("請輸入身分證字號：")
 if check_id_re(uid):
